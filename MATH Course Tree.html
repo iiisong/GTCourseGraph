@@ -1,0 +1,707 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="MATH 0999">MATH 0999</option>
+                                
+                                    <option value="MATH 1111">MATH 1111</option>
+                                
+                                    <option value="MATH 1113">MATH 1113</option>
+                                
+                                    <option value="MATH 1551">MATH 1551</option>
+                                
+                                    <option value="MATH 1552">MATH 1552</option>
+                                
+                                    <option value="MATH 1553">MATH 1553</option>
+                                
+                                    <option value="MATH 1554">MATH 1554</option>
+                                
+                                    <option value="MATH 1711">MATH 1711</option>
+                                
+                                    <option value="MATH 1712">MATH 1712</option>
+                                
+                                    <option value="MATH 2106">MATH 2106</option>
+                                
+                                    <option value="MATH 2550">MATH 2550</option>
+                                
+                                    <option value="MATH 2551">MATH 2551</option>
+                                
+                                    <option value="MATH 2552">MATH 2552</option>
+                                
+                                    <option value="MATH 2561">MATH 2561</option>
+                                
+                                    <option value="MATH 2603">MATH 2603</option>
+                                
+                                    <option value="MATH 2699">MATH 2699</option>
+                                
+                                    <option value="MATH 3012">MATH 3012</option>
+                                
+                                    <option value="MATH 3012R">MATH 3012R</option>
+                                
+                                    <option value="MATH 3215">MATH 3215</option>
+                                
+                                    <option value="MATH 3235">MATH 3235</option>
+                                
+                                    <option value="MATH 3236">MATH 3236</option>
+                                
+                                    <option value="MATH 3406">MATH 3406</option>
+                                
+                                    <option value="MATH 3670">MATH 3670</option>
+                                
+                                    <option value="MATH 4032">MATH 4032</option>
+                                
+                                    <option value="MATH 4080">MATH 4080</option>
+                                
+                                    <option value="MATH 4090">MATH 4090</option>
+                                
+                                    <option value="MATH 4107">MATH 4107</option>
+                                
+                                    <option value="MATH 4108">MATH 4108</option>
+                                
+                                    <option value="MATH 4150">MATH 4150</option>
+                                
+                                    <option value="MATH 4262">MATH 4262</option>
+                                
+                                    <option value="MATH 4280">MATH 4280</option>
+                                
+                                    <option value="MATH 4305">MATH 4305</option>
+                                
+                                    <option value="MATH 4317">MATH 4317</option>
+                                
+                                    <option value="MATH 4318">MATH 4318</option>
+                                
+                                    <option value="MATH 4320">MATH 4320</option>
+                                
+                                    <option value="MATH 4432">MATH 4432</option>
+                                
+                                    <option value="MATH 4580">MATH 4580</option>
+                                
+                                    <option value="MATH 4581">MATH 4581</option>
+                                
+                                    <option value="MATH 4640">MATH 4640</option>
+                                
+                                    <option value="MATH 4698">MATH 4698</option>
+                                
+                                    <option value="MATH 4699">MATH 4699</option>
+                                
+                                    <option value="MATH 4755">MATH 4755</option>
+                                
+                                    <option value="MATH 4803">MATH 4803</option>
+                                
+                                    <option value="MATH 4999">MATH 4999</option>
+                                
+                                    <option value="MATH 6122">MATH 6122</option>
+                                
+                                    <option value="MATH 6242">MATH 6242</option>
+                                
+                                    <option value="MATH 6262">MATH 6262</option>
+                                
+                                    <option value="MATH 6308">MATH 6308</option>
+                                
+                                    <option value="MATH 6321">MATH 6321</option>
+                                
+                                    <option value="MATH 6337">MATH 6337</option>
+                                
+                                    <option value="MATH 6338">MATH 6338</option>
+                                
+                                    <option value="MATH 6342">MATH 6342</option>
+                                
+                                    <option value="MATH 6441">MATH 6441</option>
+                                
+                                    <option value="MATH 6455">MATH 6455</option>
+                                
+                                    <option value="MATH 6635">MATH 6635</option>
+                                
+                                    <option value="MATH 6643">MATH 6643</option>
+                                
+                                    <option value="MATH 6644">MATH 6644</option>
+                                
+                                    <option value="MATH 6645">MATH 6645</option>
+                                
+                                    <option value="MATH 6647">MATH 6647</option>
+                                
+                                    <option value="MATH 6702">MATH 6702</option>
+                                
+                                    <option value="MATH 6762">MATH 6762</option>
+                                
+                                    <option value="MATH 6769">MATH 6769</option>
+                                
+                                    <option value="MATH 7000">MATH 7000</option>
+                                
+                                    <option value="MATH 7014">MATH 7014</option>
+                                
+                                    <option value="MATH 7018">MATH 7018</option>
+                                
+                                    <option value="MATH 7245">MATH 7245</option>
+                                
+                                    <option value="MATH 7251">MATH 7251</option>
+                                
+                                    <option value="MATH 7334">MATH 7334</option>
+                                
+                                    <option value="MATH 7999">MATH 7999</option>
+                                
+                                    <option value="MATH 8306">MATH 8306</option>
+                                
+                                    <option value="MATH 8307">MATH 8307</option>
+                                
+                                    <option value="MATH 8803">MATH 8803</option>
+                                
+                                    <option value="MATH 8900">MATH 8900</option>
+                                
+                                    <option value="MATH 8997">MATH 8997</option>
+                                
+                                    <option value="MATH 8998">MATH 8998</option>
+                                
+                                    <option value="MATH 9000">MATH 9000</option>
+                                
+                                    <option value="MATH 1550">MATH 1550</option>
+                                
+                                    <option value="MATH 1501">MATH 1501</option>
+                                
+                                    <option value="MATH 15X1">MATH 15X1</option>
+                                
+                                    <option value="MATH 1X51">MATH 1X51</option>
+                                
+                                    <option value="MATH 15X2">MATH 15X2</option>
+                                
+                                    <option value="MATH 1X52">MATH 1X52</option>
+                                
+                                    <option value="MATH 1502">MATH 1502</option>
+                                
+                                    <option value="MATH 1512">MATH 1512</option>
+                                
+                                    <option value="MATH 1504">MATH 1504</option>
+                                
+                                    <option value="MATH 1555">MATH 1555</option>
+                                
+                                    <option value="MATH 2401">MATH 2401</option>
+                                
+                                    <option value="MATH 2411">MATH 2411</option>
+                                
+                                    <option value="MATH 24X1">MATH 24X1</option>
+                                
+                                    <option value="MATH 2605">MATH 2605</option>
+                                
+                                    <option value="MATH 2X51">MATH 2X51</option>
+                                
+                                    <option value="MATH 1522">MATH 1522</option>
+                                
+                                    <option value="MATH 1X54">MATH 1X54</option>
+                                
+                                    <option value="MATH 1564">MATH 1564</option>
+                                
+                                    <option value="MATH 1X53">MATH 1X53</option>
+                                
+                                    <option value="MATH 3022">MATH 3022</option>
+                                
+                                    <option value="MATH 2406">MATH 2406</option>
+                                
+                                    <option value="CS 2051">CS 2051</option>
+                                
+                                    <option value="CS 3510">CS 3510</option>
+                                
+                                    <option value="CS 3511">CS 3511</option>
+                                
+                                    <option value="MATH 4261">MATH 4261</option>
+                                
+                                    <option value="MATH 3225">MATH 3225</option>
+                                
+                                    <option value="MATH 3770">MATH 3770</option>
+                                
+                                    <option value="ISYE 3770">ISYE 3770</option>
+                                
+                                    <option value="CEE 3770">CEE 3770</option>
+                                
+                                    <option value="MATH 2403">MATH 2403</option>
+                                
+                                    <option value="MATH 2413">MATH 2413</option>
+                                
+                                    <option value="MATH 24X3">MATH 24X3</option>
+                                
+                                    <option value="MATH 2562">MATH 2562</option>
+                                
+                                    <option value="MATH 2X52">MATH 2X52</option>
+                                
+                                    <option value="MATH 2602">MATH 2602</option>
+                                
+                                    <option value="MATH 6121">MATH 6121</option>
+                                
+                                    <option value="MATH 6241">MATH 6241</option>
+                                
+                                    <option value="MATH 6307">MATH 6307</option>
+                                
+                                    <option value="MATH 6341">MATH 6341</option>
+                                
+                                    <option value="MATH 4441">MATH 4441</option>
+                                
+                                    <option value="MATH 6701">MATH 6701</option>
+                                
+                                    <option value="MATH 6761">MATH 6761</option>
+                                
+                                    <option value="ISYE 6761">ISYE 6761</option>
+                                
+                                    <option value="MATH 6014">MATH 6014</option>
+                                
+                                    <option value="MATH 7244">MATH 7244</option>
+                                
+                                    <option value="MATH 6327">MATH 6327</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "id": "MATH 0999", "label": "MATH 0999", "shape": "dot", "size": 6.324555320336759}, {"color": "#a0c3e2", "id": "MATH 1111", "label": "MATH 1111", "shape": "dot", "size": 8.94427190999916}, {"color": "#8786e0", "id": "MATH 1113", "label": "MATH 1113", "shape": "dot", "size": 15.491933384829668}, {"color": "#8d7fdf", "id": "MATH 1551", "label": "MATH 1551", "shape": "dot", "size": 16.73320053068151}, {"color": "#8d97e0", "id": "MATH 1552", "label": "MATH 1552", "shape": "dot", "size": 14.142135623730951}, {"color": "#a0c3e2", "id": "MATH 1553", "label": "MATH 1553", "shape": "dot", "size": 8.94427190999916}, {"color": "#9ab6e1", "id": "MATH 1554", "label": "MATH 1554", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 1711", "label": "MATH 1711", "shape": "dot", "size": 6.324555320336759}, {"color": "#a0c3e2", "id": "MATH 1712", "label": "MATH 1712", "shape": "dot", "size": 8.94427190999916}, {"color": "#93a7e1", "id": "MATH 2106", "label": "MATH 2106", "shape": "dot", "size": 12.649110640673518}, {"color": "#8786e0", "id": "MATH 2550", "label": "MATH 2550", "shape": "dot", "size": 15.491933384829668}, {"color": "#9579df", "id": "MATH 2551", "label": "MATH 2551", "shape": "dot", "size": 17.88854381999832}, {"color": "#9579df", "id": "MATH 2552", "label": "MATH 2552", "shape": "dot", "size": 17.88854381999832}, {"color": "#8d7fdf", "id": "MATH 2561", "label": "MATH 2561", "shape": "dot", "size": 16.73320053068151}, {"color": "#9ab6e1", "id": "MATH 2603", "label": "MATH 2603", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 2699", "label": "MATH 2699", "shape": "dot", "size": 6.324555320336759}, {"color": "#a0c3e2", "id": "MATH 3012", "label": "MATH 3012", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 3012R", "label": "MATH 3012R", "shape": "dot", "size": 6.324555320336759}, {"color": "#8d7fdf", "id": "MATH 3215", "label": "MATH 3215", "shape": "dot", "size": 16.73320053068151}, {"color": "#93a7e1", "id": "MATH 3235", "label": "MATH 3235", "shape": "dot", "size": 12.649110640673518}, {"color": "#a0c3e2", "id": "MATH 3236", "label": "MATH 3236", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 3406", "label": "MATH 3406", "shape": "dot", "size": 6.324555320336759}, {"color": "#93a7e1", "id": "MATH 3670", "label": "MATH 3670", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "MATH 4032", "label": "MATH 4032", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4080", "label": "MATH 4080", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4090", "label": "MATH 4090", "shape": "dot", "size": 6.324555320336759}, {"color": "#a0c3e2", "id": "MATH 4107", "label": "MATH 4107", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 4108", "label": "MATH 4108", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4150", "label": "MATH 4150", "shape": "dot", "size": 6.324555320336759}, {"color": "#a0c3e2", "id": "MATH 4262", "label": "MATH 4262", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 4280", "label": "MATH 4280", "shape": "dot", "size": 6.324555320336759}, {"color": "#a0c3e2", "id": "MATH 4305", "label": "MATH 4305", "shape": "dot", "size": 8.94427190999916}, {"color": "#9ab6e1", "id": "MATH 4317", "label": "MATH 4317", "shape": "dot", "size": 10.954451150103322}, {"color": "#9ab6e1", "id": "MATH 4318", "label": "MATH 4318", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 4320", "label": "MATH 4320", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4432", "label": "MATH 4432", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4580", "label": "MATH 4580", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4581", "label": "MATH 4581", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4640", "label": "MATH 4640", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4698", "label": "MATH 4698", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4699", "label": "MATH 4699", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4755", "label": "MATH 4755", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4803", "label": "MATH 4803", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4999", "label": "MATH 4999", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6122", "label": "MATH 6122", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6242", "label": "MATH 6242", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6262", "label": "MATH 6262", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6308", "label": "MATH 6308", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6321", "label": "MATH 6321", "shape": "dot", "size": 6.324555320336759}, {"color": "#a0c3e2", "id": "MATH 6337", "label": "MATH 6337", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 6338", "label": "MATH 6338", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6342", "label": "MATH 6342", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6441", "label": "MATH 6441", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6455", "label": "MATH 6455", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6635", "label": "MATH 6635", "shape": "dot", "size": 6.324555320336759}, {"color": "#9ab6e1", "id": "MATH 6643", "label": "MATH 6643", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 6644", "label": "MATH 6644", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6645", "label": "MATH 6645", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6647", "label": "MATH 6647", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6702", "label": "MATH 6702", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6762", "label": "MATH 6762", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 6769", "label": "MATH 6769", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 7000", "label": "MATH 7000", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 7014", "label": "MATH 7014", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 7018", "label": "MATH 7018", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 7245", "label": "MATH 7245", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 7251", "label": "MATH 7251", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 7334", "label": "MATH 7334", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 7999", "label": "MATH 7999", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 8306", "label": "MATH 8306", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 8307", "label": "MATH 8307", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 8803", "label": "MATH 8803", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 8900", "label": "MATH 8900", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 8997", "label": "MATH 8997", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 8998", "label": "MATH 8998", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 9000", "label": "MATH 9000", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 1550", "label": "MATH 1550", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 1501", "label": "MATH 1501", "shape": "dot", "size": 14.142135623730951}, {"color": "#a6cee3", "id": "MATH 15X1", "label": "MATH 15X1", "shape": "dot", "size": 15.491933384829668}, {"color": "#a6cee3", "id": "MATH 1X51", "label": "MATH 1X51", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 15X2", "label": "MATH 15X2", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "MATH 1X52", "label": "MATH 1X52", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "MATH 1502", "label": "MATH 1502", "shape": "dot", "size": 23.664319132398465}, {"color": "#a6cee3", "id": "MATH 1512", "label": "MATH 1512", "shape": "dot", "size": 24.49489742783178}, {"color": "#a6cee3", "id": "MATH 1504", "label": "MATH 1504", "shape": "dot", "size": 20.0}, {"color": "#a6cee3", "id": "MATH 1555", "label": "MATH 1555", "shape": "dot", "size": 20.97617696340303}, {"color": "#a6cee3", "id": "MATH 2401", "label": "MATH 2401", "shape": "dot", "size": 15.491933384829668}, {"color": "#a6cee3", "id": "MATH 2411", "label": "MATH 2411", "shape": "dot", "size": 15.491933384829668}, {"color": "#a6cee3", "id": "MATH 24X1", "label": "MATH 24X1", "shape": "dot", "size": 15.491933384829668}, {"color": "#a6cee3", "id": "MATH 2605", "label": "MATH 2605", "shape": "dot", "size": 15.491933384829668}, {"color": "#a6cee3", "id": "MATH 2X51", "label": "MATH 2X51", "shape": "dot", "size": 15.491933384829668}, {"color": "#a6cee3", "id": "MATH 1522", "label": "MATH 1522", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 1X54", "label": "MATH 1X54", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 1564", "label": "MATH 1564", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 1X53", "label": "MATH 1X53", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 3022", "label": "MATH 3022", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 2406", "label": "MATH 2406", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "CS 2051", "label": "CS 2051", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "CS 3510", "label": "CS 3510", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "CS 3511", "label": "CS 3511", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 4261", "label": "MATH 4261", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 3225", "label": "MATH 3225", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "MATH 3770", "label": "MATH 3770", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "ISYE 3770", "label": "ISYE 3770", "shape": "dot", "size": 15.491933384829668}, {"color": "#a6cee3", "id": "CEE 3770", "label": "CEE 3770", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 2403", "label": "MATH 2403", "shape": "dot", "size": 17.88854381999832}, {"color": "#a6cee3", "id": "MATH 2413", "label": "MATH 2413", "shape": "dot", "size": 17.88854381999832}, {"color": "#a6cee3", "id": "MATH 24X3", "label": "MATH 24X3", "shape": "dot", "size": 17.88854381999832}, {"color": "#a6cee3", "id": "MATH 2562", "label": "MATH 2562", "shape": "dot", "size": 17.88854381999832}, {"color": "#a6cee3", "id": "MATH 2X52", "label": "MATH 2X52", "shape": "dot", "size": 16.73320053068151}, {"color": "#a6cee3", "id": "MATH 2602", "label": "MATH 2602", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 6121", "label": "MATH 6121", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 6241", "label": "MATH 6241", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 6307", "label": "MATH 6307", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 6341", "label": "MATH 6341", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 4441", "label": "MATH 4441", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 6701", "label": "MATH 6701", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 6761", "label": "MATH 6761", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "ISYE 6761", "label": "ISYE 6761", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MATH 6014", "label": "MATH 6014", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 7244", "label": "MATH 7244", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "MATH 6327", "label": "MATH 6327", "shape": "dot", "size": 8.94427190999916}]);
+                  edges = new vis.DataSet([{"from": "MATH 1111", "to": "MATH 1113"}, {"from": "MATH 1113", "to": "MATH 1551"}, {"from": "MATH 1113", "to": "MATH 1553"}, {"from": "MATH 1113", "to": "MATH 1554"}, {"from": "MATH 1113", "to": "MATH 1711"}, {"from": "MATH 1113", "to": "MATH 1712"}, {"from": "MATH 1551", "to": "MATH 1552"}, {"from": "MATH 1551", "to": "MATH 1553"}, {"from": "MATH 1551", "to": "MATH 1554"}, {"from": "MATH 1552", "to": "MATH 1554"}, {"from": "MATH 1552", "to": "MATH 2603"}, {"from": "MATH 1553", "to": "MATH 3406"}, {"from": "MATH 1554", "to": "MATH 3406"}, {"from": "MATH 2106", "to": "MATH 4107"}, {"from": "MATH 2106", "to": "MATH 4150"}, {"from": "MATH 2106", "to": "MATH 4317"}, {"from": "MATH 2550", "to": "MATH 3215"}, {"from": "MATH 2550", "to": "MATH 3670"}, {"from": "MATH 2550", "to": "MATH 4320"}, {"from": "MATH 2551", "to": "MATH 3215"}, {"from": "MATH 2551", "to": "MATH 3670"}, {"from": "MATH 2551", "to": "MATH 4320"}, {"from": "MATH 2552", "to": "MATH 4581"}, {"from": "MATH 2552", "to": "MATH 4640"}, {"from": "MATH 2561", "to": "MATH 3215"}, {"from": "MATH 2561", "to": "MATH 3670"}, {"from": "MATH 2561", "to": "MATH 4320"}, {"from": "MATH 2603", "to": "MATH 4640"}, {"from": "MATH 3012", "to": "MATH 4032"}, {"from": "MATH 3215", "to": "MATH 4280"}, {"from": "MATH 3215", "to": "MATH 6769"}, {"from": "MATH 3235", "to": "MATH 3236"}, {"from": "MATH 3235", "to": "MATH 4280"}, {"from": "MATH 3670", "to": "MATH 4280"}, {"from": "MATH 4107", "to": "MATH 4108"}, {"from": "MATH 4262", "to": "MATH 6262"}, {"from": "MATH 4305", "to": "MATH 6643"}, {"from": "MATH 4317", "to": "MATH 4318"}, {"from": "MATH 4317", "to": "MATH 4432"}, {"from": "MATH 4318", "to": "MATH 6337"}, {"from": "MATH 4318", "to": "MATH 6338"}, {"from": "MATH 6337", "to": "MATH 7334"}, {"from": "MATH 6643", "to": "MATH 6644"}, {"from": "MATH 1550", "to": "MATH 1552"}, {"from": "MATH 1501", "to": "MATH 1552"}, {"from": "MATH 15X1", "to": "MATH 1552"}, {"from": "MATH 15X1", "to": "MATH 1553"}, {"from": "MATH 1X51", "to": "MATH 1552"}, {"from": "MATH 1X51", "to": "MATH 1553"}, {"from": "MATH 15X2", "to": "MATH 1554"}, {"from": "MATH 15X2", "to": "MATH 2603"}, {"from": "MATH 1X52", "to": "MATH 1554"}, {"from": "MATH 1X52", "to": "MATH 2603"}, {"from": "MATH 1502", "to": "MATH 2106"}, {"from": "MATH 1502", "to": "MATH 2550"}, {"from": "MATH 1502", "to": "MATH 2551"}, {"from": "MATH 1502", "to": "MATH 2552"}, {"from": "MATH 1502", "to": "MATH 2561"}, {"from": "MATH 1502", "to": "MATH 2603"}, {"from": "MATH 1502", "to": "MATH 3012"}, {"from": "MATH 1502", "to": "MATH 3012R"}, {"from": "MATH 1502", "to": "MATH 3406"}, {"from": "MATH 1502", "to": "MATH 4305"}, {"from": "MATH 1502", "to": "MATH 4580"}, {"from": "MATH 1502", "to": "MATH 4755"}, {"from": "MATH 1512", "to": "MATH 2106"}, {"from": "MATH 1512", "to": "MATH 2550"}, {"from": "MATH 1512", "to": "MATH 2551"}, {"from": "MATH 1512", "to": "MATH 2552"}, {"from": "MATH 1512", "to": "MATH 2561"}, {"from": "MATH 1512", "to": "MATH 2603"}, {"from": "MATH 1512", "to": "MATH 3012"}, {"from": "MATH 1512", "to": "MATH 3012R"}, {"from": "MATH 1512", "to": "MATH 3406"}, {"from": "MATH 1512", "to": "MATH 4305"}, {"from": "MATH 1512", "to": "MATH 4580"}, {"from": "MATH 1512", "to": "MATH 4755"}, {"from": "MATH 1504", "to": "MATH 2106"}, {"from": "MATH 1504", "to": "MATH 2551"}, {"from": "MATH 1504", "to": "MATH 2552"}, {"from": "MATH 1504", "to": "MATH 2561"}, {"from": "MATH 1504", "to": "MATH 2603"}, {"from": "MATH 1504", "to": "MATH 3012"}, {"from": "MATH 1504", "to": "MATH 3012R"}, {"from": "MATH 1504", "to": "MATH 4305"}, {"from": "MATH 1504", "to": "MATH 4755"}, {"from": "MATH 1555", "to": "MATH 2106"}, {"from": "MATH 1555", "to": "MATH 2551"}, {"from": "MATH 1555", "to": "MATH 2552"}, {"from": "MATH 1555", "to": "MATH 2561"}, {"from": "MATH 1555", "to": "MATH 2603"}, {"from": "MATH 1555", "to": "MATH 3012"}, {"from": "MATH 1555", "to": "MATH 3012R"}, {"from": "MATH 1555", "to": "MATH 4305"}, {"from": "MATH 1555", "to": "MATH 4755"}, {"from": "MATH 2401", "to": "MATH 3215"}, {"from": "MATH 2401", "to": "MATH 3670"}, {"from": "MATH 2401", "to": "MATH 4320"}, {"from": "MATH 2411", "to": "MATH 3215"}, {"from": "MATH 2411", "to": "MATH 3670"}, {"from": "MATH 2411", "to": "MATH 4320"}, {"from": "MATH 24X1", "to": "MATH 3215"}, {"from": "MATH 24X1", "to": "MATH 3670"}, {"from": "MATH 24X1", "to": "MATH 4320"}, {"from": "MATH 2605", "to": "MATH 3215"}, {"from": "MATH 2605", "to": "MATH 3670"}, {"from": "MATH 2605", "to": "MATH 4320"}, {"from": "MATH 2605", "to": "MATH 4581"}, {"from": "MATH 2605", "to": "MATH 4640"}, {"from": "MATH 2X51", "to": "MATH 3215"}, {"from": "MATH 2X51", "to": "MATH 3670"}, {"from": "MATH 2X51", "to": "MATH 4320"}, {"from": "MATH 1522", "to": "MATH 3406"}, {"from": "MATH 1X54", "to": "MATH 3406"}, {"from": "MATH 1564", "to": "MATH 3406"}, {"from": "MATH 1X53", "to": "MATH 3406"}, {"from": "MATH 3022", "to": "MATH 4032"}, {"from": "MATH 2406", "to": "MATH 4150"}, {"from": "MATH 2406", "to": "MATH 6643"}, {"from": "CS 2051", "to": "MATH 4150"}, {"from": "CS 3510", "to": "MATH 4150"}, {"from": "CS 3511", "to": "MATH 4150"}, {"from": "MATH 4261", "to": "MATH 4262"}, {"from": "MATH 3225", "to": "MATH 4280"}, {"from": "MATH 3770", "to": "MATH 4280"}, {"from": "ISYE 3770", "to": "MATH 4280"}, {"from": "CEE 3770", "to": "MATH 4280"}, {"from": "MATH 2403", "to": "MATH 4581"}, {"from": "MATH 2403", "to": "MATH 4640"}, {"from": "MATH 2413", "to": "MATH 4581"}, {"from": "MATH 2413", "to": "MATH 4640"}, {"from": "MATH 24X3", "to": "MATH 4581"}, {"from": "MATH 24X3", "to": "MATH 4640"}, {"from": "MATH 2562", "to": "MATH 4581"}, {"from": "MATH 2562", "to": "MATH 4640"}, {"from": "MATH 2X52", "to": "MATH 4581"}, {"from": "MATH 2X52", "to": "MATH 4640"}, {"from": "MATH 2602", "to": "MATH 4640"}, {"from": "MATH 6121", "to": "MATH 6122"}, {"from": "MATH 6241", "to": "MATH 6242"}, {"from": "MATH 6307", "to": "MATH 6308"}, {"from": "MATH 6341", "to": "MATH 6342"}, {"from": "MATH 4441", "to": "MATH 6455"}, {"from": "MATH 6701", "to": "MATH 6702"}, {"from": "MATH 6761", "to": "MATH 6762"}, {"from": "ISYE 6761", "to": "MATH 6762"}, {"from": "MATH 6014", "to": "MATH 7014"}, {"from": "MATH 7244", "to": "MATH 7245"}, {"from": "MATH 6327", "to": "MATH 7334"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
