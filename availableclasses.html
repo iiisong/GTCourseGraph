@@ -1,0 +1,526 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="MATH 1501">MATH 1501</option>
+                                
+                                    <option value="CS 1331">CS 1331</option>
+                                
+                                    <option value="HTS 2100">HTS 2100</option>
+                                
+                                    <option value="APPH 1050">APPH 1050</option>
+                                
+                                    <option value="AE 1601">AE 1601</option>
+                                
+                                    <option value="CEE 3000">CEE 3000</option>
+                                
+                                    <option value="MGT 2250">MGT 2250</option>
+                                
+                                    <option value="MATH 1552">MATH 1552</option>
+                                
+                                    <option value="CX 4220">CX 4220</option>
+                                
+                                    <option value="CX 4232">CX 4232</option>
+                                
+                                    <option value="CS 1332">CS 1332</option>
+                                
+                                    <option value="CS 2110">CS 2110</option>
+                                
+                                    <option value="CS 2261">CS 2261</option>
+                                
+                                    <option value="CS 2340">CS 2340</option>
+                                
+                                    <option value="CEE 4160">CEE 4160</option>
+                                
+                                    <option value="ECON 3161">ECON 3161</option>
+                                
+                                    <option value="MGT 2255">MGT 2255</option>
+                                
+                                    <option value="MGT 4050">MGT 4050</option>
+                                
+                                    <option value="MATH 1554">MATH 1554</option>
+                                
+                                    <option value="MATH 2603">MATH 2603</option>
+                                
+                                    <option value="PHYS 2211">PHYS 2211</option>
+                                
+                                    <option value="PHYS 2231">PHYS 2231</option>
+                                
+                                    <option value="CS 3600">CS 3600</option>
+                                
+                                    <option value="CS 3630">CS 3630</option>
+                                
+                                    <option value="CS 4460">CS 4460</option>
+                                
+                                    <option value="CS 2200">CS 2200</option>
+                                
+                                    <option value="CS 4605">CS 4605</option>
+                                
+                                    <option value="ECE 2031">ECE 2031</option>
+                                
+                                    <option value="ECE 4117">ECE 4117</option>
+                                
+                                    <option value="CS 4240">CS 4240</option>
+                                
+                                    <option value="MGT 3501">MGT 3501</option>
+                                
+                                    <option value="MGT 4367">MGT 4367</option>
+                                
+                                    <option value="CS 7280">CS 7280</option>
+                                
+                                    <option value="MATH 3406">MATH 3406</option>
+                                
+                                    <option value="CX 4640">CX 4640</option>
+                                
+                                    <option value="MATH 4640">MATH 4640</option>
+                                
+                                    <option value="ME 4740">ME 4740</option>
+                                
+                                    <option value="PHYS 2212">PHYS 2212</option>
+                                
+                                    <option value="CS 4731">CS 4731</option>
+                                
+                                    <option value="CS 7637">CS 7637</option>
+                                
+                                    <option value="CS 7650">CS 7650</option>
+                                
+                                    <option value="CS 3210">CS 3210</option>
+                                
+                                    <option value="CS 3251">CS 3251</option>
+                                
+                                    <option value="CS 4235">CS 4235</option>
+                                
+                                    <option value="CS 4261">CS 4261</option>
+                                
+                                    <option value="CS 4290">CS 4290</option>
+                                
+                                    <option value="CS 4675">CS 4675</option>
+                                
+                                    <option value="CS 6035">CS 6035</option>
+                                
+                                    <option value="CS 6290">CS 6290</option>
+                                
+                                    <option value="CS 3651">CS 3651</option>
+                                
+                                    <option value="CS 6241">CS 6241</option>
+                                
+                                    <option value="CS 6245">CS 6245</option>
+                                
+                                    <option value="MGT 3510">MGT 3510</option>
+                                
+                                    <option value="MGT 4353">MGT 4353</option>
+                                
+                                    <option value="MGT 4366">MGT 4366</option>
+                                
+                                    <option value="MGT 4401">MGT 4401</option>
+                                
+                                    <option value="ECE 3710">ECE 3710</option>
+                                
+                                    <option value="PHYS 2213">PHYS 2213</option>
+                                
+                                    <option value="PHYS 3266">PHYS 3266</option>
+                                
+                                    <option value="CSE 6230">CSE 6230</option>
+                                
+                                    <option value="CS 4210">CS 4210</option>
+                                
+                                    <option value="CS 4365">CS 4365</option>
+                                
+                                    <option value="CS 6210">CS 6210</option>
+                                
+                                    <option value="CS 6365">CS 6365</option>
+                                
+                                    <option value="CS 6675">CS 6675</option>
+                                
+                                    <option value="ECE 4115">ECE 4115</option>
+                                
+                                    <option value="ECE 6612">ECE 6612</option>
+                                
+                                    <option value="CS 6260">CS 6260</option>
+                                
+                                    <option value="CS 6725">CS 6725</option>
+                                
+                                    <option value="CS 6291">CS 6291</option>
+                                
+                                    <option value="CS 7292">CS 7292</option>
+                                
+                                    <option value="ECE 3072">ECE 3072</option>
+                                
+                                    <option value="ECE 3741">ECE 3741</option>
+                                
+                                    <option value="ECE 4754">ECE 4754</option>
+                                
+                                    <option value="MSE 4754">MSE 4754</option>
+                                
+                                    <option value="ME 4754">ME 4754</option>
+                                
+                                    <option value="PHYS 4347">PHYS 4347</option>
+                                
+                                    <option value="CS 7210">CS 7210</option>
+                                
+                                    <option value="ECE 4321">ECE 4321</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#9e72df", "id": "MATH 1501", "label": "MATH 1501", "shape": "dot", "size": 14.142135623730951}, {"color": "#d656df", "id": "CS 1331", "label": "CS 1331", "shape": "dot", "size": 16.73320053068151}, {"color": "#a6cee3", "id": "HTS 2100", "label": "HTS 2100", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "APPH 1050", "label": "APPH 1050", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "AE 1601", "label": "AE 1601", "shape": "dot", "size": 6.324555320336759}, {"color": "#9ab6e1", "id": "CEE 3000", "label": "CEE 3000", "shape": "dot", "size": 8.94427190999916}, {"color": "#8d7fdf", "id": "MGT 2250", "label": "MGT 2250", "shape": "dot", "size": 12.649110640673518}, {"color": "#9e72df", "id": "MATH 1552", "label": "MATH 1552", "shape": "dot", "size": 14.142135623730951}, {"color": "#a6cee3", "id": "CX 4220", "label": "CX 4220", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CX 4232", "label": "CX 4232", "shape": "dot", "size": 6.324555320336759}, {"color": "#8d7fdf", "id": "CS 1332", "label": "CS 1332", "shape": "dot", "size": 12.649110640673518}, {"color": "#9e72df", "id": "CS 2110", "label": "CS 2110", "shape": "dot", "size": 14.142135623730951}, {"color": "#9ab6e1", "id": "CS 2261", "label": "CS 2261", "shape": "dot", "size": 8.94427190999916}, {"color": "#9ab6e1", "id": "CS 2340", "label": "CS 2340", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "CEE 4160", "label": "CEE 4160", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "ECON 3161", "label": "ECON 3161", "shape": "dot", "size": 6.324555320336759}, {"color": "#8d97e0", "id": "MGT 2255", "label": "MGT 2255", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "MGT 4050", "label": "MGT 4050", "shape": "dot", "size": 6.324555320336759}, {"color": "#8d97e0", "id": "MATH 1554", "label": "MATH 1554", "shape": "dot", "size": 10.954451150103322}, {"color": "#8d97e0", "id": "MATH 2603", "label": "MATH 2603", "shape": "dot", "size": 10.954451150103322}, {"color": "#8d97e0", "id": "PHYS 2211", "label": "PHYS 2211", "shape": "dot", "size": 10.954451150103322}, {"color": "#8d97e0", "id": "PHYS 2231", "label": "PHYS 2231", "shape": "dot", "size": 10.954451150103322}, {"color": "#8d7fdf", "id": "CS 3600", "label": "CS 3600", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "CS 3630", "label": "CS 3630", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 4460", "label": "CS 4460", "shape": "dot", "size": 6.324555320336759}, {"color": "#e13893", "id": "CS 2200", "label": "CS 2200", "shape": "dot", "size": 18.973665961010276}, {"color": "#a6cee3", "id": "CS 4605", "label": "CS 4605", "shape": "dot", "size": 6.324555320336759}, {"color": "#9ab6e1", "id": "ECE 2031", "label": "ECE 2031", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "ECE 4117", "label": "ECE 4117", "shape": "dot", "size": 6.324555320336759}, {"color": "#8d97e0", "id": "CS 4240", "label": "CS 4240", "shape": "dot", "size": 10.954451150103322}, {"color": "#9e72df", "id": "MGT 3501", "label": "MGT 3501", "shape": "dot", "size": 14.142135623730951}, {"color": "#a6cee3", "id": "MGT 4367", "label": "MGT 4367", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 7280", "label": "CS 7280", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 3406", "label": "MATH 3406", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CX 4640", "label": "CX 4640", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MATH 4640", "label": "MATH 4640", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "ME 4740", "label": "ME 4740", "shape": "dot", "size": 6.324555320336759}, {"color": "#8d7fdf", "id": "PHYS 2212", "label": "PHYS 2212", "shape": "dot", "size": 12.649110640673518}, {"color": "#a6cee3", "id": "CS 4731", "label": "CS 4731", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 7637", "label": "CS 7637", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 7650", "label": "CS 7650", "shape": "dot", "size": 6.324555320336759}, {"color": "#d656df", "id": "CS 3210", "label": "CS 3210", "shape": "dot", "size": 16.73320053068151}, {"color": "#8d97e0", "id": "CS 3251", "label": "CS 3251", "shape": "dot", "size": 10.954451150103322}, {"color": "#8d97e0", "id": "CS 4235", "label": "CS 4235", "shape": "dot", "size": 10.954451150103322}, {"color": "#a6cee3", "id": "CS 4261", "label": "CS 4261", "shape": "dot", "size": 6.324555320336759}, {"color": "#9ab6e1", "id": "CS 4290", "label": "CS 4290", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "CS 4675", "label": "CS 4675", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 6035", "label": "CS 6035", "shape": "dot", "size": 6.324555320336759}, {"color": "#9ab6e1", "id": "CS 6290", "label": "CS 6290", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "CS 3651", "label": "CS 3651", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 6241", "label": "CS 6241", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 6245", "label": "CS 6245", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MGT 3510", "label": "MGT 3510", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MGT 4353", "label": "MGT 4353", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MGT 4366", "label": "MGT 4366", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MGT 4401", "label": "MGT 4401", "shape": "dot", "size": 6.324555320336759}, {"color": "#b664df", "id": "ECE 3710", "label": "ECE 3710", "shape": "dot", "size": 15.491933384829668}, {"color": "#9ab6e1", "id": "PHYS 2213", "label": "PHYS 2213", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "PHYS 3266", "label": "PHYS 3266", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CSE 6230", "label": "CSE 6230", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 4210", "label": "CS 4210", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 4365", "label": "CS 4365", "shape": "dot", "size": 6.324555320336759}, {"color": "#9ab6e1", "id": "CS 6210", "label": "CS 6210", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "CS 6365", "label": "CS 6365", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 6675", "label": "CS 6675", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "ECE 4115", "label": "ECE 4115", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "ECE 6612", "label": "ECE 6612", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 6260", "label": "CS 6260", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 6725", "label": "CS 6725", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 6291", "label": "CS 6291", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 7292", "label": "CS 7292", "shape": "dot", "size": 6.324555320336759}, {"color": "#9ab6e1", "id": "ECE 3072", "label": "ECE 3072", "shape": "dot", "size": 8.94427190999916}, {"color": "#a6cee3", "id": "ECE 3741", "label": "ECE 3741", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "ECE 4754", "label": "ECE 4754", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "MSE 4754", "label": "MSE 4754", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "ME 4754", "label": "ME 4754", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "PHYS 4347", "label": "PHYS 4347", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "CS 7210", "label": "CS 7210", "shape": "dot", "size": 6.324555320336759}, {"color": "#a6cee3", "id": "ECE 4321", "label": "ECE 4321", "shape": "dot", "size": 6.324555320336759}]);
+                  edges = new vis.DataSet([{"from": "MATH 1501", "to": "AE 1601"}, {"from": "MATH 1501", "to": "CEE 3000"}, {"from": "MATH 1501", "to": "MGT 2250"}, {"from": "MATH 1501", "to": "MATH 1552"}, {"from": "CS 1331", "to": "CX 4220"}, {"from": "CS 1331", "to": "CX 4232"}, {"from": "CS 1331", "to": "CS 1332"}, {"from": "CS 1331", "to": "CS 2110"}, {"from": "CS 1331", "to": "CS 2261"}, {"from": "CS 1331", "to": "CS 2340"}, {"from": "CEE 3000", "to": "CEE 4160"}, {"from": "MGT 2250", "to": "ECON 3161"}, {"from": "MGT 2250", "to": "MGT 2255"}, {"from": "MGT 2250", "to": "MGT 4050"}, {"from": "MATH 1552", "to": "MATH 1554"}, {"from": "MATH 1552", "to": "MATH 2603"}, {"from": "MATH 1552", "to": "PHYS 2211"}, {"from": "MATH 1552", "to": "PHYS 2231"}, {"from": "CS 1332", "to": "CS 3600"}, {"from": "CS 1332", "to": "CS 3630"}, {"from": "CS 1332", "to": "CS 4460"}, {"from": "CS 2110", "to": "CS 2200"}, {"from": "CS 2110", "to": "CS 4605"}, {"from": "CS 2110", "to": "ECE 2031"}, {"from": "CS 2110", "to": "ECE 4117"}, {"from": "CS 2261", "to": "CS 4605"}, {"from": "CS 2340", "to": "CS 4240"}, {"from": "MGT 2255", "to": "MGT 3501"}, {"from": "MGT 2255", "to": "MGT 4367"}, {"from": "MATH 1554", "to": "CS 7280"}, {"from": "MATH 1554", "to": "MATH 3406"}, {"from": "MATH 2603", "to": "CX 4640"}, {"from": "MATH 2603", "to": "MATH 4640"}, {"from": "PHYS 2211", "to": "ME 4740"}, {"from": "PHYS 2211", "to": "PHYS 2212"}, {"from": "PHYS 2231", "to": "ME 4740"}, {"from": "PHYS 2231", "to": "PHYS 2212"}, {"from": "CS 3600", "to": "CS 4731"}, {"from": "CS 3600", "to": "CS 7637"}, {"from": "CS 3600", "to": "CS 7650"}, {"from": "CS 2200", "to": "CS 3210"}, {"from": "CS 2200", "to": "CS 3251"}, {"from": "CS 2200", "to": "CS 4235"}, {"from": "CS 2200", "to": "CS 4261"}, {"from": "CS 2200", "to": "CS 4290"}, {"from": "CS 2200", "to": "CS 4675"}, {"from": "CS 2200", "to": "CS 6035"}, {"from": "CS 2200", "to": "CS 6290"}, {"from": "ECE 2031", "to": "CS 3651"}, {"from": "CS 4240", "to": "CS 6241"}, {"from": "CS 4240", "to": "CS 6245"}, {"from": "MGT 3501", "to": "MGT 3510"}, {"from": "MGT 3501", "to": "MGT 4353"}, {"from": "MGT 3501", "to": "MGT 4366"}, {"from": "MGT 3501", "to": "MGT 4401"}, {"from": "PHYS 2212", "to": "ECE 3710"}, {"from": "PHYS 2212", "to": "PHYS 2213"}, {"from": "PHYS 2212", "to": "PHYS 3266"}, {"from": "CS 3210", "to": "CSE 6230"}, {"from": "CS 3210", "to": "CS 4210"}, {"from": "CS 3210", "to": "CS 4365"}, {"from": "CS 3210", "to": "CS 6210"}, {"from": "CS 3210", "to": "CS 6365"}, {"from": "CS 3210", "to": "CS 6675"}, {"from": "CS 3251", "to": "ECE 4115"}, {"from": "CS 3251", "to": "ECE 6612"}, {"from": "CS 4235", "to": "CS 6260"}, {"from": "CS 4235", "to": "CS 6725"}, {"from": "CS 4290", "to": "CS 6291"}, {"from": "CS 6290", "to": "CS 7292"}, {"from": "ECE 3710", "to": "ECE 3072"}, {"from": "ECE 3710", "to": "ECE 3741"}, {"from": "ECE 3710", "to": "ECE 4754"}, {"from": "ECE 3710", "to": "MSE 4754"}, {"from": "ECE 3710", "to": "ME 4754"}, {"from": "PHYS 2213", "to": "PHYS 4347"}, {"from": "CS 6210", "to": "CS 7210"}, {"from": "ECE 3072", "to": "ECE 4321"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
