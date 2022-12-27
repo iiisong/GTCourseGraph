@@ -1,0 +1,516 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="BIOS 1107">BIOS 1107</option>
+                                
+                                    <option value="BIOS 1107L">BIOS 1107L</option>
+                                
+                                    <option value="BIOS 1107R">BIOS 1107R</option>
+                                
+                                    <option value="BIOS 1108">BIOS 1108</option>
+                                
+                                    <option value="BIOS 1108L">BIOS 1108L</option>
+                                
+                                    <option value="BIOS 1108R">BIOS 1108R</option>
+                                
+                                    <option value="BIOS 1208">BIOS 1208</option>
+                                
+                                    <option value="BIOS 1208L">BIOS 1208L</option>
+                                
+                                    <option value="BIOS 1208R">BIOS 1208R</option>
+                                
+                                    <option value="BIOS 2300">BIOS 2300</option>
+                                
+                                    <option value="BIOS 2301">BIOS 2301</option>
+                                
+                                    <option value="BIOS 2600">BIOS 2600</option>
+                                
+                                    <option value="BIOS 2601">BIOS 2601</option>
+                                
+                                    <option value="BIOS 2694">BIOS 2694</option>
+                                
+                                    <option value="BIOS 2695">BIOS 2695</option>
+                                
+                                    <option value="BIOS 3380">BIOS 3380</option>
+                                
+                                    <option value="BIOS 3400">BIOS 3400</option>
+                                
+                                    <option value="BIOS 3450">BIOS 3450</option>
+                                
+                                    <option value="BIOS 3451">BIOS 3451</option>
+                                
+                                    <option value="BIOS 3600">BIOS 3600</option>
+                                
+                                    <option value="BIOS 3753">BIOS 3753</option>
+                                
+                                    <option value="BIOS 3755">BIOS 3755</option>
+                                
+                                    <option value="BIOS 3756">BIOS 3756</option>
+                                
+                                    <option value="BIOS 3801">BIOS 3801</option>
+                                
+                                    <option value="BIOS 4100">BIOS 4100</option>
+                                
+                                    <option value="BIOS 4401">BIOS 4401</option>
+                                
+                                    <option value="BIOS 4410">BIOS 4410</option>
+                                
+                                    <option value="BIOS 4417">BIOS 4417</option>
+                                
+                                    <option value="BIOS 4418">BIOS 4418</option>
+                                
+                                    <option value="BIOS 4440">BIOS 4440</option>
+                                
+                                    <option value="BIOS 4460">BIOS 4460</option>
+                                
+                                    <option value="BIOS 4471">BIOS 4471</option>
+                                
+                                    <option value="BIOS 4510">BIOS 4510</option>
+                                
+                                    <option value="BIOS 4570">BIOS 4570</option>
+                                
+                                    <option value="BIOS 4590">BIOS 4590</option>
+                                
+                                    <option value="BIOS 4607">BIOS 4607</option>
+                                
+                                    <option value="BIOS 4651">BIOS 4651</option>
+                                
+                                    <option value="BIOS 4690">BIOS 4690</option>
+                                
+                                    <option value="BIOS 4694">BIOS 4694</option>
+                                
+                                    <option value="BIOS 4695">BIOS 4695</option>
+                                
+                                    <option value="BIOS 4696">BIOS 4696</option>
+                                
+                                    <option value="BIOS 4697">BIOS 4697</option>
+                                
+                                    <option value="BIOS 4698">BIOS 4698</option>
+                                
+                                    <option value="BIOS 4699">BIOS 4699</option>
+                                
+                                    <option value="BIOS 4803">BIOS 4803</option>
+                                
+                                    <option value="COS 3801">COS 3801</option>
+                                
+                                    <option value="BIOL 1510">BIOL 1510</option>
+                                
+                                    <option value="BIOL 1511">BIOL 1511</option>
+                                
+                                    <option value="BIOL 2344">BIOL 2344</option>
+                                
+                                    <option value="BIOL 2354">BIOL 2354</option>
+                                
+                                    <option value="BIOL 2335">BIOL 2335</option>
+                                
+                                    <option value="BIOL 2337">BIOL 2337</option>
+                                
+                                    <option value="BIOS 2610">BIOS 2610</option>
+                                
+                                    <option value="BIOS 2310">BIOS 2310</option>
+                                
+                                    <option value="BIOL 3753">BIOL 3753</option>
+                                
+                                    <option value="APPH 3753">APPH 3753</option>
+                                
+                                    <option value="BIOL 1520">BIOL 1520</option>
+                                
+                                    <option value="BIOL 1521">BIOL 1521</option>
+                                
+                                    <option value="APPH 3755">APPH 3755</option>
+                                
+                                    <option value="BIOL 3755">BIOL 3755</option>
+                                
+                                    <option value="BMED 3100">BMED 3100</option>
+                                
+                                    <option value="BIOL 3380">BIOL 3380</option>
+                                
+                                    <option value="BIOL 4590">BIOL 4590</option>
+                                
+                                    <option value="BIOL 4690">BIOL 4690</option>
+                                
+                                    <option value="BIOL 4910">BIOL 4910</option>
+                                
+                                    <option value="BIOS 4691">BIOS 4691</option>
+                                
+                                    <option value="BIOL 3450">BIOL 3450</option>
+                                
+                                    <option value="BIOL 2800">BIOL 2800</option>
+                                
+                                    <option value="APPH 2698">APPH 2698</option>
+                                
+                                    <option value="APPH 2699">APPH 2699</option>
+                                
+                                    <option value="APPH 4698">APPH 4698</option>
+                                
+                                    <option value="APPH 4699">APPH 4699</option>
+                                
+                                    <option value="BIOL 2698">BIOL 2698</option>
+                                
+                                    <option value="BIOL 2699">BIOL 2699</option>
+                                
+                                    <option value="BIOL 4698">BIOL 4698</option>
+                                
+                                    <option value="BIOL 4699">BIOL 4699</option>
+                                
+                                    <option value="BIOS 2699">BIOS 2699</option>
+                                
+                                    <option value="BIOS 2698">BIOS 2698</option>
+                                
+                                    <option value="CETL 2000">CETL 2000</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1107", "label": "BIOS 1107", "shape": "dot", "size": 6.324555320336759, "title": "Biological Principles"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1107L", "label": "BIOS 1107L", "shape": "dot", "size": 6.324555320336759, "title": "Biol Principles Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1107R", "label": "BIOS 1107R", "shape": "dot", "size": 6.324555320336759, "title": "BIOS 1107 Recitation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1108", "label": "BIOS 1108", "shape": "dot", "size": 6.324555320336759, "title": "Organismal Biology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1108L", "label": "BIOS 1108L", "shape": "dot", "size": 6.324555320336759, "title": "Organismal Biology Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1108R", "label": "BIOS 1108R", "shape": "dot", "size": 6.324555320336759, "title": "BIOS 1108 Recitation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1208", "label": "BIOS 1208", "shape": "dot", "size": 6.324555320336759, "title": "Majors Organismal Biol"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1208L", "label": "BIOS 1208L", "shape": "dot", "size": 6.324555320336759, "title": "Organismal Biol Proj Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 1208R", "label": "BIOS 1208R", "shape": "dot", "size": 6.324555320336759, "title": "BIOS 1208 Recitation"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "BIOS 2300", "label": "BIOS 2300", "shape": "dot", "size": 10.954451150103322, "title": "Ecology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 2301", "label": "BIOS 2301", "shape": "dot", "size": 6.324555320336759, "title": "Ecology Lab"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "BIOS 2600", "label": "BIOS 2600", "shape": "dot", "size": 10.954451150103322, "title": "Genetics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 2601", "label": "BIOS 2601", "shape": "dot", "size": 6.324555320336759, "title": "Genetics Laboratory"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 2694", "label": "BIOS 2694", "shape": "dot", "size": 6.324555320336759, "title": "Intern Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 2695", "label": "BIOS 2695", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Intership"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "BIOS 3380", "label": "BIOS 3380", "shape": "dot", "size": 10.954451150103322, "title": "Microbiology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 3400", "label": "BIOS 3400", "shape": "dot", "size": 6.324555320336759, "title": "Mathematical Models in Biology"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "BIOS 3450", "label": "BIOS 3450", "shape": "dot", "size": 8.94427190999916, "title": "Cell Molecular Biol"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 3451", "label": "BIOS 3451", "shape": "dot", "size": 6.324555320336759, "title": "Cell Molecular Biol Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 3600", "label": "BIOS 3600", "shape": "dot", "size": 6.324555320336759, "title": "Evolutionary Biology"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "BIOS 3753", "label": "BIOS 3753", "shape": "dot", "size": 12.649110640673518, "title": "Human Anatomy"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "BIOS 3755", "label": "BIOS 3755", "shape": "dot", "size": 8.94427190999916, "title": "Human Physiology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 3756", "label": "BIOS 3756", "shape": "dot", "size": 6.324555320336759, "title": "Physiology Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 3801", "label": "BIOS 3801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4100", "label": "BIOS 4100", "shape": "dot", "size": 6.324555320336759, "title": "Exercise Physiology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4401", "label": "BIOS 4401", "shape": "dot", "size": 6.324555320336759, "title": "Exper Dgn \u0026Statis Methods"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4410", "label": "BIOS 4410", "shape": "dot", "size": 6.324555320336759, "title": "Microbial Ecology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4417", "label": "BIOS 4417", "shape": "dot", "size": 6.324555320336759, "title": "Marine Ecology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4418", "label": "BIOS 4418", "shape": "dot", "size": 6.324555320336759, "title": "Microbial Physiology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4440", "label": "BIOS 4440", "shape": "dot", "size": 6.324555320336759, "title": "Human Pathology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4460", "label": "BIOS 4460", "shape": "dot", "size": 6.324555320336759, "title": "Comm Biologicl Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4471", "label": "BIOS 4471", "shape": "dot", "size": 6.324555320336759, "title": "Behavioral Biology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4510", "label": "BIOS 4510", "shape": "dot", "size": 6.324555320336759, "title": "Epigenetics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4570", "label": "BIOS 4570", "shape": "dot", "size": 6.324555320336759, "title": "Immunology"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "BIOS 4590", "label": "BIOS 4590", "shape": "dot", "size": 8.94427190999916, "title": "Research Project Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4607", "label": "BIOS 4607", "shape": "dot", "size": 6.324555320336759, "title": "Molecular Microbiology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4651", "label": "BIOS 4651", "shape": "dot", "size": 6.324555320336759, "title": "Bioethics"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "BIOS 4690", "label": "BIOS 4690", "shape": "dot", "size": 8.94427190999916, "title": "Independnt Research Proj"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4694", "label": "BIOS 4694", "shape": "dot", "size": 6.324555320336759, "title": "Intern Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4695", "label": "BIOS 4695", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4696", "label": "BIOS 4696", "shape": "dot", "size": 6.324555320336759, "title": "Biol Teaching Assistant"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4697", "label": "BIOS 4697", "shape": "dot", "size": 6.324555320336759, "title": "Biol Undergrad Teaching"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "BIOS 4698", "label": "BIOS 4698", "shape": "dot", "size": 8.94427190999916, "title": "Research Assistantship"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "BIOS 4699", "label": "BIOS 4699", "shape": "dot", "size": 8.94427190999916, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4803", "label": "BIOS 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "COS 3801", "label": "COS 3801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 1510", "label": "BIOL 1510", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 1511", "label": "BIOL 1511", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 2344", "label": "BIOL 2344", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 2354", "label": "BIOL 2354", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 2335", "label": "BIOL 2335", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 2337", "label": "BIOL 2337", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 2610", "label": "BIOS 2610", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 2310", "label": "BIOS 2310", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 3753", "label": "BIOL 3753", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "APPH 3753", "label": "APPH 3753", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 1520", "label": "BIOL 1520", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 1521", "label": "BIOL 1521", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "APPH 3755", "label": "APPH 3755", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 3755", "label": "BIOL 3755", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BMED 3100", "label": "BMED 3100", "shape": "dot", "size": 12.649110640673518, "title": "Systems Physiology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 3380", "label": "BIOL 3380", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 4590", "label": "BIOL 4590", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 4690", "label": "BIOL 4690", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 4910", "label": "BIOL 4910", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 4691", "label": "BIOS 4691", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 3450", "label": "BIOL 3450", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 2800", "label": "BIOL 2800", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "APPH 2698", "label": "APPH 2698", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "APPH 2699", "label": "APPH 2699", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "APPH 4698", "label": "APPH 4698", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "APPH 4699", "label": "APPH 4699", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 2698", "label": "BIOL 2698", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 2699", "label": "BIOL 2699", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 4698", "label": "BIOL 4698", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOL 4699", "label": "BIOL 4699", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 2699", "label": "BIOS 2699", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BIOS 2698", "label": "BIOS 2698", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CETL 2000", "label": "CETL 2000", "shape": "dot", "size": 12.649110640673518, "title": "Undergraduate  TA  Prep"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "BIOS 2300", "to": "BIOS 3600"}, {"arrows": "to", "from": "BIOS 2300", "to": "BIOS 4417"}, {"arrows": "to", "from": "BIOS 2600", "to": "BIOS 3600"}, {"arrows": "to", "from": "BIOS 2600", "to": "BIOS 4570"}, {"arrows": "to", "from": "BIOS 3380", "to": "BIOS 4410"}, {"arrows": "to", "from": "BIOS 3380", "to": "BIOS 4418"}, {"arrows": "to", "from": "BIOS 3450", "to": "BIOS 4570"}, {"arrows": "to", "from": "BIOS 3753", "to": "BIOS 3755"}, {"arrows": "to", "from": "BIOS 3753", "to": "BIOS 3756"}, {"arrows": "to", "from": "BIOS 3753", "to": "BIOS 4440"}, {"arrows": "to", "from": "BIOS 3755", "to": "BIOS 4100"}, {"arrows": "to", "from": "BIOS 4590", "to": "BIOS 4460"}, {"arrows": "to", "from": "BIOS 4690", "to": "BIOS 4460"}, {"arrows": "to", "from": "BIOS 4698", "to": "BIOS 4690"}, {"arrows": "to", "from": "BIOS 4699", "to": "BIOS 4690"}, {"arrows": "to", "from": "BIOL 1510", "to": "BIOS 2300"}, {"arrows": "to", "from": "BIOL 1510", "to": "BIOS 2301"}, {"arrows": "to", "from": "BIOL 1510", "to": "BIOS 2600"}, {"arrows": "to", "from": "BIOL 1510", "to": "BIOS 2601"}, {"arrows": "to", "from": "BIOL 1510", "to": "BIOS 4590"}, {"arrows": "to", "from": "BIOL 1510", "to": "BIOS 4651"}, {"arrows": "to", "from": "BIOL 1511", "to": "BIOS 2300"}, {"arrows": "to", "from": "BIOL 1511", "to": "BIOS 2301"}, {"arrows": "to", "from": "BIOL 1511", "to": "BIOS 2600"}, {"arrows": "to", "from": "BIOL 1511", "to": "BIOS 2601"}, {"arrows": "to", "from": "BIOL 1511", "to": "BIOS 4590"}, {"arrows": "to", "from": "BIOL 1511", "to": "BIOS 4651"}, {"arrows": "to", "from": "BIOL 2344", "to": "BIOS 3600"}, {"arrows": "to", "from": "BIOL 2344", "to": "BIOS 4510"}, {"arrows": "to", "from": "BIOL 2344", "to": "BIOS 4570"}, {"arrows": "to", "from": "BIOL 2354", "to": "BIOS 3600"}, {"arrows": "to", "from": "BIOL 2354", "to": "BIOS 4510"}, {"arrows": "to", "from": "BIOL 2354", "to": "BIOS 4570"}, {"arrows": "to", "from": "BIOL 2335", "to": "BIOS 3600"}, {"arrows": "to", "from": "BIOL 2335", "to": "BIOS 4417"}, {"arrows": "to", "from": "BIOL 2337", "to": "BIOS 3600"}, {"arrows": "to", "from": "BIOL 2337", "to": "BIOS 4417"}, {"arrows": "to", "from": "BIOS 2610", "to": "BIOS 3600"}, {"arrows": "to", "from": "BIOS 2610", "to": "BIOS 4570"}, {"arrows": "to", "from": "BIOS 2310", "to": "BIOS 3600"}, {"arrows": "to", "from": "BIOS 2310", "to": "BIOS 4417"}, {"arrows": "to", "from": "BIOL 3753", "to": "BIOS 3755"}, {"arrows": "to", "from": "BIOL 3753", "to": "BIOS 3756"}, {"arrows": "to", "from": "BIOL 3753", "to": "BIOS 4440"}, {"arrows": "to", "from": "APPH 3753", "to": "BIOS 3755"}, {"arrows": "to", "from": "APPH 3753", "to": "BIOS 3756"}, {"arrows": "to", "from": "APPH 3753", "to": "BIOS 4440"}, {"arrows": "to", "from": "BIOL 1520", "to": "BIOS 3755"}, {"arrows": "to", "from": "BIOL 1520", "to": "BIOS 3756"}, {"arrows": "to", "from": "BIOL 1521", "to": "BIOS 3755"}, {"arrows": "to", "from": "BIOL 1521", "to": "BIOS 3756"}, {"arrows": "to", "from": "APPH 3755", "to": "BIOS 4100"}, {"arrows": "to", "from": "BIOL 3755", "to": "BIOS 4100"}, {"arrows": "to", "from": "BMED 3100", "to": "BIOS 4100"}, {"arrows": "to", "from": "BIOL 3380", "to": "BIOS 4418"}, {"arrows": "to", "from": "BIOL 4590", "to": "BIOS 4460"}, {"arrows": "to", "from": "BIOL 4690", "to": "BIOS 4460"}, {"arrows": "to", "from": "BIOL 4910", "to": "BIOS 4460"}, {"arrows": "to", "from": "BIOS 4691", "to": "BIOS 4460"}, {"arrows": "to", "from": "BIOL 3450", "to": "BIOS 4510"}, {"arrows": "to", "from": "BIOL 3450", "to": "BIOS 4570"}, {"arrows": "to", "from": "BIOL 2800", "to": "BIOS 4510"}, {"arrows": "to", "from": "APPH 2698", "to": "BIOS 4690"}, {"arrows": "to", "from": "APPH 2699", "to": "BIOS 4690"}, {"arrows": "to", "from": "APPH 4698", "to": "BIOS 4690"}, {"arrows": "to", "from": "APPH 4699", "to": "BIOS 4690"}, {"arrows": "to", "from": "BIOL 2698", "to": "BIOS 4690"}, {"arrows": "to", "from": "BIOL 2699", "to": "BIOS 4690"}, {"arrows": "to", "from": "BIOL 4698", "to": "BIOS 4690"}, {"arrows": "to", "from": "BIOL 4699", "to": "BIOS 4690"}, {"arrows": "to", "from": "BIOS 2699", "to": "BIOS 4690"}, {"arrows": "to", "from": "BIOS 2698", "to": "BIOS 4690"}, {"arrows": "to", "from": "CETL 2000", "to": "BIOS 4697"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

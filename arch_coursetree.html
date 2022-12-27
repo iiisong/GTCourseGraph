@@ -1,0 +1,470 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="ARCH 1017">ARCH 1017</option>
+                                
+                                    <option value="ARCH 1020">ARCH 1020</option>
+                                
+                                    <option value="ARCH 2017">ARCH 2017</option>
+                                
+                                    <option value="ARCH 2112">ARCH 2112</option>
+                                
+                                    <option value="ARCH 3017">ARCH 3017</option>
+                                
+                                    <option value="ARCH 4015">ARCH 4015</option>
+                                
+                                    <option value="ARCH 4017">ARCH 4017</option>
+                                
+                                    <option value="ARCH 4107">ARCH 4107</option>
+                                
+                                    <option value="ARCH 4127">ARCH 4127</option>
+                                
+                                    <option value="ARCH 4129">ARCH 4129</option>
+                                
+                                    <option value="ARCH 4151">ARCH 4151</option>
+                                
+                                    <option value="ARCH 4447">ARCH 4447</option>
+                                
+                                    <option value="ARCH 4699">ARCH 4699</option>
+                                
+                                    <option value="ARCH 4801">ARCH 4801</option>
+                                
+                                    <option value="ARCH 4803">ARCH 4803</option>
+                                
+                                    <option value="ARCH 4823">ARCH 4823</option>
+                                
+                                    <option value="ARCH 4833">ARCH 4833</option>
+                                
+                                    <option value="ARCH 4901">ARCH 4901</option>
+                                
+                                    <option value="ARCH 4903">ARCH 4903</option>
+                                
+                                    <option value="ARCH 6015">ARCH 6015</option>
+                                
+                                    <option value="ARCH 6020">ARCH 6020</option>
+                                
+                                    <option value="ARCH 6029">ARCH 6029</option>
+                                
+                                    <option value="ARCH 6030">ARCH 6030</option>
+                                
+                                    <option value="ARCH 6040">ARCH 6040</option>
+                                
+                                    <option value="ARCH 6050">ARCH 6050</option>
+                                
+                                    <option value="ARCH 6106">ARCH 6106</option>
+                                
+                                    <option value="ARCH 6107">ARCH 6107</option>
+                                
+                                    <option value="ARCH 6127">ARCH 6127</option>
+                                
+                                    <option value="ARCH 6129">ARCH 6129</option>
+                                
+                                    <option value="ARCH 6160">ARCH 6160</option>
+                                
+                                    <option value="ARCH 6352">ARCH 6352</option>
+                                
+                                    <option value="ARCH 6447">ARCH 6447</option>
+                                
+                                    <option value="ARCH 6506">ARCH 6506</option>
+                                
+                                    <option value="ARCH 6513">ARCH 6513</option>
+                                
+                                    <option value="ARCH 7000">ARCH 7000</option>
+                                
+                                    <option value="ARCH 7014">ARCH 7014</option>
+                                
+                                    <option value="ARCH 7102">ARCH 7102</option>
+                                
+                                    <option value="ARCH 7151">ARCH 7151</option>
+                                
+                                    <option value="ARCH 7625">ARCH 7625</option>
+                                
+                                    <option value="ARCH 8630">ARCH 8630</option>
+                                
+                                    <option value="ARCH 8799">ARCH 8799</option>
+                                
+                                    <option value="ARCH 8801">ARCH 8801</option>
+                                
+                                    <option value="ARCH 8803">ARCH 8803</option>
+                                
+                                    <option value="ARCH 8823">ARCH 8823</option>
+                                
+                                    <option value="ARCH 8833">ARCH 8833</option>
+                                
+                                    <option value="ARCH 8901">ARCH 8901</option>
+                                
+                                    <option value="ARCH 8903">ARCH 8903</option>
+                                
+                                    <option value="ARCH 8997">ARCH 8997</option>
+                                
+                                    <option value="ARCH 8998">ARCH 8998</option>
+                                
+                                    <option value="ARCH 8999">ARCH 8999</option>
+                                
+                                    <option value="ARCH 9000">ARCH 9000</option>
+                                
+                                    <option value="ARCH 1016">ARCH 1016</option>
+                                
+                                    <option value="ARCH 2016">ARCH 2016</option>
+                                
+                                    <option value="ARCH 3016">ARCH 3016</option>
+                                
+                                    <option value="ARCH 4016">ARCH 4016</option>
+                                
+                                    <option value="ARCH 6105">ARCH 6105</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 1017", "label": "ARCH 1017", "shape": "dot", "size": 6.324555320336759, "title": "Architecture Studio 1"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 1020", "label": "ARCH 1020", "shape": "dot", "size": 6.324555320336759, "title": "Media + Modeling 1"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 2017", "label": "ARCH 2017", "shape": "dot", "size": 6.324555320336759, "title": "Architecture Studio 3"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 2112", "label": "ARCH 2112", "shape": "dot", "size": 6.324555320336759, "title": "History of Arch II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 3017", "label": "ARCH 3017", "shape": "dot", "size": 6.324555320336759, "title": "Architecture Studio 5"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4015", "label": "ARCH 4015", "shape": "dot", "size": 6.324555320336759, "title": "Structures 1"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4017", "label": "ARCH 4017", "shape": "dot", "size": 6.324555320336759, "title": "Architecture Studio 7"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4107", "label": "ARCH 4107", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Historic Preser"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4127", "label": "ARCH 4127", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Art \u0026 Arch in Italy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4129", "label": "ARCH 4129", "shape": "dot", "size": 6.324555320336759, "title": "Form and Narrative"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4151", "label": "ARCH 4151", "shape": "dot", "size": 6.324555320336759, "title": "History of Urban Form"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4447", "label": "ARCH 4447", "shape": "dot", "size": 6.324555320336759, "title": "Urban Ecological Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4699", "label": "ARCH 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4801", "label": "ARCH 4801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4803", "label": "ARCH 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4823", "label": "ARCH 4823", "shape": "dot", "size": 6.324555320336759, "title": "Spec Top-Hist,Theor,Crit"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4833", "label": "ARCH 4833", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics-Arch Tech"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4901", "label": "ARCH 4901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4903", "label": "ARCH 4903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6015", "label": "ARCH 6015", "shape": "dot", "size": 6.324555320336759, "title": "Structures 1"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6020", "label": "ARCH 6020", "shape": "dot", "size": 6.324555320336759, "title": "Media + Modeling 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6029", "label": "ARCH 6029", "shape": "dot", "size": 6.324555320336759, "title": "Core 2 Studio"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6030", "label": "ARCH 6030", "shape": "dot", "size": 6.324555320336759, "title": "Core 3 Studio"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6040", "label": "ARCH 6040", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Studio 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6050", "label": "ARCH 6050", "shape": "dot", "size": 6.324555320336759, "title": "Design + Research Studio 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6106", "label": "ARCH 6106", "shape": "dot", "size": 6.324555320336759, "title": "Arch History II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6107", "label": "ARCH 6107", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Historic Preser"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6127", "label": "ARCH 6127", "shape": "dot", "size": 6.324555320336759, "title": "Intro-Art\u0026 Arch in Italy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6129", "label": "ARCH 6129", "shape": "dot", "size": 6.324555320336759, "title": "Form and Narrative"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6160", "label": "ARCH 6160", "shape": "dot", "size": 6.324555320336759, "title": "Race and Space"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6352", "label": "ARCH 6352", "shape": "dot", "size": 6.324555320336759, "title": "Theory of Architecture 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6447", "label": "ARCH 6447", "shape": "dot", "size": 6.324555320336759, "title": "Urban Ecological Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6506", "label": "ARCH 6506", "shape": "dot", "size": 6.324555320336759, "title": "Materials/Fabrications"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6513", "label": "ARCH 6513", "shape": "dot", "size": 6.324555320336759, "title": "Building Systems \u0026 Data"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 7000", "label": "ARCH 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 7014", "label": "ARCH 7014", "shape": "dot", "size": 6.324555320336759, "title": "Urban Design Studio 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 7102", "label": "ARCH 7102", "shape": "dot", "size": 6.324555320336759, "title": "Integr Bldg Syst II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 7151", "label": "ARCH 7151", "shape": "dot", "size": 6.324555320336759, "title": "History of Urban Form"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 7625", "label": "ARCH 7625", "shape": "dot", "size": 6.324555320336759, "title": "Theories of Inquiry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8630", "label": "ARCH 8630", "shape": "dot", "size": 6.324555320336759, "title": "Architecture Space \u0026 Culture"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8799", "label": "ARCH 8799", "shape": "dot", "size": 6.324555320336759, "title": "Qualifying Paper"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8801", "label": "ARCH 8801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8803", "label": "ARCH 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8823", "label": "ARCH 8823", "shape": "dot", "size": 6.324555320336759, "title": "Spec Top-Hist,Theor,Crit"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8833", "label": "ARCH 8833", "shape": "dot", "size": 6.324555320336759, "title": "Spec Top-Arch Tech"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8901", "label": "ARCH 8901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8903", "label": "ARCH 8903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8997", "label": "ARCH 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8998", "label": "ARCH 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 8999", "label": "ARCH 8999", "shape": "dot", "size": 6.324555320336759, "title": "Prep-Doctoral Disserta\u0027n"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 9000", "label": "ARCH 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 1016", "label": "ARCH 1016", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 2016", "label": "ARCH 2016", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 3016", "label": "ARCH 3016", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 4016", "label": "ARCH 4016", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ARCH 6105", "label": "ARCH 6105", "shape": "dot", "size": 8.94427190999916, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "ARCH 1016", "to": "ARCH 1017"}, {"arrows": "to", "from": "ARCH 2016", "to": "ARCH 2017"}, {"arrows": "to", "from": "ARCH 3016", "to": "ARCH 3017"}, {"arrows": "to", "from": "ARCH 4016", "to": "ARCH 4017"}, {"arrows": "to", "from": "ARCH 6105", "to": "ARCH 6106"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

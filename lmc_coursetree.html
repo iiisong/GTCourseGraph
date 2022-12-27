@@ -1,0 +1,502 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="LMC 2200">LMC 2200</option>
+                                
+                                    <option value="LMC 2400">LMC 2400</option>
+                                
+                                    <option value="LMC 2450">LMC 2450</option>
+                                
+                                    <option value="LMC 2500">LMC 2500</option>
+                                
+                                    <option value="LMC 2600">LMC 2600</option>
+                                
+                                    <option value="LMC 2661">LMC 2661</option>
+                                
+                                    <option value="LMC 2662">LMC 2662</option>
+                                
+                                    <option value="LMC 2720">LMC 2720</option>
+                                
+                                    <option value="LMC 2730">LMC 2730</option>
+                                
+                                    <option value="LMC 3062">LMC 3062</option>
+                                
+                                    <option value="LMC 3104">LMC 3104</option>
+                                
+                                    <option value="LMC 3202">LMC 3202</option>
+                                
+                                    <option value="LMC 3206">LMC 3206</option>
+                                
+                                    <option value="LMC 3212">LMC 3212</option>
+                                
+                                    <option value="LMC 3215">LMC 3215</option>
+                                
+                                    <option value="LMC 3226">LMC 3226</option>
+                                
+                                    <option value="LMC 3234">LMC 3234</option>
+                                
+                                    <option value="LMC 3252">LMC 3252</option>
+                                
+                                    <option value="LMC 3257">LMC 3257</option>
+                                
+                                    <option value="LMC 3258">LMC 3258</option>
+                                
+                                    <option value="LMC 3302">LMC 3302</option>
+                                
+                                    <option value="LMC 3304">LMC 3304</option>
+                                
+                                    <option value="LMC 3402">LMC 3402</option>
+                                
+                                    <option value="LMC 3403">LMC 3403</option>
+                                
+                                    <option value="LMC 3406">LMC 3406</option>
+                                
+                                    <option value="LMC 3407">LMC 3407</option>
+                                
+                                    <option value="LMC 3408">LMC 3408</option>
+                                
+                                    <option value="LMC 3411">LMC 3411</option>
+                                
+                                    <option value="LMC 3431">LMC 3431</option>
+                                
+                                    <option value="LMC 3432">LMC 3432</option>
+                                
+                                    <option value="LMC 3455">LMC 3455</option>
+                                
+                                    <option value="LMC 3506">LMC 3506</option>
+                                
+                                    <option value="LMC 3512">LMC 3512</option>
+                                
+                                    <option value="LMC 3514">LMC 3514</option>
+                                
+                                    <option value="LMC 3661">LMC 3661</option>
+                                
+                                    <option value="LMC 3662">LMC 3662</option>
+                                
+                                    <option value="LMC 3705">LMC 3705</option>
+                                
+                                    <option value="LMC 3710">LMC 3710</option>
+                                
+                                    <option value="LMC 3813">LMC 3813</option>
+                                
+                                    <option value="LMC 4000">LMC 4000</option>
+                                
+                                    <option value="LMC 4204">LMC 4204</option>
+                                
+                                    <option value="LMC 4602">LMC 4602</option>
+                                
+                                    <option value="LMC 4699">LMC 4699</option>
+                                
+                                    <option value="LMC 4701">LMC 4701</option>
+                                
+                                    <option value="LMC 4702">LMC 4702</option>
+                                
+                                    <option value="LMC 4710">LMC 4710</option>
+                                
+                                    <option value="LMC 4720">LMC 4720</option>
+                                
+                                    <option value="LMC 4733">LMC 4733</option>
+                                
+                                    <option value="LMC 4813">LMC 4813</option>
+                                
+                                    <option value="LMC 4904">LMC 4904</option>
+                                
+                                    <option value="LMC 6313">LMC 6313</option>
+                                
+                                    <option value="LMC 6316">LMC 6316</option>
+                                
+                                    <option value="LMC 6317">LMC 6317</option>
+                                
+                                    <option value="LMC 6340">LMC 6340</option>
+                                
+                                    <option value="LMC 6366">LMC 6366</option>
+                                
+                                    <option value="LMC 6650">LMC 6650</option>
+                                
+                                    <option value="LMC 6748">LMC 6748</option>
+                                
+                                    <option value="LMC 6800">LMC 6800</option>
+                                
+                                    <option value="LMC 6998">LMC 6998</option>
+                                
+                                    <option value="LMC 7999">LMC 7999</option>
+                                
+                                    <option value="LMC 8001">LMC 8001</option>
+                                
+                                    <option value="LMC 8801">LMC 8801</option>
+                                
+                                    <option value="LMC 8803">LMC 8803</option>
+                                
+                                    <option value="LMC 8903">LMC 8903</option>
+                                
+                                    <option value="LMC 8910">LMC 8910</option>
+                                
+                                    <option value="LMC 8997">LMC 8997</option>
+                                
+                                    <option value="LMC 8998">LMC 8998</option>
+                                
+                                    <option value="LMC 8999">LMC 8999</option>
+                                
+                                    <option value="LMC 9000">LMC 9000</option>
+                                
+                                    <option value="ENGL 1102">ENGL 1102</option>
+                                
+                                    <option value="LMC 2000">LMC 2000</option>
+                                
+                                    <option value="LMC 2700">LMC 2700</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2200", "label": "LMC 2200", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Gender Studies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2400", "label": "LMC 2400", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Media Studies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2450", "label": "LMC 2450", "shape": "dot", "size": 6.324555320336759, "title": "Intr Black Media Studies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2500", "label": "LMC 2500", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Film"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2600", "label": "LMC 2600", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Perform Studies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2661", "label": "LMC 2661", "shape": "dot", "size": 6.324555320336759, "title": "Theatre Production I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2662", "label": "LMC 2662", "shape": "dot", "size": 6.324555320336759, "title": "Theatre Production II"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "LMC 2720", "label": "LMC 2720", "shape": "dot", "size": 8.94427190999916, "title": "Prin of Visual Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2730", "label": "LMC 2730", "shape": "dot", "size": 6.324555320336759, "title": "Construct-Moving Image"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3062", "label": "LMC 3062", "shape": "dot", "size": 6.324555320336759, "title": "Film Acting Workshop"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3104", "label": "LMC 3104", "shape": "dot", "size": 6.324555320336759, "title": "Age Scientific Discovery"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3202", "label": "LMC 3202", "shape": "dot", "size": 6.324555320336759, "title": "Studies in Fiction"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3206", "label": "LMC 3206", "shape": "dot", "size": 6.324555320336759, "title": "Communication \u0026 Culture"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3212", "label": "LMC 3212", "shape": "dot", "size": 6.324555320336759, "title": "Women, Lit \u0026 Culture"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3215", "label": "LMC 3215", "shape": "dot", "size": 6.324555320336759, "title": "Science Fiction Film TV"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3226", "label": "LMC 3226", "shape": "dot", "size": 6.324555320336759, "title": "Major Authors"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3234", "label": "LMC 3234", "shape": "dot", "size": 6.324555320336759, "title": "Creative Writing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3252", "label": "LMC 3252", "shape": "dot", "size": 6.324555320336759, "title": "Film and Television"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3257", "label": "LMC 3257", "shape": "dot", "size": 6.324555320336759, "title": "Global Cinema"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3258", "label": "LMC 3258", "shape": "dot", "size": 6.324555320336759, "title": "Documentary Film"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3302", "label": "LMC 3302", "shape": "dot", "size": 6.324555320336759, "title": "Sci, Tech \u0026 Ideology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3304", "label": "LMC 3304", "shape": "dot", "size": 6.324555320336759, "title": "Science, Tech \u0026 Gender"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3402", "label": "LMC 3402", "shape": "dot", "size": 6.324555320336759, "title": "Graphic \u0026 Visual Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3403", "label": "LMC 3403", "shape": "dot", "size": 6.324555320336759, "title": "Tech Communication"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3406", "label": "LMC 3406", "shape": "dot", "size": 6.324555320336759, "title": "Video Production"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3407", "label": "LMC 3407", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Video Prod"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3408", "label": "LMC 3408", "shape": "dot", "size": 6.324555320336759, "title": "Rhetoric-Tech Narratives"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3411", "label": "LMC 3411", "shape": "dot", "size": 6.324555320336759, "title": "Visual Communication"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3431", "label": "LMC 3431", "shape": "dot", "size": 6.324555320336759, "title": "Tech Comm Approaches"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3432", "label": "LMC 3432", "shape": "dot", "size": 6.324555320336759, "title": "Tech Comm Strategies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3455", "label": "LMC 3455", "shape": "dot", "size": 6.324555320336759, "title": "Topics Black Media"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3506", "label": "LMC 3506", "shape": "dot", "size": 6.324555320336759, "title": "Enlightenment Lit \u0026 Cult"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3512", "label": "LMC 3512", "shape": "dot", "size": 6.324555320336759, "title": "Brit/Cont Romanticism"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3514", "label": "LMC 3514", "shape": "dot", "size": 6.324555320336759, "title": "Victorian Lit \u0026 Culture"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3661", "label": "LMC 3661", "shape": "dot", "size": 6.324555320336759, "title": "Theatre Production III"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3662", "label": "LMC 3662", "shape": "dot", "size": 6.324555320336759, "title": "Theatre Production IV"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3705", "label": "LMC 3705", "shape": "dot", "size": 6.324555320336759, "title": "Prin Information Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3710", "label": "LMC 3710", "shape": "dot", "size": 6.324555320336759, "title": "Prin Interaction Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 3813", "label": "LMC 3813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4000", "label": "LMC 4000", "shape": "dot", "size": 6.324555320336759, "title": "Senior Seminar in LMC"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4204", "label": "LMC 4204", "shape": "dot", "size": 6.324555320336759, "title": "Poetry and Poetics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4602", "label": "LMC 4602", "shape": "dot", "size": 6.324555320336759, "title": "Performance Practicum"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4699", "label": "LMC 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4701", "label": "LMC 4701", "shape": "dot", "size": 6.324555320336759, "title": "US Rsch Proposal Writing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4702", "label": "LMC 4702", "shape": "dot", "size": 6.324555320336759, "title": "US Rsch Thesis Writing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4710", "label": "LMC 4710", "shape": "dot", "size": 6.324555320336759, "title": "Game Studio"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4720", "label": "LMC 4720", "shape": "dot", "size": 6.324555320336759, "title": "Interactive Narrative"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4733", "label": "LMC 4733", "shape": "dot", "size": 6.324555320336759, "title": "Mixed Reality Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4813", "label": "LMC 4813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 4904", "label": "LMC 4904", "shape": "dot", "size": 6.324555320336759, "title": "Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6313", "label": "LMC 6313", "shape": "dot", "size": 6.324555320336759, "title": "Prin of Interaction Desi"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6316", "label": "LMC 6316", "shape": "dot", "size": 6.324555320336759, "title": "Historical Approahces Di"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6317", "label": "LMC 6317", "shape": "dot", "size": 6.324555320336759, "title": "Interactive Fiction"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6340", "label": "LMC 6340", "shape": "dot", "size": 6.324555320336759, "title": "Reality Experience Desi"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6366", "label": "LMC 6366", "shape": "dot", "size": 6.324555320336759, "title": "Global Science Fiction"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6650", "label": "LMC 6650", "shape": "dot", "size": 6.324555320336759, "title": "Project Studio"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6748", "label": "LMC 6748", "shape": "dot", "size": 6.324555320336759, "title": "Social Justice \u0026 Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6800", "label": "LMC 6800", "shape": "dot", "size": 6.324555320336759, "title": "DM MS Project Course"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 6998", "label": "LMC 6998", "shape": "dot", "size": 6.324555320336759, "title": "HCI Master\u0027s Project"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 7999", "label": "LMC 7999", "shape": "dot", "size": 6.324555320336759, "title": "PhD Qualifying Prep"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 8001", "label": "LMC 8001", "shape": "dot", "size": 6.324555320336759, "title": "Digital Media Studies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 8801", "label": "LMC 8801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 8803", "label": "LMC 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 8903", "label": "LMC 8903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems in HCI"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 8910", "label": "LMC 8910", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 8997", "label": "LMC 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 8998", "label": "LMC 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 8999", "label": "LMC 8999", "shape": "dot", "size": 6.324555320336759, "title": "PhD Doctoral Prep"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 9000", "label": "LMC 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ENGL 1102", "label": "ENGL 1102", "shape": "dot", "size": 39.496835316262995, "title": "English Composition II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2000", "label": "LMC 2000", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "LMC 2700", "label": "LMC 2700", "shape": "dot", "size": 10.954451150103322, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "LMC 2720", "to": "LMC 2730"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 2200"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 2400"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 2500"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 2600"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 2661"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 2662"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 2720"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3062"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3104"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3202"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3206"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3212"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3215"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3226"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3234"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3302"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3304"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3402"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3403"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3406"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3408"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3411"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3431"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3432"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3455"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3506"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3512"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3514"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3661"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 3662"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 4000"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 4204"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 4602"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 4699"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 4701"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 4702"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 4813"}, {"arrows": "to", "from": "ENGL 1102", "to": "LMC 4904"}, {"arrows": "to", "from": "LMC 2000", "to": "LMC 2730"}, {"arrows": "to", "from": "LMC 2700", "to": "LMC 2730"}, {"arrows": "to", "from": "LMC 2700", "to": "LMC 4733"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

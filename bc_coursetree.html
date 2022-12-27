@@ -1,0 +1,424 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="BC 2620">BC 2620</option>
+                                
+                                    <option value="BC 2631">BC 2631</option>
+                                
+                                    <option value="BC 2632">BC 2632</option>
+                                
+                                    <option value="BC 2634">BC 2634</option>
+                                
+                                    <option value="BC 3630">BC 3630</option>
+                                
+                                    <option value="BC 4050">BC 4050</option>
+                                
+                                    <option value="BC 4600">BC 4600</option>
+                                
+                                    <option value="BC 4630">BC 4630</option>
+                                
+                                    <option value="BC 4660">BC 4660</option>
+                                
+                                    <option value="BC 4672">BC 4672</option>
+                                
+                                    <option value="BC 6050">BC 6050</option>
+                                
+                                    <option value="BC 6200">BC 6200</option>
+                                
+                                    <option value="BC 6250">BC 6250</option>
+                                
+                                    <option value="BC 6270">BC 6270</option>
+                                
+                                    <option value="BC 6385">BC 6385</option>
+                                
+                                    <option value="BC 6475">BC 6475</option>
+                                
+                                    <option value="BC 6575">BC 6575</option>
+                                
+                                    <option value="BC 6600">BC 6600</option>
+                                
+                                    <option value="BC 6650">BC 6650</option>
+                                
+                                    <option value="BC 6675">BC 6675</option>
+                                
+                                    <option value="BC 6875">BC 6875</option>
+                                
+                                    <option value="BC 7000">BC 7000</option>
+                                
+                                    <option value="BC 7200">BC 7200</option>
+                                
+                                    <option value="BC 8803">BC 8803</option>
+                                
+                                    <option value="BC 8813">BC 8813</option>
+                                
+                                    <option value="BC 8903">BC 8903</option>
+                                
+                                    <option value="BC 8997">BC 8997</option>
+                                
+                                    <option value="BC 8998">BC 8998</option>
+                                
+                                    <option value="BC 8999">BC 8999</option>
+                                
+                                    <option value="BC 9000">BC 9000</option>
+                                
+                                    <option value="BC 2610">BC 2610</option>
+                                
+                                    <option value="BC 6185">BC 6185</option>
+                                
+                                    <option value="BC 6025">BC 6025</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 2620", "label": "BC 2620", "shape": "dot", "size": 6.324555320336759, "title": "Construction Tech II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 2631", "label": "BC 2631", "shape": "dot", "size": 6.324555320336759, "title": "Construction Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 2632", "label": "BC 2632", "shape": "dot", "size": 6.324555320336759, "title": "Constr Materls \u0026 Methods"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 2634", "label": "BC 2634", "shape": "dot", "size": 6.324555320336759, "title": "Constr Plans \u0026 Estimates"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "BC 3630", "label": "BC 3630", "shape": "dot", "size": 8.94427190999916, "title": "Project Management I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 4050", "label": "BC 4050", "shape": "dot", "size": 6.324555320336759, "title": "Building Info Modeling"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 4600", "label": "BC 4600", "shape": "dot", "size": 6.324555320336759, "title": "Project Management II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 4630", "label": "BC 4630", "shape": "dot", "size": 6.324555320336759, "title": "Senior Capstone Project"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 4660", "label": "BC 4660", "shape": "dot", "size": 6.324555320336759, "title": "Entrepreneurship-Constru"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 4672", "label": "BC 4672", "shape": "dot", "size": 6.324555320336759, "title": "MEP Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6050", "label": "BC 6050", "shape": "dot", "size": 6.324555320336759, "title": "Building Info Modeling"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6200", "label": "BC 6200", "shape": "dot", "size": 6.324555320336759, "title": "Maint Mgt-Built Assets"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6250", "label": "BC 6250", "shape": "dot", "size": 6.324555320336759, "title": "Value Mgt-Integrated Dgn"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6270", "label": "BC 6270", "shape": "dot", "size": 6.324555320336759, "title": "Community Design\u0026Dvlpmnt"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6385", "label": "BC 6385", "shape": "dot", "size": 6.324555320336759, "title": "Mgt of Design Phase"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6475", "label": "BC 6475", "shape": "dot", "size": 6.324555320336759, "title": "Real Estate Develop Law"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6575", "label": "BC 6575", "shape": "dot", "size": 6.324555320336759, "title": "Real Estate Prod Finance"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6600", "label": "BC 6600", "shape": "dot", "size": 6.324555320336759, "title": "Fac Mgt Financial Analy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6650", "label": "BC 6650", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Project Mgt"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6675", "label": "BC 6675", "shape": "dot", "size": 6.324555320336759, "title": "Res Design \u0026 Constr"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6875", "label": "BC 6875", "shape": "dot", "size": 6.324555320336759, "title": "Real Estate Dev Capstone"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 7000", "label": "BC 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 7200", "label": "BC 7200", "shape": "dot", "size": 6.324555320336759, "title": "Adv Readings In BC"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 8803", "label": "BC 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 8813", "label": "BC 8813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 8903", "label": "BC 8903", "shape": "dot", "size": 6.324555320336759, "title": "Spec Prob-Build Construc"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 8997", "label": "BC 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 8998", "label": "BC 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 8999", "label": "BC 8999", "shape": "dot", "size": 6.324555320336759, "title": "Doctorial Thesis Prep"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 9000", "label": "BC 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 2610", "label": "BC 2610", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6185", "label": "BC 6185", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BC 6025", "label": "BC 6025", "shape": "dot", "size": 8.94427190999916, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "BC 3630", "to": "BC 4600"}, {"arrows": "to", "from": "BC 2610", "to": "BC 2620"}, {"arrows": "to", "from": "BC 6185", "to": "BC 6385"}, {"arrows": "to", "from": "BC 6025", "to": "BC 6650"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

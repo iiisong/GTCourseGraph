@@ -1,0 +1,448 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="UCGA 1001">UCGA 1001</option>
+                                
+                                    <option value="UCGA 1004">UCGA 1004</option>
+                                
+                                    <option value="UCGA 1006">UCGA 1006</option>
+                                
+                                    <option value="UCGA 1009">UCGA 1009</option>
+                                
+                                    <option value="UCGA 1010">UCGA 1010</option>
+                                
+                                    <option value="UCGA 1011">UCGA 1011</option>
+                                
+                                    <option value="UCGA 1015">UCGA 1015</option>
+                                
+                                    <option value="UCGA 1019">UCGA 1019</option>
+                                
+                                    <option value="UCGA 1021">UCGA 1021</option>
+                                
+                                    <option value="UCGA 2001">UCGA 2001</option>
+                                
+                                    <option value="UCGA 2004">UCGA 2004</option>
+                                
+                                    <option value="UCGA 2006">UCGA 2006</option>
+                                
+                                    <option value="UCGA 2009">UCGA 2009</option>
+                                
+                                    <option value="UCGA 2010">UCGA 2010</option>
+                                
+                                    <option value="UCGA 2011">UCGA 2011</option>
+                                
+                                    <option value="UCGA 2015">UCGA 2015</option>
+                                
+                                    <option value="UCGA 2019">UCGA 2019</option>
+                                
+                                    <option value="UCGA 2021">UCGA 2021</option>
+                                
+                                    <option value="UCGA 3001">UCGA 3001</option>
+                                
+                                    <option value="UCGA 3004">UCGA 3004</option>
+                                
+                                    <option value="UCGA 3006">UCGA 3006</option>
+                                
+                                    <option value="UCGA 3009">UCGA 3009</option>
+                                
+                                    <option value="UCGA 3010">UCGA 3010</option>
+                                
+                                    <option value="UCGA 3011">UCGA 3011</option>
+                                
+                                    <option value="UCGA 3015">UCGA 3015</option>
+                                
+                                    <option value="UCGA 3019">UCGA 3019</option>
+                                
+                                    <option value="UCGA 3021">UCGA 3021</option>
+                                
+                                    <option value="UCGA 4001">UCGA 4001</option>
+                                
+                                    <option value="UCGA 4004">UCGA 4004</option>
+                                
+                                    <option value="UCGA 4006">UCGA 4006</option>
+                                
+                                    <option value="UCGA 4009">UCGA 4009</option>
+                                
+                                    <option value="UCGA 4010">UCGA 4010</option>
+                                
+                                    <option value="UCGA 4011">UCGA 4011</option>
+                                
+                                    <option value="UCGA 4015">UCGA 4015</option>
+                                
+                                    <option value="UCGA 4019">UCGA 4019</option>
+                                
+                                    <option value="UCGA 4021">UCGA 4021</option>
+                                
+                                    <option value="UCGA 6001">UCGA 6001</option>
+                                
+                                    <option value="UCGA 6004">UCGA 6004</option>
+                                
+                                    <option value="UCGA 6006">UCGA 6006</option>
+                                
+                                    <option value="UCGA 6009">UCGA 6009</option>
+                                
+                                    <option value="UCGA 6010">UCGA 6010</option>
+                                
+                                    <option value="UCGA 6011">UCGA 6011</option>
+                                
+                                    <option value="UCGA 6015">UCGA 6015</option>
+                                
+                                    <option value="UCGA 6019">UCGA 6019</option>
+                                
+                                    <option value="UCGA 6021">UCGA 6021</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1001", "label": "UCGA 1001", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Agnes Scott"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1004", "label": "UCGA 1004", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enrol-AU Morehouse"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1006", "label": "UCGA 1006", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-AU Spelman"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1009", "label": "UCGA 1009", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Emory Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1010", "label": "UCGA 1010", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Ga St Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1011", "label": "UCGA 1011", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Kennesaw"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1015", "label": "UCGA 1015", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Univ of Ga"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1019", "label": "UCGA 1019", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Sav Col Art"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 1021", "label": "UCGA 1021", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-GaGwinnett"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2001", "label": "UCGA 2001", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Agnes Scott"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2004", "label": "UCGA 2004", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enrol-AU Morehouse"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2006", "label": "UCGA 2006", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-AU Spelman"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2009", "label": "UCGA 2009", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Emory Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2010", "label": "UCGA 2010", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Ga St Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2011", "label": "UCGA 2011", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Kennesaw"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2015", "label": "UCGA 2015", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Univ of Ga"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2019", "label": "UCGA 2019", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Sav Col Art"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 2021", "label": "UCGA 2021", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-GaGwinnett"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3001", "label": "UCGA 3001", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Agnes Scott"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3004", "label": "UCGA 3004", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enrol-AU Morehouse"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3006", "label": "UCGA 3006", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-AU Spelman"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3009", "label": "UCGA 3009", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Emory Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3010", "label": "UCGA 3010", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Ga St Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3011", "label": "UCGA 3011", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Kennesaw"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3015", "label": "UCGA 3015", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Univ of Ga"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3019", "label": "UCGA 3019", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Sav Col Art"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 3021", "label": "UCGA 3021", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-GaGwinnett"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4001", "label": "UCGA 4001", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Agnes Scott"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4004", "label": "UCGA 4004", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enrol-AU Morehouse"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4006", "label": "UCGA 4006", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-AU Spelman"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4009", "label": "UCGA 4009", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Emory Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4010", "label": "UCGA 4010", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Ga St Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4011", "label": "UCGA 4011", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Kennesaw"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4015", "label": "UCGA 4015", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Univ of Ga"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4019", "label": "UCGA 4019", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Sav Col Art"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 4021", "label": "UCGA 4021", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-GaGwinnett"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6001", "label": "UCGA 6001", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Agnes Scott"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6004", "label": "UCGA 6004", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enrol-AU Morehouse"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6006", "label": "UCGA 6006", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-AU Spelman"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6009", "label": "UCGA 6009", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Emory Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6010", "label": "UCGA 6010", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Ga St Univ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6011", "label": "UCGA 6011", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Kennesaw"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6015", "label": "UCGA 6015", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Univ of Ga"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6019", "label": "UCGA 6019", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-Sav Col Art"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "UCGA 6021", "label": "UCGA 6021", "shape": "dot", "size": 6.324555320336759, "title": "Cross Enroll-GaGwinnett"}]);
+                  edges = new vis.DataSet([]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

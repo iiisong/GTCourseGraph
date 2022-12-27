@@ -1,0 +1,809 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="CS 1100">CS 1100</option>
+                                
+                                    <option value="CS 1301">CS 1301</option>
+                                
+                                    <option value="CS 1301R">CS 1301R</option>
+                                
+                                    <option value="CS 1315">CS 1315</option>
+                                
+                                    <option value="CS 1315R">CS 1315R</option>
+                                
+                                    <option value="CS 1331">CS 1331</option>
+                                
+                                    <option value="CS 1331R">CS 1331R</option>
+                                
+                                    <option value="CS 1332">CS 1332</option>
+                                
+                                    <option value="CS 1332R">CS 1332R</option>
+                                
+                                    <option value="CS 1371">CS 1371</option>
+                                
+                                    <option value="CS 1371R">CS 1371R</option>
+                                
+                                    <option value="CS 2050">CS 2050</option>
+                                
+                                    <option value="CS 2050R">CS 2050R</option>
+                                
+                                    <option value="CS 2051">CS 2051</option>
+                                
+                                    <option value="CS 2110">CS 2110</option>
+                                
+                                    <option value="CS 2200">CS 2200</option>
+                                
+                                    <option value="CS 2261">CS 2261</option>
+                                
+                                    <option value="CS 2316">CS 2316</option>
+                                
+                                    <option value="CS 2316R">CS 2316R</option>
+                                
+                                    <option value="CS 2340">CS 2340</option>
+                                
+                                    <option value="CS 2698">CS 2698</option>
+                                
+                                    <option value="CS 2699">CS 2699</option>
+                                
+                                    <option value="CS 2701">CS 2701</option>
+                                
+                                    <option value="CS 2801">CS 2801</option>
+                                
+                                    <option value="CS 2802">CS 2802</option>
+                                
+                                    <option value="CS 3001">CS 3001</option>
+                                
+                                    <option value="CS 3210">CS 3210</option>
+                                
+                                    <option value="CS 3220">CS 3220</option>
+                                
+                                    <option value="CS 3251">CS 3251</option>
+                                
+                                    <option value="CS 3311">CS 3311</option>
+                                
+                                    <option value="CS 3312">CS 3312</option>
+                                
+                                    <option value="CS 3451">CS 3451</option>
+                                
+                                    <option value="CS 3510">CS 3510</option>
+                                
+                                    <option value="CS 3511">CS 3511</option>
+                                
+                                    <option value="CS 3600">CS 3600</option>
+                                
+                                    <option value="CS 3630">CS 3630</option>
+                                
+                                    <option value="CS 3651">CS 3651</option>
+                                
+                                    <option value="CS 3744">CS 3744</option>
+                                
+                                    <option value="CS 3790">CS 3790</option>
+                                
+                                    <option value="CS 3873">CS 3873</option>
+                                
+                                    <option value="CS 4001">CS 4001</option>
+                                
+                                    <option value="CS 4210">CS 4210</option>
+                                
+                                    <option value="CS 4235">CS 4235</option>
+                                
+                                    <option value="CS 4240">CS 4240</option>
+                                
+                                    <option value="CS 4261">CS 4261</option>
+                                
+                                    <option value="CS 4290">CS 4290</option>
+                                
+                                    <option value="CS 4365">CS 4365</option>
+                                
+                                    <option value="CS 4400">CS 4400</option>
+                                
+                                    <option value="CS 4440">CS 4440</option>
+                                
+                                    <option value="CS 4455">CS 4455</option>
+                                
+                                    <option value="CS 4460">CS 4460</option>
+                                
+                                    <option value="CS 4460R">CS 4460R</option>
+                                
+                                    <option value="CS 4476">CS 4476</option>
+                                
+                                    <option value="CS 4510">CS 4510</option>
+                                
+                                    <option value="CS 4540">CS 4540</option>
+                                
+                                    <option value="CS 4590">CS 4590</option>
+                                
+                                    <option value="CS 4605">CS 4605</option>
+                                
+                                    <option value="CS 4641">CS 4641</option>
+                                
+                                    <option value="CS 4644">CS 4644</option>
+                                
+                                    <option value="CS 4650">CS 4650</option>
+                                
+                                    <option value="CS 4660">CS 4660</option>
+                                
+                                    <option value="CS 4675">CS 4675</option>
+                                
+                                    <option value="CS 4698">CS 4698</option>
+                                
+                                    <option value="CS 4699">CS 4699</option>
+                                
+                                    <option value="CS 4723">CS 4723</option>
+                                
+                                    <option value="CS 4725">CS 4725</option>
+                                
+                                    <option value="CS 4726">CS 4726</option>
+                                
+                                    <option value="CS 4731">CS 4731</option>
+                                
+                                    <option value="CS 4742">CS 4742</option>
+                                
+                                    <option value="CS 4745">CS 4745</option>
+                                
+                                    <option value="CS 4803">CS 4803</option>
+                                
+                                    <option value="CS 4854">CS 4854</option>
+                                
+                                    <option value="CS 4901">CS 4901</option>
+                                
+                                    <option value="CS 4903">CS 4903</option>
+                                
+                                    <option value="CS 4980">CS 4980</option>
+                                
+                                    <option value="CS 6035">CS 6035</option>
+                                
+                                    <option value="CS 6150">CS 6150</option>
+                                
+                                    <option value="CS 6200">CS 6200</option>
+                                
+                                    <option value="CS 6210">CS 6210</option>
+                                
+                                    <option value="CS 6211">CS 6211</option>
+                                
+                                    <option value="CS 6238">CS 6238</option>
+                                
+                                    <option value="CS 6241">CS 6241</option>
+                                
+                                    <option value="CS 6245">CS 6245</option>
+                                
+                                    <option value="CS 6250">CS 6250</option>
+                                
+                                    <option value="CS 6260">CS 6260</option>
+                                
+                                    <option value="CS 6262">CS 6262</option>
+                                
+                                    <option value="CS 6263">CS 6263</option>
+                                
+                                    <option value="CS 6264">CS 6264</option>
+                                
+                                    <option value="CS 6265">CS 6265</option>
+                                
+                                    <option value="CS 6290">CS 6290</option>
+                                
+                                    <option value="CS 6291">CS 6291</option>
+                                
+                                    <option value="CS 6300">CS 6300</option>
+                                
+                                    <option value="CS 6301">CS 6301</option>
+                                
+                                    <option value="CS 6310">CS 6310</option>
+                                
+                                    <option value="CS 6340">CS 6340</option>
+                                
+                                    <option value="CS 6365">CS 6365</option>
+                                
+                                    <option value="CS 6400">CS 6400</option>
+                                
+                                    <option value="CS 6440">CS 6440</option>
+                                
+                                    <option value="CS 6457">CS 6457</option>
+                                
+                                    <option value="CS 6460">CS 6460</option>
+                                
+                                    <option value="CS 6474">CS 6474</option>
+                                
+                                    <option value="CS 6475">CS 6475</option>
+                                
+                                    <option value="CS 6476">CS 6476</option>
+                                
+                                    <option value="CS 6491">CS 6491</option>
+                                
+                                    <option value="CS 6515">CS 6515</option>
+                                
+                                    <option value="CS 6550">CS 6550</option>
+                                
+                                    <option value="CS 6601">CS 6601</option>
+                                
+                                    <option value="CS 6603">CS 6603</option>
+                                
+                                    <option value="CS 6675">CS 6675</option>
+                                
+                                    <option value="CS 6725">CS 6725</option>
+                                
+                                    <option value="CS 6726">CS 6726</option>
+                                
+                                    <option value="CS 6727">CS 6727</option>
+                                
+                                    <option value="CS 6745">CS 6745</option>
+                                
+                                    <option value="CS 6747">CS 6747</option>
+                                
+                                    <option value="CS 6750">CS 6750</option>
+                                
+                                    <option value="CS 6795">CS 6795</option>
+                                
+                                    <option value="CS 6998">CS 6998</option>
+                                
+                                    <option value="CS 6999">CS 6999</option>
+                                
+                                    <option value="CS 7000">CS 7000</option>
+                                
+                                    <option value="CS 7210">CS 7210</option>
+                                
+                                    <option value="CS 7280">CS 7280</option>
+                                
+                                    <option value="CS 7292">CS 7292</option>
+                                
+                                    <option value="CS 7450">CS 7450</option>
+                                
+                                    <option value="CS 7455">CS 7455</option>
+                                
+                                    <option value="CS 7470">CS 7470</option>
+                                
+                                    <option value="CS 7535">CS 7535</option>
+                                
+                                    <option value="CS 7545">CS 7545</option>
+                                
+                                    <option value="CS 7630">CS 7630</option>
+                                
+                                    <option value="CS 7632">CS 7632</option>
+                                
+                                    <option value="CS 7633">CS 7633</option>
+                                
+                                    <option value="CS 7637">CS 7637</option>
+                                
+                                    <option value="CS 7638">CS 7638</option>
+                                
+                                    <option value="CS 7639">CS 7639</option>
+                                
+                                    <option value="CS 7641">CS 7641</option>
+                                
+                                    <option value="CS 7642">CS 7642</option>
+                                
+                                    <option value="CS 7643">CS 7643</option>
+                                
+                                    <option value="CS 7646">CS 7646</option>
+                                
+                                    <option value="CS 7650">CS 7650</option>
+                                
+                                    <option value="CS 7742">CS 7742</option>
+                                
+                                    <option value="CS 7751">CS 7751</option>
+                                
+                                    <option value="CS 7785">CS 7785</option>
+                                
+                                    <option value="CS 7999">CS 7999</option>
+                                
+                                    <option value="CS 8001">CS 8001</option>
+                                
+                                    <option value="CS 8740">CS 8740</option>
+                                
+                                    <option value="CS 8741">CS 8741</option>
+                                
+                                    <option value="CS 8750">CS 8750</option>
+                                
+                                    <option value="CS 8751">CS 8751</option>
+                                
+                                    <option value="CS 8803">CS 8803</option>
+                                
+                                    <option value="CS 8903">CS 8903</option>
+                                
+                                    <option value="CS 8997">CS 8997</option>
+                                
+                                    <option value="CS 8998">CS 8998</option>
+                                
+                                    <option value="CS 8999">CS 8999</option>
+                                
+                                    <option value="CS 9000">CS 9000</option>
+                                
+                                    <option value="CS 1321">CS 1321</option>
+                                
+                                    <option value="CS 1322">CS 1322</option>
+                                
+                                    <option value="CS 1372">CS 1372</option>
+                                
+                                    <option value="CS 1316">CS 1316</option>
+                                
+                                    <option value="ECE 3057">ECE 3057</option>
+                                
+                                    <option value="ECE 3058">ECE 3058</option>
+                                
+                                    <option value="ECE 2031">ECE 2031</option>
+                                
+                                    <option value="CS 4741">CS 4741</option>
+                                
+                                    <option value="CS 4451">CS 4451</option>
+                                
+                                    <option value="CS 3500">CS 3500</option>
+                                
+                                    <option value="CS 2600">CS 2600</option>
+                                
+                                    <option value="CS 4499">CS 4499</option>
+                                
+                                    <option value="MATH 1554">MATH 1554</option>
+                                
+                                    <option value="PSYC 6750">PSYC 6750</option>
+                                
+                                    <option value="CS 6452">CS 6452</option>
+                                
+                                    <option value="CS 6505">CS 6505</option>
+                                
+                                    <option value="CS 4600">CS 4600</option>
+                                
+                                    <option value="CSE 6740">CSE 6740</option>
+                                
+                                    <option value="ISYE 6740">ISYE 6740</option>
+                                
+                                    <option value="AE 7785">AE 7785</option>
+                                
+                                    <option value="ECE 7785">ECE 7785</option>
+                                
+                                    <option value="ME 7785">ME 7785</option>
+                                
+                                    <option value="AE 8750">AE 8750</option>
+                                
+                                    <option value="ECE 8750">ECE 8750</option>
+                                
+                                    <option value="ME 8750">ME 8750</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1100", "label": "CS 1100", "shape": "dot", "size": 6.324555320336759, "title": "Freshman Leap Seminar"}, {"color": "#8786e0", "font": {"color": "#ffffff"}, "id": "CS 1301", "label": "CS 1301", "shape": "dot", "size": 15.491933384829668, "title": "Intro to Computing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1301R", "label": "CS 1301R", "shape": "dot", "size": 6.324555320336759, "title": "CS 1301 Recitation"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CS 1315", "label": "CS 1315", "shape": "dot", "size": 12.649110640673518, "title": "Intro Media Computation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1315R", "label": "CS 1315R", "shape": "dot", "size": 6.324555320336759, "title": "CS 1315 Recitation"}, {"color": "#8d7fdf", "font": {"color": "#ffffff"}, "id": "CS 1331", "label": "CS 1331", "shape": "dot", "size": 16.73320053068151, "title": "Intro-Object Orient Prog"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1331R", "label": "CS 1331R", "shape": "dot", "size": 6.324555320336759, "title": "CS 1331 Recitation"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CS 1332", "label": "CS 1332", "shape": "dot", "size": 12.649110640673518, "title": "Data Struct \u0026 Algorithms"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1332R", "label": "CS 1332R", "shape": "dot", "size": 6.324555320336759, "title": "CS 1332 Recitation"}, {"color": "#9579df", "font": {"color": "#ffffff"}, "id": "CS 1371", "label": "CS 1371", "shape": "dot", "size": 17.88854381999832, "title": "Computing for Engineers"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1371R", "label": "CS 1371R", "shape": "dot", "size": 6.324555320336759, "title": "CS 1371 Recitation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2050", "label": "CS 2050", "shape": "dot", "size": 6.324555320336759, "title": "Intro Discrete Math CS"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2050R", "label": "CS 2050R", "shape": "dot", "size": 6.324555320336759, "title": "CS 2050 Recitation"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 2051", "label": "CS 2051", "shape": "dot", "size": 8.94427190999916, "title": "Honors Discrete Math CS"}, {"color": "#8d97e0", "font": {"color": "#ffffff"}, "id": "CS 2110", "label": "CS 2110", "shape": "dot", "size": 14.142135623730951, "title": "Computer Organiz\u0026Program"}, {"color": "#9e72df", "font": {"color": "#ffffff"}, "id": "CS 2200", "label": "CS 2200", "shape": "dot", "size": 18.973665961010276, "title": "Systems and Networks"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 2261", "label": "CS 2261", "shape": "dot", "size": 8.94427190999916, "title": "Media Device Architectur"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CS 2316", "label": "CS 2316", "shape": "dot", "size": 10.954451150103322, "title": "Data Input/Manipulation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2316R", "label": "CS 2316R", "shape": "dot", "size": 6.324555320336759, "title": "CS 2316 Recitation"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 2340", "label": "CS 2340", "shape": "dot", "size": 8.94427190999916, "title": "Objects and Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2698", "label": "CS 2698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2699", "label": "CS 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2701", "label": "CS 2701", "shape": "dot", "size": 6.324555320336759, "title": "Startup Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2801", "label": "CS 2801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2802", "label": "CS 2802", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3001", "label": "CS 3001", "shape": "dot", "size": 6.324555320336759, "title": "Computing \u0026 Society"}, {"color": "#8d7fdf", "font": {"color": "#ffffff"}, "id": "CS 3210", "label": "CS 3210", "shape": "dot", "size": 16.73320053068151, "title": "Design-Operating Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3220", "label": "CS 3220", "shape": "dot", "size": 6.324555320336759, "title": "Processor Design"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CS 3251", "label": "CS 3251", "shape": "dot", "size": 10.954451150103322, "title": "Computer Networking I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3311", "label": "CS 3311", "shape": "dot", "size": 6.324555320336759, "title": "Project Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3312", "label": "CS 3312", "shape": "dot", "size": 6.324555320336759, "title": "Project Implementation"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 3451", "label": "CS 3451", "shape": "dot", "size": 8.94427190999916, "title": "Computer Graphics"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 3510", "label": "CS 3510", "shape": "dot", "size": 8.94427190999916, "title": "Dsgn\u0026Analysis-Algorithms"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 3511", "label": "CS 3511", "shape": "dot", "size": 8.94427190999916, "title": "Algorithms Honors"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CS 3600", "label": "CS 3600", "shape": "dot", "size": 12.649110640673518, "title": "Intro-Artificial Intell"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3630", "label": "CS 3630", "shape": "dot", "size": 6.324555320336759, "title": "Intro-Perception\u0026Robotic"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3651", "label": "CS 3651", "shape": "dot", "size": 6.324555320336759, "title": "Prototyping Intelligent Device"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3744", "label": "CS 3744", "shape": "dot", "size": 6.324555320336759, "title": "Mangn Prod Serv Tech Dev"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3790", "label": "CS 3790", "shape": "dot", "size": 6.324555320336759, "title": "Intro-Cognitive Science"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3873", "label": "CS 3873", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4001", "label": "CS 4001", "shape": "dot", "size": 6.324555320336759, "title": "Computing \u0026 Society"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4210", "label": "CS 4210", "shape": "dot", "size": 6.324555320336759, "title": "Adv Operating Systems"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CS 4235", "label": "CS 4235", "shape": "dot", "size": 10.954451150103322, "title": "Intro to Info Security"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CS 4240", "label": "CS 4240", "shape": "dot", "size": 10.954451150103322, "title": "Compilers \u0026 Interpreters"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4261", "label": "CS 4261", "shape": "dot", "size": 6.324555320336759, "title": "Mobile Apps \u0026 Svcs"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 4290", "label": "CS 4290", "shape": "dot", "size": 8.94427190999916, "title": "Advanced Computer Org"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4365", "label": "CS 4365", "shape": "dot", "size": 6.324555320336759, "title": "Intro Enterprise Comp"}, {"color": "#8d97e0", "font": {"color": "#ffffff"}, "id": "CS 4400", "label": "CS 4400", "shape": "dot", "size": 14.142135623730951, "title": "Intr to Database Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4440", "label": "CS 4440", "shape": "dot", "size": 6.324555320336759, "title": "Database Technologies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4455", "label": "CS 4455", "shape": "dot", "size": 6.324555320336759, "title": "Video Game Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4460", "label": "CS 4460", "shape": "dot", "size": 6.324555320336759, "title": "Intro Info Visualization"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4460R", "label": "CS 4460R", "shape": "dot", "size": 6.324555320336759, "title": "CS 4460 Recitation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4476", "label": "CS 4476", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Computer Vision"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4510", "label": "CS 4510", "shape": "dot", "size": 6.324555320336759, "title": "Automata and Complexity"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4540", "label": "CS 4540", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Algs"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4590", "label": "CS 4590", "shape": "dot", "size": 6.324555320336759, "title": "Computer Audio"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4605", "label": "CS 4605", "shape": "dot", "size": 6.324555320336759, "title": "Mobile\u0026Ubiquitous Comp"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4641", "label": "CS 4641", "shape": "dot", "size": 6.324555320336759, "title": "Machine Learning"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4644", "label": "CS 4644", "shape": "dot", "size": 6.324555320336759, "title": "Deep Learning"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4650", "label": "CS 4650", "shape": "dot", "size": 6.324555320336759, "title": "Natural Language"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4660", "label": "CS 4660", "shape": "dot", "size": 6.324555320336759, "title": "Educational Technology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4675", "label": "CS 4675", "shape": "dot", "size": 6.324555320336759, "title": "Internet Sys \u0026 Services"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4698", "label": "CS 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4699", "label": "CS 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4723", "label": "CS 4723", "shape": "dot", "size": 6.324555320336759, "title": "Inter Capstone Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4725", "label": "CS 4725", "shape": "dot", "size": 6.324555320336759, "title": "Info Security Policies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4726", "label": "CS 4726", "shape": "dot", "size": 6.324555320336759, "title": "Privacy Tech Policy Law"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4731", "label": "CS 4731", "shape": "dot", "size": 6.324555320336759, "title": "Game AI"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4742", "label": "CS 4742", "shape": "dot", "size": 6.324555320336759, "title": "Comp \u0026 Mgt Cap Proj"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4745", "label": "CS 4745", "shape": "dot", "size": 6.324555320336759, "title": "Info\u0026Com Tech\u0026Global Dev"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4803", "label": "CS 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4854", "label": "CS 4854", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4901", "label": "CS 4901", "shape": "dot", "size": 6.324555320336759, "title": "Spec Prob-Computer Sci"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4903", "label": "CS 4903", "shape": "dot", "size": 6.324555320336759, "title": "Spec Prob-Computer Sci"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4980", "label": "CS 4980", "shape": "dot", "size": 6.324555320336759, "title": "Research Capstone Proj"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6035", "label": "CS 6035", "shape": "dot", "size": 6.324555320336759, "title": "Intro To Info Security"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6150", "label": "CS 6150", "shape": "dot", "size": 6.324555320336759, "title": "Computing For Good"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6200", "label": "CS 6200", "shape": "dot", "size": 6.324555320336759, "title": "Graduate Intro to OS"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 6210", "label": "CS 6210", "shape": "dot", "size": 8.94427190999916, "title": "Adv Operating Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6211", "label": "CS 6211", "shape": "dot", "size": 6.324555320336759, "title": "Sys Design Cloud Comput"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6238", "label": "CS 6238", "shape": "dot", "size": 6.324555320336759, "title": "Secure Computer Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6241", "label": "CS 6241", "shape": "dot", "size": 6.324555320336759, "title": "Compiler Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6245", "label": "CS 6245", "shape": "dot", "size": 6.324555320336759, "title": "Parallelizing Compilers"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6250", "label": "CS 6250", "shape": "dot", "size": 6.324555320336759, "title": "Computer Networks"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6260", "label": "CS 6260", "shape": "dot", "size": 6.324555320336759, "title": "Applied Cryptography"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6262", "label": "CS 6262", "shape": "dot", "size": 6.324555320336759, "title": "Network Security"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6263", "label": "CS 6263", "shape": "dot", "size": 6.324555320336759, "title": "Intro Cyber Phys Sys Sec"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6264", "label": "CS 6264", "shape": "dot", "size": 6.324555320336759, "title": "Infosec Labs: Defenses"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6265", "label": "CS 6265", "shape": "dot", "size": 6.324555320336759, "title": "Info Sec Lab Binexp"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 6290", "label": "CS 6290", "shape": "dot", "size": 8.94427190999916, "title": "High Perform Comput Arch"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6291", "label": "CS 6291", "shape": "dot", "size": 6.324555320336759, "title": "Embedded Software Opt."}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 6300", "label": "CS 6300", "shape": "dot", "size": 8.94427190999916, "title": "Software Dev Process"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6301", "label": "CS 6301", "shape": "dot", "size": 6.324555320336759, "title": "Adv Software Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6310", "label": "CS 6310", "shape": "dot", "size": 6.324555320336759, "title": "Software Arch \u0026 Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6340", "label": "CS 6340", "shape": "dot", "size": 6.324555320336759, "title": "Software Analysis \u0026 Test"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6365", "label": "CS 6365", "shape": "dot", "size": 6.324555320336759, "title": "Intro Enterprise Comput."}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6400", "label": "CS 6400", "shape": "dot", "size": 6.324555320336759, "title": "DB Sys Concepts\u0026 Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6440", "label": "CS 6440", "shape": "dot", "size": 6.324555320336759, "title": "Intro Health Informatics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6457", "label": "CS 6457", "shape": "dot", "size": 6.324555320336759, "title": "Video Game Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6460", "label": "CS 6460", "shape": "dot", "size": 6.324555320336759, "title": "Educ Tech-Foundations"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6474", "label": "CS 6474", "shape": "dot", "size": 6.324555320336759, "title": "Social Computing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6475", "label": "CS 6475", "shape": "dot", "size": 6.324555320336759, "title": "Comp. Photography"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6476", "label": "CS 6476", "shape": "dot", "size": 6.324555320336759, "title": "Computer Vision"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6491", "label": "CS 6491", "shape": "dot", "size": 6.324555320336759, "title": "Computer Graphics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6515", "label": "CS 6515", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Grad Algorithms"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 6550", "label": "CS 6550", "shape": "dot", "size": 8.94427190999916, "title": "Design\u0026 Analy-Algorithms"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CS 6601", "label": "CS 6601", "shape": "dot", "size": 10.954451150103322, "title": "Artificial Intelligence"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6603", "label": "CS 6603", "shape": "dot", "size": 6.324555320336759, "title": "AI Ethics Society"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6675", "label": "CS 6675", "shape": "dot", "size": 6.324555320336759, "title": "Advance Internet Comput"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6725", "label": "CS 6725", "shape": "dot", "size": 6.324555320336759, "title": "Info Security Policies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6726", "label": "CS 6726", "shape": "dot", "size": 6.324555320336759, "title": "Privacy Tech Policy Law"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6727", "label": "CS 6727", "shape": "dot", "size": 6.324555320336759, "title": "Cyber Sec Practicum"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6745", "label": "CS 6745", "shape": "dot", "size": 6.324555320336759, "title": "Info\u0026Com Tech\u0026Global Dev"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6747", "label": "CS 6747", "shape": "dot", "size": 6.324555320336759, "title": "ADV Malware Analysis"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CS 6750", "label": "CS 6750", "shape": "dot", "size": 10.954451150103322, "title": "Human-Computer Interact"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6795", "label": "CS 6795", "shape": "dot", "size": 6.324555320336759, "title": "Intro-Cognitive Science"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6998", "label": "CS 6998", "shape": "dot", "size": 6.324555320336759, "title": "HCI Master\u0027s Project"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6999", "label": "CS 6999", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Project"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7000", "label": "CS 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7210", "label": "CS 7210", "shape": "dot", "size": 6.324555320336759, "title": "Distributed Computing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7280", "label": "CS 7280", "shape": "dot", "size": 6.324555320336759, "title": "Network Science"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7292", "label": "CS 7292", "shape": "dot", "size": 6.324555320336759, "title": "Reliable Secure Comparch"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7450", "label": "CS 7450", "shape": "dot", "size": 6.324555320336759, "title": "Inform Visualization"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7455", "label": "CS 7455", "shape": "dot", "size": 6.324555320336759, "title": "Issues/Human-Center Comp"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7470", "label": "CS 7470", "shape": "dot", "size": 6.324555320336759, "title": "Ubiquitous Computing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7535", "label": "CS 7535", "shape": "dot", "size": 6.324555320336759, "title": "Markov Chain Monte Carlo"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7545", "label": "CS 7545", "shape": "dot", "size": 6.324555320336759, "title": "Machine Learning Theory"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7630", "label": "CS 7630", "shape": "dot", "size": 6.324555320336759, "title": "Autonomous Robotics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7632", "label": "CS 7632", "shape": "dot", "size": 6.324555320336759, "title": "Game AI"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7633", "label": "CS 7633", "shape": "dot", "size": 6.324555320336759, "title": "Human-Robot Interaction"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7637", "label": "CS 7637", "shape": "dot", "size": 6.324555320336759, "title": "Knowledge-Based AI"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7638", "label": "CS 7638", "shape": "dot", "size": 6.324555320336759, "title": "Robotics: AI Techniques"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7639", "label": "CS 7639", "shape": "dot", "size": 6.324555320336759, "title": "Cyber Physical Design"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CS 7641", "label": "CS 7641", "shape": "dot", "size": 10.954451150103322, "title": "Machine Learning"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7642", "label": "CS 7642", "shape": "dot", "size": 6.324555320336759, "title": "Reinforcement Learning"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7643", "label": "CS 7643", "shape": "dot", "size": 6.324555320336759, "title": "Deep Learning"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CS 7646", "label": "CS 7646", "shape": "dot", "size": 8.94427190999916, "title": "Mach Learn For Trading"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7650", "label": "CS 7650", "shape": "dot", "size": 6.324555320336759, "title": "Natural Language"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7742", "label": "CS 7742", "shape": "dot", "size": 6.324555320336759, "title": "Robo Pro Prep 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7751", "label": "CS 7751", "shape": "dot", "size": 6.324555320336759, "title": "Graphical Models in ML"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CS 7785", "label": "CS 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7999", "label": "CS 7999", "shape": "dot", "size": 6.324555320336759, "title": "Prep-Doctoral Qual Exams"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8001", "label": "CS 8001", "shape": "dot", "size": 6.324555320336759, "title": "Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8740", "label": "CS 8740", "shape": "dot", "size": 6.324555320336759, "title": "Robotics Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8741", "label": "CS 8741", "shape": "dot", "size": 6.324555320336759, "title": "Robo Capstone Project"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CS 8750", "label": "CS 8750", "shape": "dot", "size": 12.649110640673518, "title": "Robotics Research Fnd I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8751", "label": "CS 8751", "shape": "dot", "size": 6.324555320336759, "title": "Robotics Research Fnd II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8803", "label": "CS 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8903", "label": "CS 8903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8997", "label": "CS 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8998", "label": "CS 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8999", "label": "CS 8999", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis Prep"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 9000", "label": "CS 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1321", "label": "CS 1321", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1322", "label": "CS 1322", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1372", "label": "CS 1372", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1316", "label": "CS 1316", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3057", "label": "ECE 3057", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3058", "label": "ECE 3058", "shape": "dot", "size": 20.0, "title": "ARCH, SYS, CONC \u0026 ENGY COMP"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2031", "label": "ECE 2031", "shape": "dot", "size": 8.94427190999916, "title": "Digital Design Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4741", "label": "CS 4741", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4451", "label": "CS 4451", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3500", "label": "CS 3500", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2600", "label": "CS 2600", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4499", "label": "CS 4499", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1554", "label": "MATH 1554", "shape": "dot", "size": 10.954451150103322, "title": "Linear Algebra"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6750", "label": "PSYC 6750", "shape": "dot", "size": 10.954451150103322, "title": "Human-Computer Interact"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6452", "label": "CS 6452", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 6505", "label": "CS 6505", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 4600", "label": "CS 4600", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CSE 6740", "label": "CSE 6740", "shape": "dot", "size": 10.954451150103322, "title": "Computational Data Analy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ISYE 6740", "label": "ISYE 6740", "shape": "dot", "size": 8.94427190999916, "title": "Computational Data Analy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 7785", "label": "AE 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 7785", "label": "ECE 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 7785", "label": "ME 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 8750", "label": "AE 8750", "shape": "dot", "size": 12.649110640673518, "title": "Robotics Research Fnd I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8750", "label": "ECE 8750", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 8750", "label": "ME 8750", "shape": "dot", "size": 12.649110640673518, "title": "Robotics Research Fnd I"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "CS 1301", "to": "CS 1331"}, {"arrows": "to", "from": "CS 1301", "to": "CS 2316"}, {"arrows": "to", "from": "CS 1301", "to": "CS 4400"}, {"arrows": "to", "from": "CS 1315", "to": "CS 1331"}, {"arrows": "to", "from": "CS 1315", "to": "CS 2316"}, {"arrows": "to", "from": "CS 1315", "to": "CS 4400"}, {"arrows": "to", "from": "CS 1331", "to": "CS 1332"}, {"arrows": "to", "from": "CS 1331", "to": "CS 2110"}, {"arrows": "to", "from": "CS 1331", "to": "CS 2261"}, {"arrows": "to", "from": "CS 1331", "to": "CS 2340"}, {"arrows": "to", "from": "CS 1332", "to": "CS 3600"}, {"arrows": "to", "from": "CS 1332", "to": "CS 3630"}, {"arrows": "to", "from": "CS 1332", "to": "CS 4460"}, {"arrows": "to", "from": "CS 1371", "to": "CS 1331"}, {"arrows": "to", "from": "CS 1371", "to": "CS 2316"}, {"arrows": "to", "from": "CS 1371", "to": "CS 4400"}, {"arrows": "to", "from": "CS 2110", "to": "CS 2200"}, {"arrows": "to", "from": "CS 2110", "to": "CS 4605"}, {"arrows": "to", "from": "CS 2200", "to": "CS 3210"}, {"arrows": "to", "from": "CS 2200", "to": "CS 3251"}, {"arrows": "to", "from": "CS 2200", "to": "CS 4235"}, {"arrows": "to", "from": "CS 2200", "to": "CS 4261"}, {"arrows": "to", "from": "CS 2200", "to": "CS 4290"}, {"arrows": "to", "from": "CS 2200", "to": "CS 4675"}, {"arrows": "to", "from": "CS 2200", "to": "CS 6035"}, {"arrows": "to", "from": "CS 2200", "to": "CS 6290"}, {"arrows": "to", "from": "CS 2261", "to": "CS 4605"}, {"arrows": "to", "from": "CS 2340", "to": "CS 4240"}, {"arrows": "to", "from": "CS 3210", "to": "CS 4210"}, {"arrows": "to", "from": "CS 3210", "to": "CS 4365"}, {"arrows": "to", "from": "CS 3210", "to": "CS 6210"}, {"arrows": "to", "from": "CS 3210", "to": "CS 6365"}, {"arrows": "to", "from": "CS 3210", "to": "CS 6675"}, {"arrows": "to", "from": "CS 3451", "to": "CS 4455"}, {"arrows": "to", "from": "CS 3600", "to": "CS 4731"}, {"arrows": "to", "from": "CS 3600", "to": "CS 7637"}, {"arrows": "to", "from": "CS 3600", "to": "CS 7650"}, {"arrows": "to", "from": "CS 4235", "to": "CS 6260"}, {"arrows": "to", "from": "CS 4235", "to": "CS 6725"}, {"arrows": "to", "from": "CS 4240", "to": "CS 6241"}, {"arrows": "to", "from": "CS 4240", "to": "CS 6245"}, {"arrows": "to", "from": "CS 4290", "to": "CS 6291"}, {"arrows": "to", "from": "CS 4400", "to": "CS 4365"}, {"arrows": "to", "from": "CS 4400", "to": "CS 4440"}, {"arrows": "to", "from": "CS 4400", "to": "CS 6365"}, {"arrows": "to", "from": "CS 4400", "to": "CS 6400"}, {"arrows": "to", "from": "CS 6210", "to": "CS 7210"}, {"arrows": "to", "from": "CS 6290", "to": "CS 7292"}, {"arrows": "to", "from": "CS 6300", "to": "CS 6310"}, {"arrows": "to", "from": "CS 6550", "to": "CS 7535"}, {"arrows": "to", "from": "CS 6601", "to": "CS 7632"}, {"arrows": "to", "from": "CS 6601", "to": "CS 7641"}, {"arrows": "to", "from": "CS 6750", "to": "CS 7450"}, {"arrows": "to", "from": "CS 6750", "to": "CS 7470"}, {"arrows": "to", "from": "CS 7641", "to": "CS 7643"}, {"arrows": "to", "from": "CS 7785", "to": "CS 8750"}, {"arrows": "to", "from": "CS 8750", "to": "CS 8751"}, {"arrows": "to", "from": "CS 1321", "to": "CS 1331"}, {"arrows": "to", "from": "CS 1322", "to": "CS 1332"}, {"arrows": "to", "from": "CS 1372", "to": "CS 2340"}, {"arrows": "to", "from": "CS 1316", "to": "CS 2340"}, {"arrows": "to", "from": "ECE 3057", "to": "CS 3210"}, {"arrows": "to", "from": "ECE 3057", "to": "CS 3251"}, {"arrows": "to", "from": "ECE 3057", "to": "CS 4235"}, {"arrows": "to", "from": "ECE 3057", "to": "CS 4261"}, {"arrows": "to", "from": "ECE 3057", "to": "CS 4290"}, {"arrows": "to", "from": "ECE 3057", "to": "CS 4675"}, {"arrows": "to", "from": "ECE 3058", "to": "CS 3210"}, {"arrows": "to", "from": "ECE 3058", "to": "CS 3251"}, {"arrows": "to", "from": "ECE 3058", "to": "CS 4235"}, {"arrows": "to", "from": "ECE 3058", "to": "CS 4261"}, {"arrows": "to", "from": "ECE 3058", "to": "CS 4290"}, {"arrows": "to", "from": "ECE 3058", "to": "CS 4675"}, {"arrows": "to", "from": "ECE 2031", "to": "CS 3651"}, {"arrows": "to", "from": "CS 4741", "to": "CS 4742"}, {"arrows": "to", "from": "CS 4451", "to": "CS 6491"}, {"arrows": "to", "from": "CS 3500", "to": "CS 6550"}, {"arrows": "to", "from": "CS 2600", "to": "CS 6601"}, {"arrows": "to", "from": "CS 4499", "to": "CS 6675"}, {"arrows": "to", "from": "MATH 1554", "to": "CS 7280"}, {"arrows": "to", "from": "PSYC 6750", "to": "CS 7450"}, {"arrows": "to", "from": "PSYC 6750", "to": "CS 7470"}, {"arrows": "to", "from": "CS 6452", "to": "CS 7455"}, {"arrows": "to", "from": "CS 6505", "to": "CS 7535"}, {"arrows": "to", "from": "CS 4600", "to": "CS 7630"}, {"arrows": "to", "from": "CSE 6740", "to": "CS 7643"}, {"arrows": "to", "from": "ISYE 6740", "to": "CS 7643"}, {"arrows": "to", "from": "AE 7785", "to": "CS 8750"}, {"arrows": "to", "from": "ECE 7785", "to": "CS 8750"}, {"arrows": "to", "from": "ME 7785", "to": "CS 8750"}, {"arrows": "to", "from": "AE 8750", "to": "CS 8751"}, {"arrows": "to", "from": "ECE 8750", "to": "CS 8751"}, {"arrows": "to", "from": "ME 8750", "to": "CS 8751"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,538 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="CHBE 2100">CHBE 2100</option>
+                                
+                                    <option value="CHBE 2120">CHBE 2120</option>
+                                
+                                    <option value="CHBE 2130">CHBE 2130</option>
+                                
+                                    <option value="CHBE 2698">CHBE 2698</option>
+                                
+                                    <option value="CHBE 2699">CHBE 2699</option>
+                                
+                                    <option value="CHBE 2801">CHBE 2801</option>
+                                
+                                    <option value="CHBE 2801R">CHBE 2801R</option>
+                                
+                                    <option value="CHBE 3130">CHBE 3130</option>
+                                
+                                    <option value="CHBE 3200">CHBE 3200</option>
+                                
+                                    <option value="CHBE 3210">CHBE 3210</option>
+                                
+                                    <option value="CHBE 3225">CHBE 3225</option>
+                                
+                                    <option value="CHBE 4050">CHBE 4050</option>
+                                
+                                    <option value="CHBE 4200">CHBE 4200</option>
+                                
+                                    <option value="CHBE 4210">CHBE 4210</option>
+                                
+                                    <option value="CHBE 4300">CHBE 4300</option>
+                                
+                                    <option value="CHBE 4411">CHBE 4411</option>
+                                
+                                    <option value="CHBE 4412">CHBE 4412</option>
+                                
+                                    <option value="CHBE 4510">CHBE 4510</option>
+                                
+                                    <option value="CHBE 4515">CHBE 4515</option>
+                                
+                                    <option value="CHBE 4520">CHBE 4520</option>
+                                
+                                    <option value="CHBE 4530">CHBE 4530</option>
+                                
+                                    <option value="CHBE 4698">CHBE 4698</option>
+                                
+                                    <option value="CHBE 4699">CHBE 4699</option>
+                                
+                                    <option value="CHBE 4730">CHBE 4730</option>
+                                
+                                    <option value="CHBE 4743">CHBE 4743</option>
+                                
+                                    <option value="CHBE 4746">CHBE 4746</option>
+                                
+                                    <option value="CHBE 4757">CHBE 4757</option>
+                                
+                                    <option value="CHBE 4759">CHBE 4759</option>
+                                
+                                    <option value="CHBE 4762">CHBE 4762</option>
+                                
+                                    <option value="CHBE 4765">CHBE 4765</option>
+                                
+                                    <option value="CHBE 4767">CHBE 4767</option>
+                                
+                                    <option value="CHBE 4775">CHBE 4775</option>
+                                
+                                    <option value="CHBE 4782">CHBE 4782</option>
+                                
+                                    <option value="CHBE 4793">CHBE 4793</option>
+                                
+                                    <option value="CHBE 4803">CHBE 4803</option>
+                                
+                                    <option value="CHBE 6050">CHBE 6050</option>
+                                
+                                    <option value="CHBE 6130">CHBE 6130</option>
+                                
+                                    <option value="CHBE 6200">CHBE 6200</option>
+                                
+                                    <option value="CHBE 6460">CHBE 6460</option>
+                                
+                                    <option value="CHBE 6743">CHBE 6743</option>
+                                
+                                    <option value="CHBE 6746">CHBE 6746</option>
+                                
+                                    <option value="CHBE 6750">CHBE 6750</option>
+                                
+                                    <option value="CHBE 6762">CHBE 6762</option>
+                                
+                                    <option value="CHBE 6765">CHBE 6765</option>
+                                
+                                    <option value="CHBE 6768">CHBE 6768</option>
+                                
+                                    <option value="CHBE 6777">CHBE 6777</option>
+                                
+                                    <option value="CHBE 7000">CHBE 7000</option>
+                                
+                                    <option value="CHBE 7774">CHBE 7774</option>
+                                
+                                    <option value="CHBE 8002">CHBE 8002</option>
+                                
+                                    <option value="CHBE 8801">CHBE 8801</option>
+                                
+                                    <option value="CHBE 8803">CHBE 8803</option>
+                                
+                                    <option value="CHBE 8901">CHBE 8901</option>
+                                
+                                    <option value="CHBE 8902">CHBE 8902</option>
+                                
+                                    <option value="CHBE 9000">CHBE 9000</option>
+                                
+                                    <option value="COE 2001">COE 2001</option>
+                                
+                                    <option value="COE 2701">COE 2701</option>
+                                
+                                    <option value="COE 3001">COE 3001</option>
+                                
+                                    <option value="MATH 1512">MATH 1512</option>
+                                
+                                    <option value="ME 3322">ME 3322</option>
+                                
+                                    <option value="AE 2020">AE 2020</option>
+                                
+                                    <option value="ME 3340">ME 3340</option>
+                                
+                                    <option value="BMED 3300">BMED 3300</option>
+                                
+                                    <option value="MSE 2001">MSE 2001</option>
+                                
+                                    <option value="CHEM 3511">CHEM 3511</option>
+                                
+                                    <option value="CHEM 4511">CHEM 4511</option>
+                                
+                                    <option value="BMED 3500">BMED 3500</option>
+                                
+                                    <option value="CHBE 4400">CHBE 4400</option>
+                                
+                                    <option value="ECE 2040">ECE 2040</option>
+                                
+                                    <option value="ME 3015">ME 3015</option>
+                                
+                                    <option value="ME 6229">ME 6229</option>
+                                
+                                    <option value="ECE 6229">ECE 6229</option>
+                                
+                                    <option value="CHEM 4775">CHEM 4775</option>
+                                
+                                    <option value="ME 4775">ME 4775</option>
+                                
+                                    <option value="MSE 4775">MSE 4775</option>
+                                
+                                    <option value="PTFE 4775">PTFE 4775</option>
+                                
+                                    <option value="CHBE 4776">CHBE 4776</option>
+                                
+                                    <option value="CHEM 4776">CHEM 4776</option>
+                                
+                                    <option value="ME 4776">ME 4776</option>
+                                
+                                    <option value="MSE 4776">MSE 4776</option>
+                                
+                                    <option value="PTFE 4776">PTFE 4776</option>
+                                
+                                    <option value="BMED 6776">BMED 6776</option>
+                                
+                                    <option value="CHBE 6776">CHBE 6776</option>
+                                
+                                    <option value="ME 6776">ME 6776</option>
+                                
+                                    <option value="MSE 6776">MSE 6776</option>
+                                
+                                    <option value="PTFE 6776">PTFE 6776</option>
+                                
+                                    <option value="AE 7772">AE 7772</option>
+                                
+                                    <option value="CEE 7772">CEE 7772</option>
+                                
+                                    <option value="CHBE 7772">CHBE 7772</option>
+                                
+                                    <option value="ME 7772">ME 7772</option>
+                                
+                                    <option value="MSE 7772">MSE 7772</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 2100", "label": "CHBE 2100", "shape": "dot", "size": 6.324555320336759, "title": "Chem Process Principles"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 2120", "label": "CHBE 2120", "shape": "dot", "size": 6.324555320336759, "title": "ChE Numerical Mthods"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 2130", "label": "CHBE 2130", "shape": "dot", "size": 6.324555320336759, "title": "Chem Eng Thermo I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 2698", "label": "CHBE 2698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 2699", "label": "CHBE 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 2801", "label": "CHBE 2801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 2801R", "label": "CHBE 2801R", "shape": "dot", "size": 6.324555320336759, "title": "CHBE 2801 Recitation"}, {"color": "#8d97e0", "font": {"color": "#ffffff"}, "id": "CHBE 3130", "label": "CHBE 3130", "shape": "dot", "size": 14.142135623730951, "title": "Chem Eng Thermo II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 3200", "label": "CHBE 3200", "shape": "dot", "size": 6.324555320336759, "title": "Transport Processes I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 3210", "label": "CHBE 3210", "shape": "dot", "size": 6.324555320336759, "title": "Transport Processes II"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CHBE 3225", "label": "CHBE 3225", "shape": "dot", "size": 8.94427190999916, "title": "Separations Processes"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4050", "label": "CHBE 4050", "shape": "dot", "size": 6.324555320336759, "title": "Microelec Fabrication"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4200", "label": "CHBE 4200", "shape": "dot", "size": 6.324555320336759, "title": "Unit Operations Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4210", "label": "CHBE 4210", "shape": "dot", "size": 6.324555320336759, "title": "Bioprocess Unit Ops"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4300", "label": "CHBE 4300", "shape": "dot", "size": 6.324555320336759, "title": "Kinetics\u0026Reactor Dsgn"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4411", "label": "CHBE 4411", "shape": "dot", "size": 6.324555320336759, "title": "Process Control"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4412", "label": "CHBE 4412", "shape": "dot", "size": 6.324555320336759, "title": "Process Control Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4510", "label": "CHBE 4510", "shape": "dot", "size": 6.324555320336759, "title": "Proc\u0026 Prod Design\u0026 Econ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4515", "label": "CHBE 4515", "shape": "dot", "size": 6.324555320336759, "title": "Chemical Process Safety"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4520", "label": "CHBE 4520", "shape": "dot", "size": 6.324555320336759, "title": "Capstone CHBE Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4530", "label": "CHBE 4530", "shape": "dot", "size": 6.324555320336759, "title": "Capstone ChBE Bio-Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4698", "label": "CHBE 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4699", "label": "CHBE 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4730", "label": "CHBE 4730", "shape": "dot", "size": 6.324555320336759, "title": "Emg Tech Forest Bioprods"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4743", "label": "CHBE 4743", "shape": "dot", "size": 6.324555320336759, "title": "Sustainable Chem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4746", "label": "CHBE 4746", "shape": "dot", "size": 6.324555320336759, "title": "Data Driven Proc Sys Eng"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4757", "label": "CHBE 4757", "shape": "dot", "size": 6.324555320336759, "title": "Biofluid Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4759", "label": "CHBE 4759", "shape": "dot", "size": 6.324555320336759, "title": "Electrochem Storage"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4762", "label": "CHBE 4762", "shape": "dot", "size": 6.324555320336759, "title": "Protein Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4765", "label": "CHBE 4765", "shape": "dot", "size": 6.324555320336759, "title": "Drug Design,Devlpmnt\u0026Delivery"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4767", "label": "CHBE 4767", "shape": "dot", "size": 6.324555320336759, "title": "Pulp And Paper Lab"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CHBE 4775", "label": "CHBE 4775", "shape": "dot", "size": 12.649110640673518, "title": "Polymer Science \u0026 Engr I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4782", "label": "CHBE 4782", "shape": "dot", "size": 6.324555320336759, "title": "Biosystems Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4793", "label": "CHBE 4793", "shape": "dot", "size": 6.324555320336759, "title": "Composite Mater\u0026 Process"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4803", "label": "CHBE 4803", "shape": "dot", "size": 6.324555320336759, "title": "Spec Topic-Chemical Engr"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6050", "label": "CHBE 6050", "shape": "dot", "size": 6.324555320336759, "title": "Microelec Fabrication"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6130", "label": "CHBE 6130", "shape": "dot", "size": 6.324555320336759, "title": "Electrochemical Engr"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6200", "label": "CHBE 6200", "shape": "dot", "size": 6.324555320336759, "title": "Transport Phenomena"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6460", "label": "CHBE 6460", "shape": "dot", "size": 6.324555320336759, "title": "MEMS Devices"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6743", "label": "CHBE 6743", "shape": "dot", "size": 6.324555320336759, "title": "Sustainable Chem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6746", "label": "CHBE 6746", "shape": "dot", "size": 6.324555320336759, "title": "Data Driven Proc Sys Eng"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6750", "label": "CHBE 6750", "shape": "dot", "size": 6.324555320336759, "title": "Prep\u0026Reactions-Polymers"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6762", "label": "CHBE 6762", "shape": "dot", "size": 6.324555320336759, "title": "Protein Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6765", "label": "CHBE 6765", "shape": "dot", "size": 6.324555320336759, "title": "Drug Design,Devlpmnt\u0026Delivery"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6768", "label": "CHBE 6768", "shape": "dot", "size": 6.324555320336759, "title": "Polymer Structure\u0026 Props"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6777", "label": "CHBE 6777", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Biomaterials"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 7000", "label": "CHBE 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 7774", "label": "CHBE 7774", "shape": "dot", "size": 6.324555320336759, "title": "Fatigue-Materials\u0026Struct"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 8002", "label": "CHBE 8002", "shape": "dot", "size": 6.324555320336759, "title": "Seminar - Chemical Engr"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 8801", "label": "CHBE 8801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 8803", "label": "CHBE 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 8901", "label": "CHBE 8901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 8902", "label": "CHBE 8902", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 9000", "label": "CHBE 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "COE 2001", "label": "COE 2001", "shape": "dot", "size": 12.649110640673518, "title": "Statics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "COE 2701", "label": "COE 2701", "shape": "dot", "size": 6.324555320336759, "title": "Startup Lab"}, {"color": "#9e72df", "font": {"color": "#ffffff"}, "id": "COE 3001", "label": "COE 3001", "shape": "dot", "size": 18.973665961010276, "title": "Deformable Bodies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1512", "label": "MATH 1512", "shape": "dot", "size": 24.49489742783178, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 3322", "label": "ME 3322", "shape": "dot", "size": 15.491933384829668, "title": "Thermodynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2020", "label": "AE 2020", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 3340", "label": "ME 3340", "shape": "dot", "size": 15.491933384829668, "title": "Fluid Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BMED 3300", "label": "BMED 3300", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MSE 2001", "label": "MSE 2001", "shape": "dot", "size": 18.973665961010276, "title": "Prin\u0026Appl-Engr Materials"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3511", "label": "CHEM 3511", "shape": "dot", "size": 17.88854381999832, "title": "Survey of Biochemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4511", "label": "CHEM 4511", "shape": "dot", "size": 17.88854381999832, "title": "Biochemistry I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BMED 3500", "label": "BMED 3500", "shape": "dot", "size": 12.649110640673518, "title": "Sensors\u0026 Instrumentation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4400", "label": "CHBE 4400", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2040", "label": "ECE 2040", "shape": "dot", "size": 16.73320053068151, "title": "Circuit Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 3015", "label": "ME 3015", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 6229", "label": "ME 6229", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6229", "label": "ECE 6229", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4775", "label": "CHEM 4775", "shape": "dot", "size": 12.649110640673518, "title": "Polymer Science \u0026 Engr I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 4775", "label": "ME 4775", "shape": "dot", "size": 12.649110640673518, "title": "Polymer Science \u0026 Engr I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MSE 4775", "label": "MSE 4775", "shape": "dot", "size": 14.142135623730951, "title": "Polymer Science \u0026 Engr I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PTFE 4775", "label": "PTFE 4775", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4776", "label": "CHBE 4776", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4776", "label": "CHEM 4776", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 4776", "label": "ME 4776", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MSE 4776", "label": "MSE 4776", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PTFE 4776", "label": "PTFE 4776", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BMED 6776", "label": "BMED 6776", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 6776", "label": "CHBE 6776", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 6776", "label": "ME 6776", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MSE 6776", "label": "MSE 6776", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PTFE 6776", "label": "PTFE 6776", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 7772", "label": "AE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 7772", "label": "CEE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 7772", "label": "CHBE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 7772", "label": "ME 7772", "shape": "dot", "size": 15.491933384829668, "title": "Fund-Fracture Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MSE 7772", "label": "MSE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "CHBE 3130", "to": "CHBE 4730"}, {"arrows": "to", "from": "CHBE 3130", "to": "CHBE 4767"}, {"arrows": "to", "from": "CHBE 3225", "to": "CHBE 4746"}, {"arrows": "to", "from": "CHBE 4775", "to": "CHBE 6750"}, {"arrows": "to", "from": "MATH 1512", "to": "CHBE 2100"}, {"arrows": "to", "from": "ME 3322", "to": "CHBE 4730"}, {"arrows": "to", "from": "ME 3322", "to": "CHBE 4767"}, {"arrows": "to", "from": "AE 2020", "to": "CHBE 4757"}, {"arrows": "to", "from": "ME 3340", "to": "CHBE 4757"}, {"arrows": "to", "from": "BMED 3300", "to": "CHBE 4757"}, {"arrows": "to", "from": "MSE 2001", "to": "CHBE 4759"}, {"arrows": "to", "from": "CHEM 3511", "to": "CHBE 4762"}, {"arrows": "to", "from": "CHEM 3511", "to": "CHBE 4765"}, {"arrows": "to", "from": "CHEM 3511", "to": "CHBE 6765"}, {"arrows": "to", "from": "CHEM 4511", "to": "CHBE 4762"}, {"arrows": "to", "from": "CHEM 4511", "to": "CHBE 4765"}, {"arrows": "to", "from": "CHEM 4511", "to": "CHBE 6765"}, {"arrows": "to", "from": "BMED 3500", "to": "CHBE 4782"}, {"arrows": "to", "from": "CHBE 4400", "to": "CHBE 4782"}, {"arrows": "to", "from": "ECE 2040", "to": "CHBE 4782"}, {"arrows": "to", "from": "ME 3015", "to": "CHBE 4782"}, {"arrows": "to", "from": "ME 6229", "to": "CHBE 6460"}, {"arrows": "to", "from": "ECE 6229", "to": "CHBE 6460"}, {"arrows": "to", "from": "CHEM 4775", "to": "CHBE 6750"}, {"arrows": "to", "from": "ME 4775", "to": "CHBE 6750"}, {"arrows": "to", "from": "MSE 4775", "to": "CHBE 6750"}, {"arrows": "to", "from": "PTFE 4775", "to": "CHBE 6750"}, {"arrows": "to", "from": "CHBE 4776", "to": "CHBE 6768"}, {"arrows": "to", "from": "CHEM 4776", "to": "CHBE 6768"}, {"arrows": "to", "from": "ME 4776", "to": "CHBE 6768"}, {"arrows": "to", "from": "MSE 4776", "to": "CHBE 6768"}, {"arrows": "to", "from": "PTFE 4776", "to": "CHBE 6768"}, {"arrows": "to", "from": "BMED 6776", "to": "CHBE 6777"}, {"arrows": "to", "from": "CHBE 6776", "to": "CHBE 6777"}, {"arrows": "to", "from": "ME 6776", "to": "CHBE 6777"}, {"arrows": "to", "from": "MSE 6776", "to": "CHBE 6777"}, {"arrows": "to", "from": "PTFE 6776", "to": "CHBE 6777"}, {"arrows": "to", "from": "AE 7772", "to": "CHBE 7774"}, {"arrows": "to", "from": "CEE 7772", "to": "CHBE 7774"}, {"arrows": "to", "from": "CHBE 7772", "to": "CHBE 7774"}, {"arrows": "to", "from": "ME 7772", "to": "CHBE 7774"}, {"arrows": "to", "from": "MSE 7772", "to": "CHBE 7774"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

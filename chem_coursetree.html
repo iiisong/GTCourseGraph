@@ -1,0 +1,520 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="CHEM 1211K">CHEM 1211K</option>
+                                
+                                    <option value="CHEM 1212K">CHEM 1212K</option>
+                                
+                                    <option value="CHEM 1310">CHEM 1310</option>
+                                
+                                    <option value="CHEM 1315">CHEM 1315</option>
+                                
+                                    <option value="CHEM 2216">CHEM 2216</option>
+                                
+                                    <option value="CHEM 2216L">CHEM 2216L</option>
+                                
+                                    <option value="CHEM 2216R">CHEM 2216R</option>
+                                
+                                    <option value="CHEM 2311">CHEM 2311</option>
+                                
+                                    <option value="CHEM 2312">CHEM 2312</option>
+                                
+                                    <option value="CHEM 2380">CHEM 2380</option>
+                                
+                                    <option value="CHEM 2601">CHEM 2601</option>
+                                
+                                    <option value="CHEM 2694">CHEM 2694</option>
+                                
+                                    <option value="CHEM 2695">CHEM 2695</option>
+                                
+                                    <option value="CHEM 2698">CHEM 2698</option>
+                                
+                                    <option value="CHEM 2699">CHEM 2699</option>
+                                
+                                    <option value="CHEM 2801">CHEM 2801</option>
+                                
+                                    <option value="CHEM 3216">CHEM 3216</option>
+                                
+                                    <option value="CHEM 3216L">CHEM 3216L</option>
+                                
+                                    <option value="CHEM 3371">CHEM 3371</option>
+                                
+                                    <option value="CHEM 3411">CHEM 3411</option>
+                                
+                                    <option value="CHEM 3412">CHEM 3412</option>
+                                
+                                    <option value="CHEM 3481">CHEM 3481</option>
+                                
+                                    <option value="CHEM 3511">CHEM 3511</option>
+                                
+                                    <option value="CHEM 3700">CHEM 3700</option>
+                                
+                                    <option value="CHEM 4113">CHEM 4113</option>
+                                
+                                    <option value="CHEM 4452">CHEM 4452</option>
+                                
+                                    <option value="CHEM 4485">CHEM 4485</option>
+                                
+                                    <option value="CHEM 4511">CHEM 4511</option>
+                                
+                                    <option value="CHEM 4512">CHEM 4512</option>
+                                
+                                    <option value="CHEM 4521">CHEM 4521</option>
+                                
+                                    <option value="CHEM 4581">CHEM 4581</option>
+                                
+                                    <option value="CHEM 4582">CHEM 4582</option>
+                                
+                                    <option value="CHEM 4601">CHEM 4601</option>
+                                
+                                    <option value="CHEM 4694">CHEM 4694</option>
+                                
+                                    <option value="CHEM 4695">CHEM 4695</option>
+                                
+                                    <option value="CHEM 4696">CHEM 4696</option>
+                                
+                                    <option value="CHEM 4698">CHEM 4698</option>
+                                
+                                    <option value="CHEM 4699">CHEM 4699</option>
+                                
+                                    <option value="CHEM 4759">CHEM 4759</option>
+                                
+                                    <option value="CHEM 4762">CHEM 4762</option>
+                                
+                                    <option value="CHEM 4765">CHEM 4765</option>
+                                
+                                    <option value="CHEM 4775">CHEM 4775</option>
+                                
+                                    <option value="CHEM 4801">CHEM 4801</option>
+                                
+                                    <option value="CHEM 4802">CHEM 4802</option>
+                                
+                                    <option value="CHEM 4803">CHEM 4803</option>
+                                
+                                    <option value="CHEM 6171">CHEM 6171</option>
+                                
+                                    <option value="CHEM 6182">CHEM 6182</option>
+                                
+                                    <option value="CHEM 6273">CHEM 6273</option>
+                                
+                                    <option value="CHEM 6372">CHEM 6372</option>
+                                
+                                    <option value="CHEM 6373">CHEM 6373</option>
+                                
+                                    <option value="CHEM 6485">CHEM 6485</option>
+                                
+                                    <option value="CHEM 6492">CHEM 6492</option>
+                                
+                                    <option value="CHEM 6501">CHEM 6501</option>
+                                
+                                    <option value="CHEM 6502">CHEM 6502</option>
+                                
+                                    <option value="CHEM 6571">CHEM 6571</option>
+                                
+                                    <option value="CHEM 6582">CHEM 6582</option>
+                                
+                                    <option value="CHEM 6750">CHEM 6750</option>
+                                
+                                    <option value="CHEM 6762">CHEM 6762</option>
+                                
+                                    <option value="CHEM 7000">CHEM 7000</option>
+                                
+                                    <option value="CHEM 8000">CHEM 8000</option>
+                                
+                                    <option value="CHEM 8002">CHEM 8002</option>
+                                
+                                    <option value="CHEM 8801">CHEM 8801</option>
+                                
+                                    <option value="CHEM 8802">CHEM 8802</option>
+                                
+                                    <option value="CHEM 8803">CHEM 8803</option>
+                                
+                                    <option value="CHEM 8823">CHEM 8823</option>
+                                
+                                    <option value="CHEM 8853">CHEM 8853</option>
+                                
+                                    <option value="CHEM 8903">CHEM 8903</option>
+                                
+                                    <option value="CHEM 8997">CHEM 8997</option>
+                                
+                                    <option value="CHEM 8998">CHEM 8998</option>
+                                
+                                    <option value="CHEM 9000">CHEM 9000</option>
+                                
+                                    <option value="COS 3801">COS 3801</option>
+                                
+                                    <option value="CHEM 1311">CHEM 1311</option>
+                                
+                                    <option value="CHEM 2211">CHEM 2211</option>
+                                
+                                    <option value="CHEM 2214">CHEM 2214</option>
+                                
+                                    <option value="CHEM 2313">CHEM 2313</option>
+                                
+                                    <option value="CHEM 3111">CHEM 3111</option>
+                                
+                                    <option value="CETL 2000">CETL 2000</option>
+                                
+                                    <option value="CHBE 4775">CHBE 4775</option>
+                                
+                                    <option value="ME 4775">ME 4775</option>
+                                
+                                    <option value="MSE 4775">MSE 4775</option>
+                                
+                                    <option value="PTFE 4775">PTFE 4775</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CHEM 1211K", "label": "CHEM 1211K", "shape": "dot", "size": 12.649110640673518, "title": "Chemical Principles I"}, {"color": "#8d7fdf", "font": {"color": "#ffffff"}, "id": "CHEM 1212K", "label": "CHEM 1212K", "shape": "dot", "size": 16.73320053068151, "title": "Chemical Principles II"}, {"color": "#8786e0", "font": {"color": "#ffffff"}, "id": "CHEM 1310", "label": "CHEM 1310", "shape": "dot", "size": 15.491933384829668, "title": "Prin of Gen Chem for Engr"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CHEM 1315", "label": "CHEM 1315", "shape": "dot", "size": 10.954451150103322, "title": "Survey of Org Chm for Engr"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2216", "label": "CHEM 2216", "shape": "dot", "size": 6.324555320336759, "title": "Quant Chem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2216L", "label": "CHEM 2216L", "shape": "dot", "size": 6.324555320336759, "title": "Quant Chem Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2216R", "label": "CHEM 2216R", "shape": "dot", "size": 6.324555320336759, "title": "CHEM 2216 Recitation"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CHEM 2311", "label": "CHEM 2311", "shape": "dot", "size": 12.649110640673518, "title": "Organic Chemistry I"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CHEM 2312", "label": "CHEM 2312", "shape": "dot", "size": 8.94427190999916, "title": "Organic Chemistry II"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CHEM 2380", "label": "CHEM 2380", "shape": "dot", "size": 8.94427190999916, "title": "Synthesis Lab I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2601", "label": "CHEM 2601", "shape": "dot", "size": 6.324555320336759, "title": "Professional Skills"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2694", "label": "CHEM 2694", "shape": "dot", "size": 6.324555320336759, "title": "Intern Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2695", "label": "CHEM 2695", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2698", "label": "CHEM 2698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2699", "label": "CHEM 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2801", "label": "CHEM 2801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3216", "label": "CHEM 3216", "shape": "dot", "size": 6.324555320336759, "title": "Analytical Chem Lecture"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3216L", "label": "CHEM 3216L", "shape": "dot", "size": 6.324555320336759, "title": "Analytical Chem Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3371", "label": "CHEM 3371", "shape": "dot", "size": 6.324555320336759, "title": "Organic Chem Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3411", "label": "CHEM 3411", "shape": "dot", "size": 6.324555320336759, "title": "Physical Chemistry I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3412", "label": "CHEM 3412", "shape": "dot", "size": 6.324555320336759, "title": "Physical Chemistry II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3481", "label": "CHEM 3481", "shape": "dot", "size": 6.324555320336759, "title": "Physical Chem Lab I"}, {"color": "#9579df", "font": {"color": "#ffffff"}, "id": "CHEM 3511", "label": "CHEM 3511", "shape": "dot", "size": 17.88854381999832, "title": "Survey of Biochemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3700", "label": "CHEM 3700", "shape": "dot", "size": 6.324555320336759, "title": "Alternative Energy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4113", "label": "CHEM 4113", "shape": "dot", "size": 6.324555320336759, "title": "Inorg Energy Conversion"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4452", "label": "CHEM 4452", "shape": "dot", "size": 6.324555320336759, "title": "Solid State Chemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4485", "label": "CHEM 4485", "shape": "dot", "size": 6.324555320336759, "title": "Computational Chemistry"}, {"color": "#9579df", "font": {"color": "#ffffff"}, "id": "CHEM 4511", "label": "CHEM 4511", "shape": "dot", "size": 17.88854381999832, "title": "Biochemistry I"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CHEM 4512", "label": "CHEM 4512", "shape": "dot", "size": 8.94427190999916, "title": "Biochemistry II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4521", "label": "CHEM 4521", "shape": "dot", "size": 6.324555320336759, "title": "Biophysical Chemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4581", "label": "CHEM 4581", "shape": "dot", "size": 6.324555320336759, "title": "Biochemistry Lab I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4582", "label": "CHEM 4582", "shape": "dot", "size": 6.324555320336759, "title": "Biochemistry Lab II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4601", "label": "CHEM 4601", "shape": "dot", "size": 6.324555320336759, "title": "Chemistry Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4694", "label": "CHEM 4694", "shape": "dot", "size": 6.324555320336759, "title": "Intern Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4695", "label": "CHEM 4695", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4696", "label": "CHEM 4696", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4698", "label": "CHEM 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4699", "label": "CHEM 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4759", "label": "CHEM 4759", "shape": "dot", "size": 6.324555320336759, "title": "Electrochem Storage"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4762", "label": "CHEM 4762", "shape": "dot", "size": 6.324555320336759, "title": "Protein Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4765", "label": "CHEM 4765", "shape": "dot", "size": 6.324555320336759, "title": "Drug Design,Devlpmnt\u0026Delivery"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "CHEM 4775", "label": "CHEM 4775", "shape": "dot", "size": 12.649110640673518, "title": "Polymer Science \u0026 Engr I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4801", "label": "CHEM 4801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4802", "label": "CHEM 4802", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 4803", "label": "CHEM 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6171", "label": "CHEM 6171", "shape": "dot", "size": 6.324555320336759, "title": "Inorganic Chem II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6182", "label": "CHEM 6182", "shape": "dot", "size": 6.324555320336759, "title": "Chem of the Solid State"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6273", "label": "CHEM 6273", "shape": "dot", "size": 6.324555320336759, "title": "Analytical Biochemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6372", "label": "CHEM 6372", "shape": "dot", "size": 6.324555320336759, "title": "Physical Organic Chem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6373", "label": "CHEM 6373", "shape": "dot", "size": 6.324555320336759, "title": "Organic Synthesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6485", "label": "CHEM 6485", "shape": "dot", "size": 6.324555320336759, "title": "Computational Chemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6492", "label": "CHEM 6492", "shape": "dot", "size": 6.324555320336759, "title": "Molecular Spectroscopy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6501", "label": "CHEM 6501", "shape": "dot", "size": 6.324555320336759, "title": "Biochemistry I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6502", "label": "CHEM 6502", "shape": "dot", "size": 6.324555320336759, "title": "Biochemistry II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6571", "label": "CHEM 6571", "shape": "dot", "size": 6.324555320336759, "title": "Enzymology and Metabolism"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6582", "label": "CHEM 6582", "shape": "dot", "size": 6.324555320336759, "title": "Biophysical Chemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6750", "label": "CHEM 6750", "shape": "dot", "size": 6.324555320336759, "title": "Prep\u0026Reactions-Polymers"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 6762", "label": "CHEM 6762", "shape": "dot", "size": 6.324555320336759, "title": "Protein Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 7000", "label": "CHEM 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8000", "label": "CHEM 8000", "shape": "dot", "size": 6.324555320336759, "title": "Seminar - Chemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8002", "label": "CHEM 8002", "shape": "dot", "size": 6.324555320336759, "title": "Info Resour-Chem\u0026Biochem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8801", "label": "CHEM 8801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8802", "label": "CHEM 8802", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8803", "label": "CHEM 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8823", "label": "CHEM 8823", "shape": "dot", "size": 6.324555320336759, "title": "Spec Top-Analytical Chem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8853", "label": "CHEM 8853", "shape": "dot", "size": 6.324555320336759, "title": "Spec Topics-Biochemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8903", "label": "CHEM 8903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8997", "label": "CHEM 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 8998", "label": "CHEM 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 9000", "label": "CHEM 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "COS 3801", "label": "COS 3801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 1311", "label": "CHEM 1311", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2211", "label": "CHEM 2211", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2214", "label": "CHEM 2214", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 2313", "label": "CHEM 2313", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHEM 3111", "label": "CHEM 3111", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CETL 2000", "label": "CETL 2000", "shape": "dot", "size": 12.649110640673518, "title": "Undergraduate  TA  Prep"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4775", "label": "CHBE 4775", "shape": "dot", "size": 12.649110640673518, "title": "Polymer Science \u0026 Engr I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 4775", "label": "ME 4775", "shape": "dot", "size": 12.649110640673518, "title": "Polymer Science \u0026 Engr I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MSE 4775", "label": "MSE 4775", "shape": "dot", "size": 14.142135623730951, "title": "Polymer Science \u0026 Engr I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PTFE 4775", "label": "PTFE 4775", "shape": "dot", "size": 12.649110640673518, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "CHEM 1211K", "to": "CHEM 1212K"}, {"arrows": "to", "from": "CHEM 1211K", "to": "CHEM 1315"}, {"arrows": "to", "from": "CHEM 1212K", "to": "CHEM 2216"}, {"arrows": "to", "from": "CHEM 1212K", "to": "CHEM 2216L"}, {"arrows": "to", "from": "CHEM 1212K", "to": "CHEM 2311"}, {"arrows": "to", "from": "CHEM 1212K", "to": "CHEM 3411"}, {"arrows": "to", "from": "CHEM 1212K", "to": "CHEM 4485"}, {"arrows": "to", "from": "CHEM 1212K", "to": "CHEM 4759"}, {"arrows": "to", "from": "CHEM 1310", "to": "CHEM 1212K"}, {"arrows": "to", "from": "CHEM 1310", "to": "CHEM 1315"}, {"arrows": "to", "from": "CHEM 1310", "to": "CHEM 3700"}, {"arrows": "to", "from": "CHEM 1310", "to": "CHEM 4485"}, {"arrows": "to", "from": "CHEM 1315", "to": "CHEM 3511"}, {"arrows": "to", "from": "CHEM 2311", "to": "CHEM 2312"}, {"arrows": "to", "from": "CHEM 2311", "to": "CHEM 4511"}, {"arrows": "to", "from": "CHEM 2312", "to": "CHEM 3511"}, {"arrows": "to", "from": "CHEM 2380", "to": "CHEM 3371"}, {"arrows": "to", "from": "CHEM 3511", "to": "CHEM 4762"}, {"arrows": "to", "from": "CHEM 3511", "to": "CHEM 4765"}, {"arrows": "to", "from": "CHEM 3511", "to": "CHEM 6762"}, {"arrows": "to", "from": "CHEM 4511", "to": "CHEM 4762"}, {"arrows": "to", "from": "CHEM 4511", "to": "CHEM 4765"}, {"arrows": "to", "from": "CHEM 4511", "to": "CHEM 6762"}, {"arrows": "to", "from": "CHEM 4512", "to": "CHEM 4601"}, {"arrows": "to", "from": "CHEM 4775", "to": "CHEM 6750"}, {"arrows": "to", "from": "CHEM 1311", "to": "CHEM 2311"}, {"arrows": "to", "from": "CHEM 1311", "to": "CHEM 3411"}, {"arrows": "to", "from": "CHEM 2211", "to": "CHEM 3216"}, {"arrows": "to", "from": "CHEM 2211", "to": "CHEM 3216L"}, {"arrows": "to", "from": "CHEM 2214", "to": "CHEM 3216"}, {"arrows": "to", "from": "CHEM 2214", "to": "CHEM 3216L"}, {"arrows": "to", "from": "CHEM 2313", "to": "CHEM 3511"}, {"arrows": "to", "from": "CHEM 2313", "to": "CHEM 4512"}, {"arrows": "to", "from": "CHEM 3111", "to": "CHEM 4113"}, {"arrows": "to", "from": "CETL 2000", "to": "CHEM 4696"}, {"arrows": "to", "from": "CHBE 4775", "to": "CHEM 6750"}, {"arrows": "to", "from": "ME 4775", "to": "CHEM 6750"}, {"arrows": "to", "from": "MSE 4775", "to": "CHEM 6750"}, {"arrows": "to", "from": "PTFE 4775", "to": "CHEM 6750"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

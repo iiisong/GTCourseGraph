@@ -1,0 +1,494 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="PHYS 2022">PHYS 2022</option>
+                                
+                                    <option value="PHYS 2211">PHYS 2211</option>
+                                
+                                    <option value="PHYS 2212">PHYS 2212</option>
+                                
+                                    <option value="PHYS 2213">PHYS 2213</option>
+                                
+                                    <option value="PHYS 2231">PHYS 2231</option>
+                                
+                                    <option value="PHYS 2698">PHYS 2698</option>
+                                
+                                    <option value="PHYS 2699">PHYS 2699</option>
+                                
+                                    <option value="PHYS 2802">PHYS 2802</option>
+                                
+                                    <option value="PHYS 2803">PHYS 2803</option>
+                                
+                                    <option value="PHYS 2901">PHYS 2901</option>
+                                
+                                    <option value="PHYS 2902">PHYS 2902</option>
+                                
+                                    <option value="PHYS 3122">PHYS 3122</option>
+                                
+                                    <option value="PHYS 3123">PHYS 3123</option>
+                                
+                                    <option value="PHYS 3141">PHYS 3141</option>
+                                
+                                    <option value="PHYS 3143">PHYS 3143</option>
+                                
+                                    <option value="PHYS 3201">PHYS 3201</option>
+                                
+                                    <option value="PHYS 3202">PHYS 3202</option>
+                                
+                                    <option value="PHYS 3226">PHYS 3226</option>
+                                
+                                    <option value="PHYS 3266">PHYS 3266</option>
+                                
+                                    <option value="PHYS 3806">PHYS 3806</option>
+                                
+                                    <option value="PHYS 4142">PHYS 4142</option>
+                                
+                                    <option value="PHYS 4143">PHYS 4143</option>
+                                
+                                    <option value="PHYS 4206">PHYS 4206</option>
+                                
+                                    <option value="PHYS 4261">PHYS 4261</option>
+                                
+                                    <option value="PHYS 4262">PHYS 4262</option>
+                                
+                                    <option value="PHYS 4263">PHYS 4263</option>
+                                
+                                    <option value="PHYS 4267">PHYS 4267</option>
+                                
+                                    <option value="PHYS 4321">PHYS 4321</option>
+                                
+                                    <option value="PHYS 4347">PHYS 4347</option>
+                                
+                                    <option value="PHYS 4421">PHYS 4421</option>
+                                
+                                    <option value="PHYS 4601">PHYS 4601</option>
+                                
+                                    <option value="PHYS 4602">PHYS 4602</option>
+                                
+                                    <option value="PHYS 4698">PHYS 4698</option>
+                                
+                                    <option value="PHYS 4699">PHYS 4699</option>
+                                
+                                    <option value="PHYS 4801">PHYS 4801</option>
+                                
+                                    <option value="PHYS 4803">PHYS 4803</option>
+                                
+                                    <option value="PHYS 4813">PHYS 4813</option>
+                                
+                                    <option value="PHYS 4823">PHYS 4823</option>
+                                
+                                    <option value="PHYS 6104">PHYS 6104</option>
+                                
+                                    <option value="PHYS 6106">PHYS 6106</option>
+                                
+                                    <option value="PHYS 6107">PHYS 6107</option>
+                                
+                                    <option value="PHYS 6211">PHYS 6211</option>
+                                
+                                    <option value="PHYS 6260">PHYS 6260</option>
+                                
+                                    <option value="PHYS 6268">PHYS 6268</option>
+                                
+                                    <option value="PHYS 7000">PHYS 7000</option>
+                                
+                                    <option value="PHYS 7125">PHYS 7125</option>
+                                
+                                    <option value="PHYS 7742">PHYS 7742</option>
+                                
+                                    <option value="PHYS 8741">PHYS 8741</option>
+                                
+                                    <option value="PHYS 8813">PHYS 8813</option>
+                                
+                                    <option value="PHYS 8823">PHYS 8823</option>
+                                
+                                    <option value="PHYS 8833">PHYS 8833</option>
+                                
+                                    <option value="PHYS 8901">PHYS 8901</option>
+                                
+                                    <option value="PHYS 8997">PHYS 8997</option>
+                                
+                                    <option value="PHYS 8998">PHYS 8998</option>
+                                
+                                    <option value="PHYS 9000">PHYS 9000</option>
+                                
+                                    <option value="COS 3801">COS 3801</option>
+                                
+                                    <option value="MATH 1552">MATH 1552</option>
+                                
+                                    <option value="MATH 1555">MATH 1555</option>
+                                
+                                    <option value="MATH 1X52">MATH 1X52</option>
+                                
+                                    <option value="MATH 15X2">MATH 15X2</option>
+                                
+                                    <option value="PHYS 2232">PHYS 2232</option>
+                                
+                                    <option value="MATH 1502">MATH 1502</option>
+                                
+                                    <option value="MATH 1512">MATH 1512</option>
+                                
+                                    <option value="PHYS 3225">PHYS 3225</option>
+                                
+                                    <option value="PHYS 3211">PHYS 3211</option>
+                                
+                                    <option value="PHYS 3021">PHYS 3021</option>
+                                
+                                    <option value="PHYS 6103">PHYS 6103</option>
+                                
+                                    <option value="PHYS 6105">PHYS 6105</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2022", "label": "PHYS 2022", "shape": "dot", "size": 6.324555320336759, "title": "Stars, Galaxy \u0026 Universe"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "PHYS 2211", "label": "PHYS 2211", "shape": "dot", "size": 10.954451150103322, "title": "Intro Physics I"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "PHYS 2212", "label": "PHYS 2212", "shape": "dot", "size": 12.649110640673518, "title": "Intro Physics II"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "PHYS 2213", "label": "PHYS 2213", "shape": "dot", "size": 8.94427190999916, "title": "Intro to Modern Physics"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "PHYS 2231", "label": "PHYS 2231", "shape": "dot", "size": 10.954451150103322, "title": "Honors Physics I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2698", "label": "PHYS 2698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2699", "label": "PHYS 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2802", "label": "PHYS 2802", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2803", "label": "PHYS 2803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2901", "label": "PHYS 2901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2902", "label": "PHYS 2902", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "PHYS 3122", "label": "PHYS 3122", "shape": "dot", "size": 8.94427190999916, "title": "Electro \u0026 Magnetostatics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3123", "label": "PHYS 3123", "shape": "dot", "size": 6.324555320336759, "title": "Electrodynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3141", "label": "PHYS 3141", "shape": "dot", "size": 6.324555320336759, "title": "Thermodynamics"}, {"color": "#8786e0", "font": {"color": "#ffffff"}, "id": "PHYS 3143", "label": "PHYS 3143", "shape": "dot", "size": 15.491933384829668, "title": "Quantum Mechanics I"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "PHYS 3201", "label": "PHYS 3201", "shape": "dot", "size": 12.649110640673518, "title": "Classical Mechanics I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3202", "label": "PHYS 3202", "shape": "dot", "size": 6.324555320336759, "title": "Classical Mechanics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3226", "label": "PHYS 3226", "shape": "dot", "size": 6.324555320336759, "title": "Modern Optics Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3266", "label": "PHYS 3266", "shape": "dot", "size": 6.324555320336759, "title": "Computational Physics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3806", "label": "PHYS 3806", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4142", "label": "PHYS 4142", "shape": "dot", "size": 6.324555320336759, "title": "Statistical Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4143", "label": "PHYS 4143", "shape": "dot", "size": 6.324555320336759, "title": "Quantum Mechanics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4206", "label": "PHYS 4206", "shape": "dot", "size": 6.324555320336759, "title": "Electronics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4261", "label": "PHYS 4261", "shape": "dot", "size": 6.324555320336759, "title": "Atomic Physics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4262", "label": "PHYS 4262", "shape": "dot", "size": 6.324555320336759, "title": "Solid State Physics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4263", "label": "PHYS 4263", "shape": "dot", "size": 6.324555320336759, "title": "Nuclei,Particles\u0026Fields"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4267", "label": "PHYS 4267", "shape": "dot", "size": 6.324555320336759, "title": "Nonlinear Dynamics\u0026Chaos"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4321", "label": "PHYS 4321", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Lab I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4347", "label": "PHYS 4347", "shape": "dot", "size": 6.324555320336759, "title": "Fund of Astrophysics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4421", "label": "PHYS 4421", "shape": "dot", "size": 6.324555320336759, "title": "Intro-Continuum Phys"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4601", "label": "PHYS 4601", "shape": "dot", "size": 6.324555320336759, "title": "Senior Seminar I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4602", "label": "PHYS 4602", "shape": "dot", "size": 6.324555320336759, "title": "Senior Seminar II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4698", "label": "PHYS 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4699", "label": "PHYS 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4801", "label": "PHYS 4801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4803", "label": "PHYS 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4813", "label": "PHYS 4813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 4823", "label": "PHYS 4823", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 6104", "label": "PHYS 6104", "shape": "dot", "size": 6.324555320336759, "title": "Electromagnetism II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 6106", "label": "PHYS 6106", "shape": "dot", "size": 6.324555320336759, "title": "Quantum Mechanics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 6107", "label": "PHYS 6107", "shape": "dot", "size": 6.324555320336759, "title": "Statistical Mechanics I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 6211", "label": "PHYS 6211", "shape": "dot", "size": 6.324555320336759, "title": "Condensed Matter Phys II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 6260", "label": "PHYS 6260", "shape": "dot", "size": 6.324555320336759, "title": "Computational Physics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 6268", "label": "PHYS 6268", "shape": "dot", "size": 6.324555320336759, "title": "Nonlinear Dynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 7000", "label": "PHYS 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 7125", "label": "PHYS 7125", "shape": "dot", "size": 6.324555320336759, "title": "Gravity"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 7742", "label": "PHYS 7742", "shape": "dot", "size": 6.324555320336759, "title": "Robo Pro Prep 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 8741", "label": "PHYS 8741", "shape": "dot", "size": 6.324555320336759, "title": "Robo Capstone Project"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 8813", "label": "PHYS 8813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 8823", "label": "PHYS 8823", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 8833", "label": "PHYS 8833", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 8901", "label": "PHYS 8901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 8997", "label": "PHYS 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 8998", "label": "PHYS 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 9000", "label": "PHYS 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "COS 3801", "label": "COS 3801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1552", "label": "MATH 1552", "shape": "dot", "size": 14.142135623730951, "title": "Integral Calculus"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1555", "label": "MATH 1555", "shape": "dot", "size": 20.97617696340303, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1X52", "label": "MATH 1X52", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 15X2", "label": "MATH 15X2", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2232", "label": "PHYS 2232", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1502", "label": "MATH 1502", "shape": "dot", "size": 23.664319132398465, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1512", "label": "MATH 1512", "shape": "dot", "size": 24.49489742783178, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3225", "label": "PHYS 3225", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3211", "label": "PHYS 3211", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 3021", "label": "PHYS 3021", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 6103", "label": "PHYS 6103", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 6105", "label": "PHYS 6105", "shape": "dot", "size": 8.94427190999916, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "PHYS 2211", "to": "PHYS 2212"}, {"arrows": "to", "from": "PHYS 2212", "to": "PHYS 2213"}, {"arrows": "to", "from": "PHYS 2212", "to": "PHYS 3266"}, {"arrows": "to", "from": "PHYS 2213", "to": "PHYS 4347"}, {"arrows": "to", "from": "PHYS 2231", "to": "PHYS 2212"}, {"arrows": "to", "from": "PHYS 3122", "to": "PHYS 3123"}, {"arrows": "to", "from": "PHYS 3143", "to": "PHYS 4143"}, {"arrows": "to", "from": "PHYS 3143", "to": "PHYS 4261"}, {"arrows": "to", "from": "PHYS 3143", "to": "PHYS 4262"}, {"arrows": "to", "from": "PHYS 3143", "to": "PHYS 4263"}, {"arrows": "to", "from": "PHYS 3143", "to": "PHYS 4321"}, {"arrows": "to", "from": "PHYS 3201", "to": "PHYS 3202"}, {"arrows": "to", "from": "PHYS 3201", "to": "PHYS 4267"}, {"arrows": "to", "from": "PHYS 3201", "to": "PHYS 4421"}, {"arrows": "to", "from": "MATH 1552", "to": "PHYS 2211"}, {"arrows": "to", "from": "MATH 1552", "to": "PHYS 2231"}, {"arrows": "to", "from": "MATH 1555", "to": "PHYS 2211"}, {"arrows": "to", "from": "MATH 1X52", "to": "PHYS 2211"}, {"arrows": "to", "from": "MATH 15X2", "to": "PHYS 2211"}, {"arrows": "to", "from": "PHYS 2232", "to": "PHYS 2213"}, {"arrows": "to", "from": "PHYS 2232", "to": "PHYS 3266"}, {"arrows": "to", "from": "MATH 1502", "to": "PHYS 2231"}, {"arrows": "to", "from": "MATH 1512", "to": "PHYS 2231"}, {"arrows": "to", "from": "PHYS 3225", "to": "PHYS 3226"}, {"arrows": "to", "from": "PHYS 3211", "to": "PHYS 4206"}, {"arrows": "to", "from": "PHYS 3021", "to": "PHYS 4347"}, {"arrows": "to", "from": "PHYS 6103", "to": "PHYS 6104"}, {"arrows": "to", "from": "PHYS 6105", "to": "PHYS 6106"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

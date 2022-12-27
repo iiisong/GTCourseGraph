@@ -1,0 +1,665 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="CEE 1770">CEE 1770</option>
+                                
+                                    <option value="CEE 2040">CEE 2040</option>
+                                
+                                    <option value="CEE 2300">CEE 2300</option>
+                                
+                                    <option value="CEE 2698">CEE 2698</option>
+                                
+                                    <option value="CEE 2699">CEE 2699</option>
+                                
+                                    <option value="CEE 3000">CEE 3000</option>
+                                
+                                    <option value="CEE 3010">CEE 3010</option>
+                                
+                                    <option value="CEE 3020">CEE 3020</option>
+                                
+                                    <option value="CEE 3040">CEE 3040</option>
+                                
+                                    <option value="CEE 3051">CEE 3051</option>
+                                
+                                    <option value="CEE 3055">CEE 3055</option>
+                                
+                                    <option value="CEE 3340">CEE 3340</option>
+                                
+                                    <option value="CEE 3770">CEE 3770</option>
+                                
+                                    <option value="CEE 4090">CEE 4090</option>
+                                
+                                    <option value="CEE 4100">CEE 4100</option>
+                                
+                                    <option value="CEE 4160">CEE 4160</option>
+                                
+                                    <option value="CEE 4170">CEE 4170</option>
+                                
+                                    <option value="CEE 4200">CEE 4200</option>
+                                
+                                    <option value="CEE 4225">CEE 4225</option>
+                                
+                                    <option value="CEE 4300">CEE 4300</option>
+                                
+                                    <option value="CEE 4310">CEE 4310</option>
+                                
+                                    <option value="CEE 4360">CEE 4360</option>
+                                
+                                    <option value="CEE 4405">CEE 4405</option>
+                                
+                                    <option value="CEE 4406">CEE 4406</option>
+                                
+                                    <option value="CEE 4510">CEE 4510</option>
+                                
+                                    <option value="CEE 4530">CEE 4530</option>
+                                
+                                    <option value="CEE 4620">CEE 4620</option>
+                                
+                                    <option value="CEE 4698">CEE 4698</option>
+                                
+                                    <option value="CEE 4699">CEE 4699</option>
+                                
+                                    <option value="CEE 4803">CEE 4803</option>
+                                
+                                    <option value="CEE 4900">CEE 4900</option>
+                                
+                                    <option value="CEE 4901">CEE 4901</option>
+                                
+                                    <option value="CEE 6130">CEE 6130</option>
+                                
+                                    <option value="CEE 6150">CEE 6150</option>
+                                
+                                    <option value="CEE 6221">CEE 6221</option>
+                                
+                                    <option value="CEE 6225">CEE 6225</option>
+                                
+                                    <option value="CEE 6241">CEE 6241</option>
+                                
+                                    <option value="CEE 6261">CEE 6261</option>
+                                
+                                    <option value="CEE 6314">CEE 6314</option>
+                                
+                                    <option value="CEE 6324">CEE 6324</option>
+                                
+                                    <option value="CEE 6330">CEE 6330</option>
+                                
+                                    <option value="CEE 6331">CEE 6331</option>
+                                
+                                    <option value="CEE 6332">CEE 6332</option>
+                                
+                                    <option value="CEE 6343">CEE 6343</option>
+                                
+                                    <option value="CEE 6345">CEE 6345</option>
+                                
+                                    <option value="CEE 6350">CEE 6350</option>
+                                
+                                    <option value="CEE 6443">CEE 6443</option>
+                                
+                                    <option value="CEE 6445">CEE 6445</option>
+                                
+                                    <option value="CEE 6448">CEE 6448</option>
+                                
+                                    <option value="CEE 6460">CEE 6460</option>
+                                
+                                    <option value="CEE 6504">CEE 6504</option>
+                                
+                                    <option value="CEE 6512">CEE 6512</option>
+                                
+                                    <option value="CEE 6523">CEE 6523</option>
+                                
+                                    <option value="CEE 6527">CEE 6527</option>
+                                
+                                    <option value="CEE 6536">CEE 6536</option>
+                                
+                                    <option value="CEE 6541">CEE 6541</option>
+                                
+                                    <option value="CEE 6585">CEE 6585</option>
+                                
+                                    <option value="CEE 6601">CEE 6601</option>
+                                
+                                    <option value="CEE 6603">CEE 6603</option>
+                                
+                                    <option value="CEE 6605">CEE 6605</option>
+                                
+                                    <option value="CEE 6632">CEE 6632</option>
+                                
+                                    <option value="CEE 6701">CEE 6701</option>
+                                
+                                    <option value="CEE 6702">CEE 6702</option>
+                                
+                                    <option value="CEE 6754">CEE 6754</option>
+                                
+                                    <option value="CEE 6790">CEE 6790</option>
+                                
+                                    <option value="CEE 7000">CEE 7000</option>
+                                
+                                    <option value="CEE 7774">CEE 7774</option>
+                                
+                                    <option value="CEE 8090">CEE 8090</option>
+                                
+                                    <option value="CEE 8095">CEE 8095</option>
+                                
+                                    <option value="CEE 8096">CEE 8096</option>
+                                
+                                    <option value="CEE 8099">CEE 8099</option>
+                                
+                                    <option value="CEE 8812">CEE 8812</option>
+                                
+                                    <option value="CEE 8813">CEE 8813</option>
+                                
+                                    <option value="CEE 8900">CEE 8900</option>
+                                
+                                    <option value="CEE 8902">CEE 8902</option>
+                                
+                                    <option value="CEE 8956">CEE 8956</option>
+                                
+                                    <option value="CEE 9000">CEE 9000</option>
+                                
+                                    <option value="COE 2001">COE 2001</option>
+                                
+                                    <option value="COE 2701">COE 2701</option>
+                                
+                                    <option value="COE 3001">COE 3001</option>
+                                
+                                    <option value="MATH 1501">MATH 1501</option>
+                                
+                                    <option value="MATH 1511">MATH 1511</option>
+                                
+                                    <option value="MATH 15X1">MATH 15X1</option>
+                                
+                                    <option value="MATH 1551">MATH 1551</option>
+                                
+                                    <option value="MATH 2401">MATH 2401</option>
+                                
+                                    <option value="MATH 2411">MATH 2411</option>
+                                
+                                    <option value="MATH 24X1">MATH 24X1</option>
+                                
+                                    <option value="MATH 2551">MATH 2551</option>
+                                
+                                    <option value="MATH 2561">MATH 2561</option>
+                                
+                                    <option value="MATH 2X51">MATH 2X51</option>
+                                
+                                    <option value="ISYE 3025">ISYE 3025</option>
+                                
+                                    <option value="CEE 6100">CEE 6100</option>
+                                
+                                    <option value="CEE 4210">CEE 4210</option>
+                                
+                                    <option value="CEE 6312">CEE 6312</option>
+                                
+                                    <option value="CEE 6402">CEE 6402</option>
+                                
+                                    <option value="CEE 6551">CEE 6551</option>
+                                
+                                    <option value="CEE 6510">CEE 6510</option>
+                                
+                                    <option value="CEE 4520">CEE 4520</option>
+                                
+                                    <option value="CEE 3001">CEE 3001</option>
+                                
+                                    <option value="CEE 4600">CEE 4600</option>
+                                
+                                    <option value="CEE 6602A">CEE 6602A</option>
+                                
+                                    <option value="AE 7772">AE 7772</option>
+                                
+                                    <option value="CEE 7772">CEE 7772</option>
+                                
+                                    <option value="CHBE 7772">CHBE 7772</option>
+                                
+                                    <option value="ME 7772">ME 7772</option>
+                                
+                                    <option value="MSE 7772">MSE 7772</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 1770", "label": "CEE 1770", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Engr Graphics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 2040", "label": "CEE 2040", "shape": "dot", "size": 6.324555320336759, "title": "Dynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 2300", "label": "CEE 2300", "shape": "dot", "size": 6.324555320336759, "title": "Environmental Engr Prin"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 2698", "label": "CEE 2698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 2699", "label": "CEE 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CEE 3000", "label": "CEE 3000", "shape": "dot", "size": 8.94427190999916, "title": "Civil Engr Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 3010", "label": "CEE 3010", "shape": "dot", "size": 6.324555320336759, "title": "Geomatics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 3020", "label": "CEE 3020", "shape": "dot", "size": 6.324555320336759, "title": "Civil Engr Materials"}, {"color": "#8d97e0", "font": {"color": "#ffffff"}, "id": "CEE 3040", "label": "CEE 3040", "shape": "dot", "size": 14.142135623730951, "title": "Fluid Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 3051", "label": "CEE 3051", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Structural Eng"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CEE 3055", "label": "CEE 3055", "shape": "dot", "size": 8.94427190999916, "title": "Structural Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 3340", "label": "CEE 3340", "shape": "dot", "size": 6.324555320336759, "title": "Environ Engr Laboratory"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "CEE 3770", "label": "CEE 3770", "shape": "dot", "size": 10.954451150103322, "title": "Statistics\u0026 Applications"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4090", "label": "CEE 4090", "shape": "dot", "size": 6.324555320336759, "title": "Capstone Design"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CEE 4100", "label": "CEE 4100", "shape": "dot", "size": 8.94427190999916, "title": "Construction Engr \u0026 Mgt"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4160", "label": "CEE 4160", "shape": "dot", "size": 6.324555320336759, "title": "Smart Sustainable Cities"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4170", "label": "CEE 4170", "shape": "dot", "size": 6.324555320336759, "title": "Construction Law"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4200", "label": "CEE 4200", "shape": "dot", "size": 6.324555320336759, "title": "Hydraulic Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4225", "label": "CEE 4225", "shape": "dot", "size": 6.324555320336759, "title": "Coastal Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4300", "label": "CEE 4300", "shape": "dot", "size": 6.324555320336759, "title": "Environmental Engr Sys"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4310", "label": "CEE 4310", "shape": "dot", "size": 6.324555320336759, "title": "Water Quality Engr"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4360", "label": "CEE 4360", "shape": "dot", "size": 6.324555320336759, "title": "Energy \u0026 Resource Recov"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CEE 4405", "label": "CEE 4405", "shape": "dot", "size": 8.94427190999916, "title": "Geotechnical Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4406", "label": "CEE 4406", "shape": "dot", "size": 6.324555320336759, "title": "Applied Geotechnics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4510", "label": "CEE 4510", "shape": "dot", "size": 6.324555320336759, "title": "Structural Steel Dsgn"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4530", "label": "CEE 4530", "shape": "dot", "size": 6.324555320336759, "title": "Timber \u0026 Masonry Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4620", "label": "CEE 4620", "shape": "dot", "size": 6.324555320336759, "title": "Environ Impact Assess"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4698", "label": "CEE 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4699", "label": "CEE 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4803", "label": "CEE 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4900", "label": "CEE 4900", "shape": "dot", "size": 6.324555320336759, "title": "CEE Honors Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4901", "label": "CEE 4901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6130", "label": "CEE 6130", "shape": "dot", "size": 6.324555320336759, "title": "Construction Proj Ctrls"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6150", "label": "CEE 6150", "shape": "dot", "size": 6.324555320336759, "title": "Construction Law"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6221", "label": "CEE 6221", "shape": "dot", "size": 6.324555320336759, "title": "Physical Hydrology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6225", "label": "CEE 6225", "shape": "dot", "size": 6.324555320336759, "title": "Coastal Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6241", "label": "CEE 6241", "shape": "dot", "size": 6.324555320336759, "title": "Water Resources Mgt I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6261", "label": "CEE 6261", "shape": "dot", "size": 6.324555320336759, "title": "Environ Fluid Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6314", "label": "CEE 6314", "shape": "dot", "size": 6.324555320336759, "title": "Environmental Modeling"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6324", "label": "CEE 6324", "shape": "dot", "size": 6.324555320336759, "title": "Water Supply and Sanit"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6330", "label": "CEE 6330", "shape": "dot", "size": 6.324555320336759, "title": "Physicochemical Process"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6331", "label": "CEE 6331", "shape": "dot", "size": 6.324555320336759, "title": "Biological Processes"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6332", "label": "CEE 6332", "shape": "dot", "size": 6.324555320336759, "title": "Separation Processes"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6343", "label": "CEE 6343", "shape": "dot", "size": 6.324555320336759, "title": "Membrane Processes"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6345", "label": "CEE 6345", "shape": "dot", "size": 6.324555320336759, "title": "Sustainable Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6350", "label": "CEE 6350", "shape": "dot", "size": 6.324555320336759, "title": "Adv Environmental Chem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6443", "label": "CEE 6443", "shape": "dot", "size": 6.324555320336759, "title": "Foundation Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6445", "label": "CEE 6445", "shape": "dot", "size": 6.324555320336759, "title": "Geotech Earthquake Engr"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6448", "label": "CEE 6448", "shape": "dot", "size": 6.324555320336759, "title": "Landfill Design \u0026 Mgt"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6460", "label": "CEE 6460", "shape": "dot", "size": 6.324555320336759, "title": "Theoretical Geomechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6504", "label": "CEE 6504", "shape": "dot", "size": 6.324555320336759, "title": "Finite Element Methods"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6512", "label": "CEE 6512", "shape": "dot", "size": 6.324555320336759, "title": "Adv Dynamics \u0026 Smart Str"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6523", "label": "CEE 6523", "shape": "dot", "size": 6.324555320336759, "title": "Prestressed Concrete"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6527", "label": "CEE 6527", "shape": "dot", "size": 6.324555320336759, "title": "Structural Steel Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6536", "label": "CEE 6536", "shape": "dot", "size": 6.324555320336759, "title": "Rehab-Existing Structure"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6541", "label": "CEE 6541", "shape": "dot", "size": 6.324555320336759, "title": "Earthquake Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6585", "label": "CEE 6585", "shape": "dot", "size": 6.324555320336759, "title": "Materials Sci Concrete"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6601", "label": "CEE 6601", "shape": "dot", "size": 6.324555320336759, "title": "Statistics in Transport"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CEE 6603", "label": "CEE 6603", "shape": "dot", "size": 8.94427190999916, "title": "Traffic Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6605", "label": "CEE 6605", "shape": "dot", "size": 6.324555320336759, "title": "Transport Admin \u0026 Policy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6632", "label": "CEE 6632", "shape": "dot", "size": 6.324555320336759, "title": "Simulation in Transport"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6701", "label": "CEE 6701", "shape": "dot", "size": 6.324555320336759, "title": "Urban Trans Planning"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6702", "label": "CEE 6702", "shape": "dot", "size": 6.324555320336759, "title": "Urban Trans Planning Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6754", "label": "CEE 6754", "shape": "dot", "size": 6.324555320336759, "title": "Engr Communication"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "CEE 6790", "label": "CEE 6790", "shape": "dot", "size": 8.94427190999916, "title": "Air Pollution:Phys\u0026Chem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 7000", "label": "CEE 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 7774", "label": "CEE 7774", "shape": "dot", "size": 6.324555320336759, "title": "Fatigue-Materials\u0026Struct"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8090", "label": "CEE 8090", "shape": "dot", "size": 6.324555320336759, "title": "Geo Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8095", "label": "CEE 8095", "shape": "dot", "size": 6.324555320336759, "title": "Research Seminar in EnvE"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8096", "label": "CEE 8096", "shape": "dot", "size": 6.324555320336759, "title": "EFMWR Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8099", "label": "CEE 8099", "shape": "dot", "size": 6.324555320336759, "title": "SEMM PhD Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8812", "label": "CEE 8812", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8813", "label": "CEE 8813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8900", "label": "CEE 8900", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8902", "label": "CEE 8902", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 8956", "label": "CEE 8956", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Research Prob"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 9000", "label": "CEE 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "COE 2001", "label": "COE 2001", "shape": "dot", "size": 12.649110640673518, "title": "Statics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "COE 2701", "label": "COE 2701", "shape": "dot", "size": 6.324555320336759, "title": "Startup Lab"}, {"color": "#9e72df", "font": {"color": "#ffffff"}, "id": "COE 3001", "label": "COE 3001", "shape": "dot", "size": 18.973665961010276, "title": "Deformable Bodies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1501", "label": "MATH 1501", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1511", "label": "MATH 1511", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 15X1", "label": "MATH 15X1", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1551", "label": "MATH 1551", "shape": "dot", "size": 16.73320053068151, "title": "Differential Calculus"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2401", "label": "MATH 2401", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2411", "label": "MATH 2411", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 24X1", "label": "MATH 24X1", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2551", "label": "MATH 2551", "shape": "dot", "size": 17.88854381999832, "title": "Multivariable Calculus"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2561", "label": "MATH 2561", "shape": "dot", "size": 16.73320053068151, "title": "Honors Multivar Calculus"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2X51", "label": "MATH 2X51", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ISYE 3025", "label": "ISYE 3025", "shape": "dot", "size": 8.94427190999916, "title": "Engineering Economy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6100", "label": "CEE 6100", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4210", "label": "CEE 4210", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6312", "label": "CEE 6312", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6402", "label": "CEE 6402", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6551", "label": "CEE 6551", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6510", "label": "CEE 6510", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4520", "label": "CEE 4520", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 3001", "label": "CEE 3001", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 4600", "label": "CEE 4600", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6602A", "label": "CEE 6602A", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 7772", "label": "AE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 7772", "label": "CEE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 7772", "label": "CHBE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 7772", "label": "ME 7772", "shape": "dot", "size": 15.491933384829668, "title": "Fund-Fracture Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MSE 7772", "label": "MSE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "CEE 3000", "to": "CEE 4160"}, {"arrows": "to", "from": "CEE 3040", "to": "CEE 4200"}, {"arrows": "to", "from": "CEE 3040", "to": "CEE 4225"}, {"arrows": "to", "from": "CEE 3055", "to": "CEE 4510"}, {"arrows": "to", "from": "CEE 4100", "to": "CEE 4170"}, {"arrows": "to", "from": "CEE 4405", "to": "CEE 4406"}, {"arrows": "to", "from": "CEE 6603", "to": "CEE 6632"}, {"arrows": "to", "from": "COE 2001", "to": "CEE 2040"}, {"arrows": "to", "from": "COE 3001", "to": "CEE 3020"}, {"arrows": "to", "from": "COE 3001", "to": "CEE 3051"}, {"arrows": "to", "from": "COE 3001", "to": "CEE 3055"}, {"arrows": "to", "from": "COE 3001", "to": "CEE 4530"}, {"arrows": "to", "from": "MATH 1501", "to": "CEE 3000"}, {"arrows": "to", "from": "MATH 1511", "to": "CEE 3000"}, {"arrows": "to", "from": "MATH 15X1", "to": "CEE 3000"}, {"arrows": "to", "from": "MATH 1551", "to": "CEE 3000"}, {"arrows": "to", "from": "MATH 2401", "to": "CEE 3770"}, {"arrows": "to", "from": "MATH 2411", "to": "CEE 3770"}, {"arrows": "to", "from": "MATH 24X1", "to": "CEE 3770"}, {"arrows": "to", "from": "MATH 2551", "to": "CEE 3770"}, {"arrows": "to", "from": "MATH 2561", "to": "CEE 3770"}, {"arrows": "to", "from": "MATH 2X51", "to": "CEE 3770"}, {"arrows": "to", "from": "ISYE 3025", "to": "CEE 4160"}, {"arrows": "to", "from": "CEE 6100", "to": "CEE 6130"}, {"arrows": "to", "from": "CEE 4210", "to": "CEE 6221"}, {"arrows": "to", "from": "CEE 6312", "to": "CEE 6350"}, {"arrows": "to", "from": "CEE 6402", "to": "CEE 6448"}, {"arrows": "to", "from": "CEE 6551", "to": "CEE 6504"}, {"arrows": "to", "from": "CEE 6510", "to": "CEE 6512"}, {"arrows": "to", "from": "CEE 6510", "to": "CEE 6541"}, {"arrows": "to", "from": "CEE 4520", "to": "CEE 6523"}, {"arrows": "to", "from": "CEE 3001", "to": "CEE 6601"}, {"arrows": "to", "from": "CEE 4600", "to": "CEE 6603"}, {"arrows": "to", "from": "CEE 6602A", "to": "CEE 6702"}, {"arrows": "to", "from": "AE 7772", "to": "CEE 7774"}, {"arrows": "to", "from": "CEE 7772", "to": "CEE 7774"}, {"arrows": "to", "from": "CHBE 7772", "to": "CEE 7774"}, {"arrows": "to", "from": "ME 7772", "to": "CEE 7774"}, {"arrows": "to", "from": "MSE 7772", "to": "CEE 7774"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

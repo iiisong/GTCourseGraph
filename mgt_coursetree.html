@@ -1,0 +1,753 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="MGT 2106">MGT 2106</option>
+                                
+                                    <option value="MGT 2210">MGT 2210</option>
+                                
+                                    <option value="MGT 2250">MGT 2250</option>
+                                
+                                    <option value="MGT 2255">MGT 2255</option>
+                                
+                                    <option value="MGT 3000">MGT 3000</option>
+                                
+                                    <option value="MGT 3062">MGT 3062</option>
+                                
+                                    <option value="MGT 3076">MGT 3076</option>
+                                
+                                    <option value="MGT 3078">MGT 3078</option>
+                                
+                                    <option value="MGT 3079">MGT 3079</option>
+                                
+                                    <option value="MGT 3084">MGT 3084</option>
+                                
+                                    <option value="MGT 3101">MGT 3101</option>
+                                
+                                    <option value="MGT 3102">MGT 3102</option>
+                                
+                                    <option value="MGT 3118">MGT 3118</option>
+                                
+                                    <option value="MGT 3300">MGT 3300</option>
+                                
+                                    <option value="MGT 3310">MGT 3310</option>
+                                
+                                    <option value="MGT 3325">MGT 3325</option>
+                                
+                                    <option value="MGT 3501">MGT 3501</option>
+                                
+                                    <option value="MGT 3510">MGT 3510</option>
+                                
+                                    <option value="MGT 3599">MGT 3599</option>
+                                
+                                    <option value="MGT 3607">MGT 3607</option>
+                                
+                                    <option value="MGT 3659">MGT 3659</option>
+                                
+                                    <option value="MGT 3660">MGT 3660</option>
+                                
+                                    <option value="MGT 3661">MGT 3661</option>
+                                
+                                    <option value="MGT 3662">MGT 3662</option>
+                                
+                                    <option value="MGT 3663">MGT 3663</option>
+                                
+                                    <option value="MGT 3664">MGT 3664</option>
+                                
+                                    <option value="MGT 3743">MGT 3743</option>
+                                
+                                    <option value="MGT 3744">MGT 3744</option>
+                                
+                                    <option value="MGT 3745">MGT 3745</option>
+                                
+                                    <option value="MGT 4010">MGT 4010</option>
+                                
+                                    <option value="MGT 4026">MGT 4026</option>
+                                
+                                    <option value="MGT 4028">MGT 4028</option>
+                                
+                                    <option value="MGT 4043">MGT 4043</option>
+                                
+                                    <option value="MGT 4045">MGT 4045</option>
+                                
+                                    <option value="MGT 4047">MGT 4047</option>
+                                
+                                    <option value="MGT 4050">MGT 4050</option>
+                                
+                                    <option value="MGT 4052">MGT 4052</option>
+                                
+                                    <option value="MGT 4056">MGT 4056</option>
+                                
+                                    <option value="MGT 4058">MGT 4058</option>
+                                
+                                    <option value="MGT 4066">MGT 4066</option>
+                                
+                                    <option value="MGT 4067">MGT 4067</option>
+                                
+                                    <option value="MGT 4068">MGT 4068</option>
+                                
+                                    <option value="MGT 4070">MGT 4070</option>
+                                
+                                    <option value="MGT 4072">MGT 4072</option>
+                                
+                                    <option value="MGT 4073">MGT 4073</option>
+                                
+                                    <option value="MGT 4102">MGT 4102</option>
+                                
+                                    <option value="MGT 4193">MGT 4193</option>
+                                
+                                    <option value="MGT 4194">MGT 4194</option>
+                                
+                                    <option value="MGT 4196">MGT 4196</option>
+                                
+                                    <option value="MGT 4220">MGT 4220</option>
+                                
+                                    <option value="MGT 4304">MGT 4304</option>
+                                
+                                    <option value="MGT 4309">MGT 4309</option>
+                                
+                                    <option value="MGT 4311">MGT 4311</option>
+                                
+                                    <option value="MGT 4331">MGT 4331</option>
+                                
+                                    <option value="MGT 4335">MGT 4335</option>
+                                
+                                    <option value="MGT 4345">MGT 4345</option>
+                                
+                                    <option value="MGT 4353">MGT 4353</option>
+                                
+                                    <option value="MGT 4366">MGT 4366</option>
+                                
+                                    <option value="MGT 4367">MGT 4367</option>
+                                
+                                    <option value="MGT 4401">MGT 4401</option>
+                                
+                                    <option value="MGT 4450">MGT 4450</option>
+                                
+                                    <option value="MGT 4599">MGT 4599</option>
+                                
+                                    <option value="MGT 4611">MGT 4611</option>
+                                
+                                    <option value="MGT 4670">MGT 4670</option>
+                                
+                                    <option value="MGT 4725">MGT 4725</option>
+                                
+                                    <option value="MGT 4726">MGT 4726</option>
+                                
+                                    <option value="MGT 4742">MGT 4742</option>
+                                
+                                    <option value="MGT 4803">MGT 4803</option>
+                                
+                                    <option value="MGT 4811">MGT 4811</option>
+                                
+                                    <option value="MGT 4833">MGT 4833</option>
+                                
+                                    <option value="MGT 4910">MGT 4910</option>
+                                
+                                    <option value="MGT 4911">MGT 4911</option>
+                                
+                                    <option value="MGT 4912">MGT 4912</option>
+                                
+                                    <option value="MGT 6000">MGT 6000</option>
+                                
+                                    <option value="MGT 6010">MGT 6010</option>
+                                
+                                    <option value="MGT 6020">MGT 6020</option>
+                                
+                                    <option value="MGT 6028">MGT 6028</option>
+                                
+                                    <option value="MGT 6030">MGT 6030</option>
+                                
+                                    <option value="MGT 6043">MGT 6043</option>
+                                
+                                    <option value="MGT 6045">MGT 6045</option>
+                                
+                                    <option value="MGT 6047">MGT 6047</option>
+                                
+                                    <option value="MGT 6056">MGT 6056</option>
+                                
+                                    <option value="MGT 6067">MGT 6067</option>
+                                
+                                    <option value="MGT 6070">MGT 6070</option>
+                                
+                                    <option value="MGT 6076">MGT 6076</option>
+                                
+                                    <option value="MGT 6080">MGT 6080</option>
+                                
+                                    <option value="MGT 6081">MGT 6081</option>
+                                
+                                    <option value="MGT 6083">MGT 6083</option>
+                                
+                                    <option value="MGT 6090">MGT 6090</option>
+                                
+                                    <option value="MGT 6113">MGT 6113</option>
+                                
+                                    <option value="MGT 6114">MGT 6114</option>
+                                
+                                    <option value="MGT 6118">MGT 6118</option>
+                                
+                                    <option value="MGT 6203">MGT 6203</option>
+                                
+                                    <option value="MGT 6213">MGT 6213</option>
+                                
+                                    <option value="MGT 6214">MGT 6214</option>
+                                
+                                    <option value="MGT 6302">MGT 6302</option>
+                                
+                                    <option value="MGT 6308">MGT 6308</option>
+                                
+                                    <option value="MGT 6310">MGT 6310</option>
+                                
+                                    <option value="MGT 6311">MGT 6311</option>
+                                
+                                    <option value="MGT 6326">MGT 6326</option>
+                                
+                                    <option value="MGT 6352">MGT 6352</option>
+                                
+                                    <option value="MGT 6359">MGT 6359</option>
+                                
+                                    <option value="MGT 6369">MGT 6369</option>
+                                
+                                    <option value="MGT 6400">MGT 6400</option>
+                                
+                                    <option value="MGT 6401">MGT 6401</option>
+                                
+                                    <option value="MGT 6405">MGT 6405</option>
+                                
+                                    <option value="MGT 6450">MGT 6450</option>
+                                
+                                    <option value="MGT 6451">MGT 6451</option>
+                                
+                                    <option value="MGT 6500">MGT 6500</option>
+                                
+                                    <option value="MGT 6503">MGT 6503</option>
+                                
+                                    <option value="MGT 6504">MGT 6504</option>
+                                
+                                    <option value="MGT 6506">MGT 6506</option>
+                                
+                                    <option value="MGT 6507">MGT 6507</option>
+                                
+                                    <option value="MGT 6508">MGT 6508</option>
+                                
+                                    <option value="MGT 6509">MGT 6509</option>
+                                
+                                    <option value="MGT 6510">MGT 6510</option>
+                                
+                                    <option value="MGT 6655">MGT 6655</option>
+                                
+                                    <option value="MGT 6663">MGT 6663</option>
+                                
+                                    <option value="MGT 6667">MGT 6667</option>
+                                
+                                    <option value="MGT 6725">MGT 6725</option>
+                                
+                                    <option value="MGT 6726">MGT 6726</option>
+                                
+                                    <option value="MGT 6727">MGT 6727</option>
+                                
+                                    <option value="MGT 6748">MGT 6748</option>
+                                
+                                    <option value="MGT 6753">MGT 6753</option>
+                                
+                                    <option value="MGT 6769">MGT 6769</option>
+                                
+                                    <option value="MGT 6772">MGT 6772</option>
+                                
+                                    <option value="MGT 6785">MGT 6785</option>
+                                
+                                    <option value="MGT 7308">MGT 7308</option>
+                                
+                                    <option value="MGT 8803">MGT 8803</option>
+                                
+                                    <option value="MGT 8813">MGT 8813</option>
+                                
+                                    <option value="MGT 8832">MGT 8832</option>
+                                
+                                    <option value="MGT 8903">MGT 8903</option>
+                                
+                                    <option value="MGT 8997">MGT 8997</option>
+                                
+                                    <option value="MGT 8998">MGT 8998</option>
+                                
+                                    <option value="MGT 9000">MGT 9000</option>
+                                
+                                    <option value="MATH 1712">MATH 1712</option>
+                                
+                                    <option value="MATH 17X2">MATH 17X2</option>
+                                
+                                    <option value="MATH 1501">MATH 1501</option>
+                                
+                                    <option value="MATH 15X1">MATH 15X1</option>
+                                
+                                    <option value="MATH 1550">MATH 1550</option>
+                                
+                                    <option value="MATH 1551">MATH 1551</option>
+                                
+                                    <option value="ACCT 2101">ACCT 2101</option>
+                                
+                                    <option value="MGT 2200">MGT 2200</option>
+                                
+                                    <option value="CS 1321">CS 1321</option>
+                                
+                                    <option value="CS 1322">CS 1322</option>
+                                
+                                    <option value="CS 1371">CS 1371</option>
+                                
+                                    <option value="MGT 3150">MGT 3150</option>
+                                
+                                    <option value="MGT 4741">MGT 4741</option>
+                                
+                                    <option value="MGT 6505">MGT 6505</option>
+                                
+                                    <option value="MGT 6502">MGT 6502</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "MGT 2106", "label": "MGT 2106", "shape": "dot", "size": 8.94427190999916, "title": "Legal Aspects-Business"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "MGT 2210", "label": "MGT 2210", "shape": "dot", "size": 8.94427190999916, "title": "Info Sys \u0026 Dig Transform"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "MGT 2250", "label": "MGT 2250", "shape": "dot", "size": 12.649110640673518, "title": "Management Statistics"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "MGT 2255", "label": "MGT 2255", "shape": "dot", "size": 10.954451150103322, "title": "Quant. Anlys. for Bus."}, {"color": "#8786e0", "font": {"color": "#ffffff"}, "id": "MGT 3000", "label": "MGT 3000", "shape": "dot", "size": 15.491933384829668, "title": "Financ \u0026 Managerial Acct"}, {"color": "#9579df", "font": {"color": "#ffffff"}, "id": "MGT 3062", "label": "MGT 3062", "shape": "dot", "size": 17.88854381999832, "title": "Financial Management"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "MGT 3076", "label": "MGT 3076", "shape": "dot", "size": 10.954451150103322, "title": "Investments"}, {"color": "#9579df", "font": {"color": "#ffffff"}, "id": "MGT 3078", "label": "MGT 3078", "shape": "dot", "size": 17.88854381999832, "title": "Finance \u0026 Investments"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3079", "label": "MGT 3079", "shape": "dot", "size": 6.324555320336759, "title": "Mgt of Fin Institutions"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3084", "label": "MGT 3084", "shape": "dot", "size": 6.324555320336759, "title": "Derivative Securities"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "MGT 3101", "label": "MGT 3101", "shape": "dot", "size": 10.954451150103322, "title": "Organizational Behavior"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3102", "label": "MGT 3102", "shape": "dot", "size": 6.324555320336759, "title": "Mgt Hum Res-Reg Environ"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3118", "label": "MGT 3118", "shape": "dot", "size": 6.324555320336759, "title": "Cross-Cultural Mgt"}, {"color": "#9579df", "font": {"color": "#ffffff"}, "id": "MGT 3300", "label": "MGT 3300", "shape": "dot", "size": 17.88854381999832, "title": "Marketing Management I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3310", "label": "MGT 3310", "shape": "dot", "size": 6.324555320336759, "title": "Marktng Resrch Analytcs"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3325", "label": "MGT 3325", "shape": "dot", "size": 6.324555320336759, "title": "Product Planning"}, {"color": "#8d97e0", "font": {"color": "#ffffff"}, "id": "MGT 3501", "label": "MGT 3501", "shape": "dot", "size": 14.142135623730951, "title": "Operations Management"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3510", "label": "MGT 3510", "shape": "dot", "size": 6.324555320336759, "title": "Management of Technology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3599", "label": "MGT 3599", "shape": "dot", "size": 6.324555320336759, "title": "Career Develmnt Workshop"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3607", "label": "MGT 3607", "shape": "dot", "size": 6.324555320336759, "title": "Business Ethics"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "MGT 3659", "label": "MGT 3659", "shape": "dot", "size": 10.954451150103322, "title": "Foundations of Strategy"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "MGT 3660", "label": "MGT 3660", "shape": "dot", "size": 8.94427190999916, "title": "International Business"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3661", "label": "MGT 3661", "shape": "dot", "size": 6.324555320336759, "title": "Adv Concepts-Int\u0027l Bus"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3662", "label": "MGT 3662", "shape": "dot", "size": 6.324555320336759, "title": "Mgt in Healthcare Sector"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3663", "label": "MGT 3663", "shape": "dot", "size": 6.324555320336759, "title": "Technology Strategy"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "MGT 3664", "label": "MGT 3664", "shape": "dot", "size": 10.954451150103322, "title": "Corporate Strategy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3743", "label": "MGT 3743", "shape": "dot", "size": 6.324555320336759, "title": "Emerging Technologies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3744", "label": "MGT 3744", "shape": "dot", "size": 6.324555320336759, "title": "Mangn Prod Serv Tech Dev"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3745", "label": "MGT 3745", "shape": "dot", "size": 6.324555320336759, "title": "Business Programming"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4010", "label": "MGT 4010", "shape": "dot", "size": 6.324555320336759, "title": "Business Taxation"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "MGT 4026", "label": "MGT 4026", "shape": "dot", "size": 10.954451150103322, "title": "Fin Report \u0026 Analysis I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4028", "label": "MGT 4028", "shape": "dot", "size": 6.324555320336759, "title": "Fin Analy\u0026Rpt-Tech Firms"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4043", "label": "MGT 4043", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Fin Reporting"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4045", "label": "MGT 4045", "shape": "dot", "size": 6.324555320336759, "title": "Sem-Advanced Accounting"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4047", "label": "MGT 4047", "shape": "dot", "size": 6.324555320336759, "title": "Ethics \u0026 Accounting"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4050", "label": "MGT 4050", "shape": "dot", "size": 6.324555320336759, "title": "Business Analytics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4052", "label": "MGT 4052", "shape": "dot", "size": 6.324555320336759, "title": "Systems Analysis\u0026 Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4056", "label": "MGT 4056", "shape": "dot", "size": 6.324555320336759, "title": "Electronic Commerce"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "MGT 4058", "label": "MGT 4058", "shape": "dot", "size": 8.94427190999916, "title": "Database Management"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4066", "label": "MGT 4066", "shape": "dot", "size": 6.324555320336759, "title": "Corporate Restructuring"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4067", "label": "MGT 4067", "shape": "dot", "size": 6.324555320336759, "title": "Fncl Mkts Trading\u0026Struct"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4068", "label": "MGT 4068", "shape": "dot", "size": 6.324555320336759, "title": "Fixed Income"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4070", "label": "MGT 4070", "shape": "dot", "size": 6.324555320336759, "title": "International Finance"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4072", "label": "MGT 4072", "shape": "dot", "size": 6.324555320336759, "title": "Entrepreneurial Finance"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4073", "label": "MGT 4073", "shape": "dot", "size": 6.324555320336759, "title": "Financial Modeling"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4102", "label": "MGT 4102", "shape": "dot", "size": 6.324555320336759, "title": "Management Consulting"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4193", "label": "MGT 4193", "shape": "dot", "size": 6.324555320336759, "title": "Serv Lead Values Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4194", "label": "MGT 4194", "shape": "dot", "size": 6.324555320336759, "title": "Social Entrepreneurship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4196", "label": "MGT 4196", "shape": "dot", "size": 6.324555320336759, "title": "Strategy Consulting Prac"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4220", "label": "MGT 4220", "shape": "dot", "size": 6.324555320336759, "title": "Integrative Management"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4304", "label": "MGT 4304", "shape": "dot", "size": 6.324555320336759, "title": "Strategic Brand Mgt"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4309", "label": "MGT 4309", "shape": "dot", "size": 6.324555320336759, "title": "Services Marketing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4311", "label": "MGT 4311", "shape": "dot", "size": 6.324555320336759, "title": "Digital Marketing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4331", "label": "MGT 4331", "shape": "dot", "size": 6.324555320336759, "title": "Consumer Behavior"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4335", "label": "MGT 4335", "shape": "dot", "size": 6.324555320336759, "title": "International Marketing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4345", "label": "MGT 4345", "shape": "dot", "size": 6.324555320336759, "title": "Mrktng Consulting Pract"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4353", "label": "MGT 4353", "shape": "dot", "size": 6.324555320336759, "title": "Operations Strategy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4366", "label": "MGT 4366", "shape": "dot", "size": 6.324555320336759, "title": "Service Operations Mgt"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4367", "label": "MGT 4367", "shape": "dot", "size": 6.324555320336759, "title": "Revenue Analytics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4401", "label": "MGT 4401", "shape": "dot", "size": 6.324555320336759, "title": "Supply Chain Modeling"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4450", "label": "MGT 4450", "shape": "dot", "size": 6.324555320336759, "title": "Project Management"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4599", "label": "MGT 4599", "shape": "dot", "size": 6.324555320336759, "title": "Internship\u0026Independent Study"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4611", "label": "MGT 4611", "shape": "dot", "size": 6.324555320336759, "title": "Integrative Mgt Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4670", "label": "MGT 4670", "shape": "dot", "size": 6.324555320336759, "title": "Entrepreneurship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4725", "label": "MGT 4725", "shape": "dot", "size": 6.324555320336759, "title": "Info Security Policy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4726", "label": "MGT 4726", "shape": "dot", "size": 6.324555320336759, "title": "Privacy Tech Policy Law"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4742", "label": "MGT 4742", "shape": "dot", "size": 6.324555320336759, "title": "Tech \u0026 Mgt Cap Proj"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4803", "label": "MGT 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4811", "label": "MGT 4811", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4833", "label": "MGT 4833", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4910", "label": "MGT 4910", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4911", "label": "MGT 4911", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4912", "label": "MGT 4912", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#8d7fdf", "font": {"color": "#ffffff"}, "id": "MGT 6000", "label": "MGT 6000", "shape": "dot", "size": 16.73320053068151, "title": "Financial \u0026 Mgrl Acct I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6010", "label": "MGT 6010", "shape": "dot", "size": 6.324555320336759, "title": "Business Taxation"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "MGT 6020", "label": "MGT 6020", "shape": "dot", "size": 8.94427190999916, "title": "Fin Reporting \u0026 Analy I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6028", "label": "MGT 6028", "shape": "dot", "size": 6.324555320336759, "title": "Fin Analy\u0026Rpt-Tech Firms"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6030", "label": "MGT 6030", "shape": "dot", "size": 6.324555320336759, "title": "International Accounting"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6043", "label": "MGT 6043", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Fin Reporting"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6045", "label": "MGT 6045", "shape": "dot", "size": 6.324555320336759, "title": "Seminar-Adv Accounting"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6047", "label": "MGT 6047", "shape": "dot", "size": 6.324555320336759, "title": "Ethics \u0026 Accounting"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6056", "label": "MGT 6056", "shape": "dot", "size": 6.324555320336759, "title": "Electronic Commerce"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6067", "label": "MGT 6067", "shape": "dot", "size": 6.324555320336759, "title": "Fin Commerical Real Est"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6070", "label": "MGT 6070", "shape": "dot", "size": 6.324555320336759, "title": "International Finance"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6076", "label": "MGT 6076", "shape": "dot", "size": 6.324555320336759, "title": "Valuing Technology Firms"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6080", "label": "MGT 6080", "shape": "dot", "size": 6.324555320336759, "title": "Investments"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6081", "label": "MGT 6081", "shape": "dot", "size": 6.324555320336759, "title": "Derivative Securities"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6083", "label": "MGT 6083", "shape": "dot", "size": 6.324555320336759, "title": "Real Estate Practicum"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6090", "label": "MGT 6090", "shape": "dot", "size": 6.324555320336759, "title": "Mgt of Fin Institutions"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6113", "label": "MGT 6113", "shape": "dot", "size": 6.324555320336759, "title": "NonProfit Team Cons Proj"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6114", "label": "MGT 6114", "shape": "dot", "size": 6.324555320336759, "title": "Leadership Development"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6118", "label": "MGT 6118", "shape": "dot", "size": 6.324555320336759, "title": "Cross-Cultural Mgt"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6203", "label": "MGT 6203", "shape": "dot", "size": 6.324555320336759, "title": "Data  Analytics Business"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6213", "label": "MGT 6213", "shape": "dot", "size": 6.324555320336759, "title": "Bus Analytics Managers"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6214", "label": "MGT 6214", "shape": "dot", "size": 6.324555320336759, "title": "Bus Analytics Practicum"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6302", "label": "MGT 6302", "shape": "dot", "size": 6.324555320336759, "title": "Consumer Behavior"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6308", "label": "MGT 6308", "shape": "dot", "size": 6.324555320336759, "title": "Strategic Brand Mgt"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6310", "label": "MGT 6310", "shape": "dot", "size": 6.324555320336759, "title": "Marketing Resrch: Analytics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6311", "label": "MGT 6311", "shape": "dot", "size": 6.324555320336759, "title": "Digital Marketing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6326", "label": "MGT 6326", "shape": "dot", "size": 6.324555320336759, "title": "Collaborative Prod Dev"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6352", "label": "MGT 6352", "shape": "dot", "size": 6.324555320336759, "title": "International Practicum"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6359", "label": "MGT 6359", "shape": "dot", "size": 6.324555320336759, "title": "Bus Str Sustainability"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6369", "label": "MGT 6369", "shape": "dot", "size": 6.324555320336759, "title": "Sustainabl Bus Practicum"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6400", "label": "MGT 6400", "shape": "dot", "size": 6.324555320336759, "title": "Pricing Analytics \u0026 Rev"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6401", "label": "MGT 6401", "shape": "dot", "size": 6.324555320336759, "title": "Supply Chain Modeling"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6405", "label": "MGT 6405", "shape": "dot", "size": 6.324555320336759, "title": "Lean Six Sigma"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6450", "label": "MGT 6450", "shape": "dot", "size": 6.324555320336759, "title": "Project Management"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6451", "label": "MGT 6451", "shape": "dot", "size": 6.324555320336759, "title": "Bus Intell \u0026 Analytics"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "MGT 6500", "label": "MGT 6500", "shape": "dot", "size": 8.94427190999916, "title": "Analytic Tools/Decisions"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6503", "label": "MGT 6503", "shape": "dot", "size": 6.324555320336759, "title": "Managing Info Resources"}, {"color": "#8d7fdf", "font": {"color": "#ffffff"}, "id": "MGT 6504", "label": "MGT 6504", "shape": "dot", "size": 16.73320053068151, "title": "Principles of Finance"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6506", "label": "MGT 6506", "shape": "dot", "size": 6.324555320336759, "title": "Managerial Economics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6507", "label": "MGT 6507", "shape": "dot", "size": 6.324555320336759, "title": "Business Communications"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6508", "label": "MGT 6508", "shape": "dot", "size": 6.324555320336759, "title": "Strategic Management"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6509", "label": "MGT 6509", "shape": "dot", "size": 6.324555320336759, "title": "Legal \u0026 Ethical Business"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6510", "label": "MGT 6510", "shape": "dot", "size": 6.324555320336759, "title": "Leadership Development"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6655", "label": "MGT 6655", "shape": "dot", "size": 6.324555320336759, "title": "Business Data Prep \u0026 Viz"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6663", "label": "MGT 6663", "shape": "dot", "size": 6.324555320336759, "title": "Technology Strategy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6667", "label": "MGT 6667", "shape": "dot", "size": 6.324555320336759, "title": "Strat Entrepreneurship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6725", "label": "MGT 6725", "shape": "dot", "size": 6.324555320336759, "title": "Info Security Policies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6726", "label": "MGT 6726", "shape": "dot", "size": 6.324555320336759, "title": "Privacy Tech Policy Law"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6727", "label": "MGT 6727", "shape": "dot", "size": 6.324555320336759, "title": "Privacy for Professionals"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6748", "label": "MGT 6748", "shape": "dot", "size": 6.324555320336759, "title": "Appld Analytics Pract"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6753", "label": "MGT 6753", "shape": "dot", "size": 6.324555320336759, "title": "Prin-Mgt for Engineers"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6769", "label": "MGT 6769", "shape": "dot", "size": 6.324555320336759, "title": "Fixed Income Securities"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6772", "label": "MGT 6772", "shape": "dot", "size": 6.324555320336759, "title": "Mgt Resources-Tech Firms"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6785", "label": "MGT 6785", "shape": "dot", "size": 6.324555320336759, "title": "The Practice of QCF"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 7308", "label": "MGT 7308", "shape": "dot", "size": 6.324555320336759, "title": "Theory Construction"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 8803", "label": "MGT 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 8813", "label": "MGT 8813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 8832", "label": "MGT 8832", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 8903", "label": "MGT 8903", "shape": "dot", "size": 6.324555320336759, "title": "Special Prob-Management"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 8997", "label": "MGT 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 8998", "label": "MGT 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 9000", "label": "MGT 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1712", "label": "MATH 1712", "shape": "dot", "size": 8.94427190999916, "title": "Survey of Calculus"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 17X2", "label": "MATH 17X2", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1501", "label": "MATH 1501", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 15X1", "label": "MATH 15X1", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1550", "label": "MATH 1550", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1551", "label": "MATH 1551", "shape": "dot", "size": 16.73320053068151, "title": "Differential Calculus"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ACCT 2101", "label": "ACCT 2101", "shape": "dot", "size": 12.649110640673518, "title": "Accounting I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 2200", "label": "MGT 2200", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1321", "label": "CS 1321", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1322", "label": "CS 1322", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1371", "label": "CS 1371", "shape": "dot", "size": 17.88854381999832, "title": "Computing for Engineers"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 3150", "label": "MGT 3150", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 4741", "label": "MGT 4741", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6505", "label": "MGT 6505", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MGT 6502", "label": "MGT 6502", "shape": "dot", "size": 8.94427190999916, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "MGT 2106", "to": "MGT 3607"}, {"arrows": "to", "from": "MGT 2210", "to": "MGT 4058"}, {"arrows": "to", "from": "MGT 2250", "to": "MGT 2255"}, {"arrows": "to", "from": "MGT 2250", "to": "MGT 4050"}, {"arrows": "to", "from": "MGT 2255", "to": "MGT 3501"}, {"arrows": "to", "from": "MGT 2255", "to": "MGT 4367"}, {"arrows": "to", "from": "MGT 3000", "to": "MGT 3659"}, {"arrows": "to", "from": "MGT 3000", "to": "MGT 4010"}, {"arrows": "to", "from": "MGT 3000", "to": "MGT 4026"}, {"arrows": "to", "from": "MGT 3000", "to": "MGT 4028"}, {"arrows": "to", "from": "MGT 3000", "to": "MGT 4045"}, {"arrows": "to", "from": "MGT 3062", "to": "MGT 3076"}, {"arrows": "to", "from": "MGT 3062", "to": "MGT 3079"}, {"arrows": "to", "from": "MGT 3062", "to": "MGT 3084"}, {"arrows": "to", "from": "MGT 3062", "to": "MGT 4066"}, {"arrows": "to", "from": "MGT 3062", "to": "MGT 4068"}, {"arrows": "to", "from": "MGT 3062", "to": "MGT 4070"}, {"arrows": "to", "from": "MGT 3062", "to": "MGT 4072"}, {"arrows": "to", "from": "MGT 3076", "to": "MGT 4067"}, {"arrows": "to", "from": "MGT 3076", "to": "MGT 4073"}, {"arrows": "to", "from": "MGT 3078", "to": "MGT 3079"}, {"arrows": "to", "from": "MGT 3078", "to": "MGT 3084"}, {"arrows": "to", "from": "MGT 3078", "to": "MGT 4066"}, {"arrows": "to", "from": "MGT 3078", "to": "MGT 4068"}, {"arrows": "to", "from": "MGT 3078", "to": "MGT 4070"}, {"arrows": "to", "from": "MGT 3078", "to": "MGT 4072"}, {"arrows": "to", "from": "MGT 3078", "to": "MGT 4073"}, {"arrows": "to", "from": "MGT 3101", "to": "MGT 4102"}, {"arrows": "to", "from": "MGT 3101", "to": "MGT 4670"}, {"arrows": "to", "from": "MGT 3300", "to": "MGT 3310"}, {"arrows": "to", "from": "MGT 3300", "to": "MGT 4304"}, {"arrows": "to", "from": "MGT 3300", "to": "MGT 4309"}, {"arrows": "to", "from": "MGT 3300", "to": "MGT 4311"}, {"arrows": "to", "from": "MGT 3300", "to": "MGT 4331"}, {"arrows": "to", "from": "MGT 3300", "to": "MGT 4335"}, {"arrows": "to", "from": "MGT 3300", "to": "MGT 4345"}, {"arrows": "to", "from": "MGT 3501", "to": "MGT 3510"}, {"arrows": "to", "from": "MGT 3501", "to": "MGT 4353"}, {"arrows": "to", "from": "MGT 3501", "to": "MGT 4366"}, {"arrows": "to", "from": "MGT 3501", "to": "MGT 4401"}, {"arrows": "to", "from": "MGT 3659", "to": "MGT 3663"}, {"arrows": "to", "from": "MGT 3659", "to": "MGT 3664"}, {"arrows": "to", "from": "MGT 3660", "to": "MGT 3661"}, {"arrows": "to", "from": "MGT 3664", "to": "MGT 4196"}, {"arrows": "to", "from": "MGT 3664", "to": "MGT 4220"}, {"arrows": "to", "from": "MGT 4026", "to": "MGT 4043"}, {"arrows": "to", "from": "MGT 4026", "to": "MGT 6043"}, {"arrows": "to", "from": "MGT 4058", "to": "MGT 4052"}, {"arrows": "to", "from": "MGT 6000", "to": "MGT 6010"}, {"arrows": "to", "from": "MGT 6000", "to": "MGT 6020"}, {"arrows": "to", "from": "MGT 6000", "to": "MGT 6028"}, {"arrows": "to", "from": "MGT 6000", "to": "MGT 6030"}, {"arrows": "to", "from": "MGT 6000", "to": "MGT 6045"}, {"arrows": "to", "from": "MGT 6000", "to": "MGT 6047"}, {"arrows": "to", "from": "MGT 6020", "to": "MGT 6043"}, {"arrows": "to", "from": "MGT 6500", "to": "MGT 6203"}, {"arrows": "to", "from": "MGT 6504", "to": "MGT 6067"}, {"arrows": "to", "from": "MGT 6504", "to": "MGT 6070"}, {"arrows": "to", "from": "MGT 6504", "to": "MGT 6080"}, {"arrows": "to", "from": "MGT 6504", "to": "MGT 6081"}, {"arrows": "to", "from": "MGT 6504", "to": "MGT 6090"}, {"arrows": "to", "from": "MGT 6504", "to": "MGT 6769"}, {"arrows": "to", "from": "MATH 1712", "to": "MGT 2250"}, {"arrows": "to", "from": "MATH 17X2", "to": "MGT 2250"}, {"arrows": "to", "from": "MATH 1501", "to": "MGT 2250"}, {"arrows": "to", "from": "MATH 15X1", "to": "MGT 2250"}, {"arrows": "to", "from": "MATH 1550", "to": "MGT 2250"}, {"arrows": "to", "from": "MATH 1551", "to": "MGT 2250"}, {"arrows": "to", "from": "ACCT 2101", "to": "MGT 3062"}, {"arrows": "to", "from": "ACCT 2101", "to": "MGT 3659"}, {"arrows": "to", "from": "MGT 2200", "to": "MGT 3745"}, {"arrows": "to", "from": "CS 1321", "to": "MGT 3745"}, {"arrows": "to", "from": "CS 1322", "to": "MGT 3745"}, {"arrows": "to", "from": "CS 1371", "to": "MGT 3745"}, {"arrows": "to", "from": "MGT 3150", "to": "MGT 4102"}, {"arrows": "to", "from": "MGT 3150", "to": "MGT 4670"}, {"arrows": "to", "from": "MGT 4741", "to": "MGT 4742"}, {"arrows": "to", "from": "MGT 6505", "to": "MGT 6308"}, {"arrows": "to", "from": "MGT 6505", "to": "MGT 6311"}, {"arrows": "to", "from": "MGT 6502", "to": "MGT 6510"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

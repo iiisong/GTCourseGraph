@@ -1,0 +1,677 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="AE 1355">AE 1355</option>
+                                
+                                    <option value="AE 1601">AE 1601</option>
+                                
+                                    <option value="AE 2010">AE 2010</option>
+                                
+                                    <option value="AE 2010R">AE 2010R</option>
+                                
+                                    <option value="AE 2011">AE 2011</option>
+                                
+                                    <option value="AE 2220">AE 2220</option>
+                                
+                                    <option value="AE 2220R">AE 2220R</option>
+                                
+                                    <option value="AE 2221">AE 2221</option>
+                                
+                                    <option value="AE 2355">AE 2355</option>
+                                
+                                    <option value="AE 2610">AE 2610</option>
+                                
+                                    <option value="AE 2611">AE 2611</option>
+                                
+                                    <option value="AE 2698">AE 2698</option>
+                                
+                                    <option value="AE 2699">AE 2699</option>
+                                
+                                    <option value="AE 3030">AE 3030</option>
+                                
+                                    <option value="AE 3030R">AE 3030R</option>
+                                
+                                    <option value="AE 3140">AE 3140</option>
+                                
+                                    <option value="AE 3330">AE 3330</option>
+                                
+                                    <option value="AE 3340">AE 3340</option>
+                                
+                                    <option value="AE 3355">AE 3355</option>
+                                
+                                    <option value="AE 3530">AE 3530</option>
+                                
+                                    <option value="AE 3531">AE 3531</option>
+                                
+                                    <option value="AE 3610">AE 3610</option>
+                                
+                                    <option value="AE 4132">AE 4132</option>
+                                
+                                    <option value="AE 4220">AE 4220</option>
+                                
+                                    <option value="AE 4341">AE 4341</option>
+                                
+                                    <option value="AE 4342">AE 4342</option>
+                                
+                                    <option value="AE 4343">AE 4343</option>
+                                
+                                    <option value="AE 4355">AE 4355</option>
+                                
+                                    <option value="AE 4451">AE 4451</option>
+                                
+                                    <option value="AE 4531">AE 4531</option>
+                                
+                                    <option value="AE 4532">AE 4532</option>
+                                
+                                    <option value="AE 4610">AE 4610</option>
+                                
+                                    <option value="AE 4698">AE 4698</option>
+                                
+                                    <option value="AE 4699">AE 4699</option>
+                                
+                                    <option value="AE 4760">AE 4760</option>
+                                
+                                    <option value="AE 4793">AE 4793</option>
+                                
+                                    <option value="AE 4802">AE 4802</option>
+                                
+                                    <option value="AE 4803">AE 4803</option>
+                                
+                                    <option value="AE 4863">AE 4863</option>
+                                
+                                    <option value="AE 6012">AE 6012</option>
+                                
+                                    <option value="AE 6015">AE 6015</option>
+                                
+                                    <option value="AE 6042">AE 6042</option>
+                                
+                                    <option value="AE 6070">AE 6070</option>
+                                
+                                    <option value="AE 6115">AE 6115</option>
+                                
+                                    <option value="AE 6210">AE 6210</option>
+                                
+                                    <option value="AE 6310">AE 6310</option>
+                                
+                                    <option value="AE 6334">AE 6334</option>
+                                
+                                    <option value="AE 6344">AE 6344</option>
+                                
+                                    <option value="AE 6361">AE 6361</option>
+                                
+                                    <option value="AE 6373">AE 6373</option>
+                                
+                                    <option value="AE 6394">AE 6394</option>
+                                
+                                    <option value="AE 6410">AE 6410</option>
+                                
+                                    <option value="AE 6450">AE 6450</option>
+                                
+                                    <option value="AE 6520">AE 6520</option>
+                                
+                                    <option value="AE 6580">AE 6580</option>
+                                
+                                    <option value="AE 6701">AE 6701</option>
+                                
+                                    <option value="AE 6761">AE 6761</option>
+                                
+                                    <option value="AE 6762">AE 6762</option>
+                                
+                                    <option value="AE 6766">AE 6766</option>
+                                
+                                    <option value="AE 6769">AE 6769</option>
+                                
+                                    <option value="AE 7000">AE 7000</option>
+                                
+                                    <option value="AE 7742">AE 7742</option>
+                                
+                                    <option value="AE 7774">AE 7774</option>
+                                
+                                    <option value="AE 7785">AE 7785</option>
+                                
+                                    <option value="AE 8002">AE 8002</option>
+                                
+                                    <option value="AE 8741">AE 8741</option>
+                                
+                                    <option value="AE 8750">AE 8750</option>
+                                
+                                    <option value="AE 8751">AE 8751</option>
+                                
+                                    <option value="AE 8803">AE 8803</option>
+                                
+                                    <option value="AE 8813">AE 8813</option>
+                                
+                                    <option value="AE 8883">AE 8883</option>
+                                
+                                    <option value="AE 8900">AE 8900</option>
+                                
+                                    <option value="AE 9000">AE 9000</option>
+                                
+                                    <option value="COE 2001">COE 2001</option>
+                                
+                                    <option value="COE 2701">COE 2701</option>
+                                
+                                    <option value="COE 3001">COE 3001</option>
+                                
+                                    <option value="MATH 1501">MATH 1501</option>
+                                
+                                    <option value="MATH 1511">MATH 1511</option>
+                                
+                                    <option value="MATH 15X1">MATH 15X1</option>
+                                
+                                    <option value="MATH 1551">MATH 1551</option>
+                                
+                                    <option value="ME 3322">ME 3322</option>
+                                
+                                    <option value="MATH 2552">MATH 2552</option>
+                                
+                                    <option value="MATH 2562">MATH 2562</option>
+                                
+                                    <option value="MATH 25X2">MATH 25X2</option>
+                                
+                                    <option value="MATH 2403">MATH 2403</option>
+                                
+                                    <option value="MATH 2413">MATH 2413</option>
+                                
+                                    <option value="MATH 24X3">MATH 24X3</option>
+                                
+                                    <option value="AE 3450">AE 3450</option>
+                                
+                                    <option value="MATH 2X52">MATH 2X52</option>
+                                
+                                    <option value="AE 6009">AE 6009</option>
+                                
+                                    <option value="AE 3021">AE 3021</option>
+                                
+                                    <option value="CS 1321">CS 1321</option>
+                                
+                                    <option value="ME 6766">ME 6766</option>
+                                
+                                    <option value="AE 3515">AE 3515</option>
+                                
+                                    <option value="ECE 6550">ECE 6550</option>
+                                
+                                    <option value="AE 2020">AE 2020</option>
+                                
+                                    <option value="ME 3340">ME 3340</option>
+                                
+                                    <option value="AE 6760">AE 6760</option>
+                                
+                                    <option value="ME 6760">ME 6760</option>
+                                
+                                    <option value="AE 6765">AE 6765</option>
+                                
+                                    <option value="ME 6765">ME 6765</option>
+                                
+                                    <option value="AE 7772">AE 7772</option>
+                                
+                                    <option value="CEE 7772">CEE 7772</option>
+                                
+                                    <option value="CHBE 7772">CHBE 7772</option>
+                                
+                                    <option value="ME 7772">ME 7772</option>
+                                
+                                    <option value="MSE 7772">MSE 7772</option>
+                                
+                                    <option value="CS 7785">CS 7785</option>
+                                
+                                    <option value="ECE 7785">ECE 7785</option>
+                                
+                                    <option value="ME 7785">ME 7785</option>
+                                
+                                    <option value="CS 8750">CS 8750</option>
+                                
+                                    <option value="ECE 8750">ECE 8750</option>
+                                
+                                    <option value="ME 8750">ME 8750</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 1355", "label": "AE 1355", "shape": "dot", "size": 6.324555320336759, "title": "Design Competition I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 1601", "label": "AE 1601", "shape": "dot", "size": 6.324555320336759, "title": "Introduction to AE"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "AE 2010", "label": "AE 2010", "shape": "dot", "size": 10.954451150103322, "title": "Thermodyn\u0026Fluids Fundam"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2010R", "label": "AE 2010R", "shape": "dot", "size": 6.324555320336759, "title": "AE 2010 Recitation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2011", "label": "AE 2011", "shape": "dot", "size": 6.324555320336759, "title": "Fluids Fundamentals"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "AE 2220", "label": "AE 2220", "shape": "dot", "size": 8.94427190999916, "title": "Dynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2220R", "label": "AE 2220R", "shape": "dot", "size": 6.324555320336759, "title": "AE 2220 Recitation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2221", "label": "AE 2221", "shape": "dot", "size": 6.324555320336759, "title": "3D Dynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2355", "label": "AE 2355", "shape": "dot", "size": 6.324555320336759, "title": "Design Competition II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2610", "label": "AE 2610", "shape": "dot", "size": 6.324555320336759, "title": "Intro Exper Methods AE"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2611", "label": "AE 2611", "shape": "dot", "size": 6.324555320336759, "title": "Technical Commun for AE"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2698", "label": "AE 2698", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2699", "label": "AE 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "AE 3030", "label": "AE 3030", "shape": "dot", "size": 8.94427190999916, "title": "Aerodynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3030R", "label": "AE 3030R", "shape": "dot", "size": 6.324555320336759, "title": "Aerodynamics Recitation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3140", "label": "AE 3140", "shape": "dot", "size": 6.324555320336759, "title": "Structural Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3330", "label": "AE 3330", "shape": "dot", "size": 6.324555320336759, "title": "Intro AE Vehicle Perform"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3340", "label": "AE 3340", "shape": "dot", "size": 6.324555320336759, "title": "Design\u0026System Eng Method"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3355", "label": "AE 3355", "shape": "dot", "size": 6.324555320336759, "title": "Design Competition III"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "AE 3530", "label": "AE 3530", "shape": "dot", "size": 8.94427190999916, "title": "Sys Dynamics\u0026Vibration"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3531", "label": "AE 3531", "shape": "dot", "size": 6.324555320336759, "title": "Ctrl Sys Analysis\u0026Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3610", "label": "AE 3610", "shape": "dot", "size": 6.324555320336759, "title": "Exper Fluids\u0026Solid Mech"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4132", "label": "AE 4132", "shape": "dot", "size": 6.324555320336759, "title": "Finite Element Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4220", "label": "AE 4220", "shape": "dot", "size": 6.324555320336759, "title": "Aeroelasticity"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4341", "label": "AE 4341", "shape": "dot", "size": 6.324555320336759, "title": "Aircraft Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4342", "label": "AE 4342", "shape": "dot", "size": 6.324555320336759, "title": "Space System Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4343", "label": "AE 4343", "shape": "dot", "size": 6.324555320336759, "title": "Rotorcraft Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4355", "label": "AE 4355", "shape": "dot", "size": 6.324555320336759, "title": "Design Competition IV"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "AE 4451", "label": "AE 4451", "shape": "dot", "size": 8.94427190999916, "title": "Jet \u0026 Rocket Propulsion"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4531", "label": "AE 4531", "shape": "dot", "size": 6.324555320336759, "title": "Aircraft Flight Dynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4532", "label": "AE 4532", "shape": "dot", "size": 6.324555320336759, "title": "Spacecraft Flight Dynam"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4610", "label": "AE 4610", "shape": "dot", "size": 6.324555320336759, "title": "Dynamics \u0026 Control Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4698", "label": "AE 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4699", "label": "AE 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4760", "label": "AE 4760", "shape": "dot", "size": 6.324555320336759, "title": "Acoustics\u0026 Noise Control"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4793", "label": "AE 4793", "shape": "dot", "size": 6.324555320336759, "title": "Composite Mater\u0026 Process"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4802", "label": "AE 4802", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4803", "label": "AE 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 4863", "label": "AE 4863", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6012", "label": "AE 6012", "shape": "dot", "size": 6.324555320336759, "title": "Turbulent Flows"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6015", "label": "AE 6015", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Aerodynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6042", "label": "AE 6042", "shape": "dot", "size": 6.324555320336759, "title": "Computational Fluid Dyn"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6070", "label": "AE 6070", "shape": "dot", "size": 6.324555320336759, "title": "Rotary Wing Aerodynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6115", "label": "AE 6115", "shape": "dot", "size": 6.324555320336759, "title": "Fndmntl Aero Struct Anal"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6210", "label": "AE 6210", "shape": "dot", "size": 6.324555320336759, "title": "Advanced Dynamics I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6310", "label": "AE 6310", "shape": "dot", "size": 6.324555320336759, "title": "Optimiz Design Engin Sys"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6334", "label": "AE 6334", "shape": "dot", "size": 6.324555320336759, "title": "Rotorcraft Design II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6344", "label": "AE 6344", "shape": "dot", "size": 6.324555320336759, "title": "Aircraft Design II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6361", "label": "AE 6361", "shape": "dot", "size": 6.324555320336759, "title": "Propulsion Sys Design I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6373", "label": "AE 6373", "shape": "dot", "size": 6.324555320336759, "title": "Adv Design Methods I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6394", "label": "AE 6394", "shape": "dot", "size": 6.324555320336759, "title": "Sys of Sys Eng App"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6410", "label": "AE 6410", "shape": "dot", "size": 6.324555320336759, "title": "Combustion Dynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6450", "label": "AE 6450", "shape": "dot", "size": 6.324555320336759, "title": "Rocket Propulsion"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6520", "label": "AE 6520", "shape": "dot", "size": 6.324555320336759, "title": "Adv Flight Dynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6580", "label": "AE 6580", "shape": "dot", "size": 6.324555320336759, "title": "Nonlinear Control"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6701", "label": "AE 6701", "shape": "dot", "size": 6.324555320336759, "title": "Wind Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6761", "label": "AE 6761", "shape": "dot", "size": 6.324555320336759, "title": "Acoustics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6762", "label": "AE 6762", "shape": "dot", "size": 6.324555320336759, "title": "Applied Acoustics"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "AE 6766", "label": "AE 6766", "shape": "dot", "size": 8.94427190999916, "title": "Combustion"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6769", "label": "AE 6769", "shape": "dot", "size": 6.324555320336759, "title": "Linear Elasticity"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 7000", "label": "AE 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 7742", "label": "AE 7742", "shape": "dot", "size": 6.324555320336759, "title": "Robo Pro Prep 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 7774", "label": "AE 7774", "shape": "dot", "size": 6.324555320336759, "title": "Fatigue-Materials\u0026Struct"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "AE 7785", "label": "AE 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 8002", "label": "AE 8002", "shape": "dot", "size": 6.324555320336759, "title": "AE Graduate Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 8741", "label": "AE 8741", "shape": "dot", "size": 6.324555320336759, "title": "Robo Capstone Project"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "AE 8750", "label": "AE 8750", "shape": "dot", "size": 12.649110640673518, "title": "Robotics Research Fnd I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 8751", "label": "AE 8751", "shape": "dot", "size": 6.324555320336759, "title": "Robotics Research Fnd II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 8803", "label": "AE 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 8813", "label": "AE 8813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 8883", "label": "AE 8883", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 8900", "label": "AE 8900", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 9000", "label": "AE 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "COE 2001", "label": "COE 2001", "shape": "dot", "size": 12.649110640673518, "title": "Statics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "COE 2701", "label": "COE 2701", "shape": "dot", "size": 6.324555320336759, "title": "Startup Lab"}, {"color": "#9e72df", "font": {"color": "#ffffff"}, "id": "COE 3001", "label": "COE 3001", "shape": "dot", "size": 18.973665961010276, "title": "Deformable Bodies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1501", "label": "MATH 1501", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1511", "label": "MATH 1511", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 15X1", "label": "MATH 15X1", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 1551", "label": "MATH 1551", "shape": "dot", "size": 16.73320053068151, "title": "Differential Calculus"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 3322", "label": "ME 3322", "shape": "dot", "size": 15.491933384829668, "title": "Thermodynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2552", "label": "MATH 2552", "shape": "dot", "size": 17.88854381999832, "title": "Differential Equations"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2562", "label": "MATH 2562", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 25X2", "label": "MATH 25X2", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2403", "label": "MATH 2403", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2413", "label": "MATH 2413", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 24X3", "label": "MATH 24X3", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3450", "label": "AE 3450", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 2X52", "label": "MATH 2X52", "shape": "dot", "size": 16.73320053068151, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6009", "label": "AE 6009", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3021", "label": "AE 3021", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1321", "label": "CS 1321", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 6766", "label": "ME 6766", "shape": "dot", "size": 8.94427190999916, "title": "Combustion"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 3515", "label": "AE 3515", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6550", "label": "ECE 6550", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 2020", "label": "AE 2020", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 3340", "label": "ME 3340", "shape": "dot", "size": 15.491933384829668, "title": "Fluid Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6760", "label": "AE 6760", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 6760", "label": "ME 6760", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 6765", "label": "AE 6765", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 6765", "label": "ME 6765", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "AE 7772", "label": "AE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 7772", "label": "CEE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 7772", "label": "CHBE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 7772", "label": "ME 7772", "shape": "dot", "size": 15.491933384829668, "title": "Fund-Fracture Mechanics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MSE 7772", "label": "MSE 7772", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 7785", "label": "CS 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 7785", "label": "ECE 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 7785", "label": "ME 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 8750", "label": "CS 8750", "shape": "dot", "size": 12.649110640673518, "title": "Robotics Research Fnd I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8750", "label": "ECE 8750", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 8750", "label": "ME 8750", "shape": "dot", "size": 12.649110640673518, "title": "Robotics Research Fnd I"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "AE 2010", "to": "AE 3030"}, {"arrows": "to", "from": "AE 2010", "to": "AE 4451"}, {"arrows": "to", "from": "AE 2220", "to": "AE 6210"}, {"arrows": "to", "from": "AE 3030", "to": "AE 6015"}, {"arrows": "to", "from": "AE 3530", "to": "AE 3531"}, {"arrows": "to", "from": "AE 4451", "to": "AE 6450"}, {"arrows": "to", "from": "AE 6766", "to": "AE 6410"}, {"arrows": "to", "from": "AE 7785", "to": "AE 8750"}, {"arrows": "to", "from": "AE 8750", "to": "AE 8751"}, {"arrows": "to", "from": "COE 3001", "to": "AE 3140"}, {"arrows": "to", "from": "COE 3001", "to": "AE 4132"}, {"arrows": "to", "from": "COE 3001", "to": "AE 6115"}, {"arrows": "to", "from": "MATH 1501", "to": "AE 1601"}, {"arrows": "to", "from": "MATH 1511", "to": "AE 1601"}, {"arrows": "to", "from": "MATH 15X1", "to": "AE 1601"}, {"arrows": "to", "from": "MATH 1551", "to": "AE 1601"}, {"arrows": "to", "from": "ME 3322", "to": "AE 2011"}, {"arrows": "to", "from": "MATH 2552", "to": "AE 2221"}, {"arrows": "to", "from": "MATH 2552", "to": "AE 4760"}, {"arrows": "to", "from": "MATH 2552", "to": "AE 6373"}, {"arrows": "to", "from": "MATH 2562", "to": "AE 2221"}, {"arrows": "to", "from": "MATH 2562", "to": "AE 4760"}, {"arrows": "to", "from": "MATH 2562", "to": "AE 6373"}, {"arrows": "to", "from": "MATH 25X2", "to": "AE 2221"}, {"arrows": "to", "from": "MATH 2403", "to": "AE 2221"}, {"arrows": "to", "from": "MATH 2403", "to": "AE 4760"}, {"arrows": "to", "from": "MATH 2403", "to": "AE 6373"}, {"arrows": "to", "from": "MATH 2413", "to": "AE 2221"}, {"arrows": "to", "from": "MATH 2413", "to": "AE 4760"}, {"arrows": "to", "from": "MATH 2413", "to": "AE 6373"}, {"arrows": "to", "from": "MATH 24X3", "to": "AE 2221"}, {"arrows": "to", "from": "MATH 24X3", "to": "AE 4760"}, {"arrows": "to", "from": "MATH 24X3", "to": "AE 6373"}, {"arrows": "to", "from": "AE 3450", "to": "AE 4451"}, {"arrows": "to", "from": "MATH 2X52", "to": "AE 4760"}, {"arrows": "to", "from": "MATH 2X52", "to": "AE 6373"}, {"arrows": "to", "from": "AE 6009", "to": "AE 6012"}, {"arrows": "to", "from": "AE 3021", "to": "AE 6042"}, {"arrows": "to", "from": "AE 3021", "to": "AE 6070"}, {"arrows": "to", "from": "CS 1321", "to": "AE 6361"}, {"arrows": "to", "from": "ME 6766", "to": "AE 6410"}, {"arrows": "to", "from": "AE 3515", "to": "AE 6520"}, {"arrows": "to", "from": "ECE 6550", "to": "AE 6580"}, {"arrows": "to", "from": "AE 2020", "to": "AE 6701"}, {"arrows": "to", "from": "ME 3340", "to": "AE 6701"}, {"arrows": "to", "from": "AE 6760", "to": "AE 6761"}, {"arrows": "to", "from": "AE 6760", "to": "AE 6762"}, {"arrows": "to", "from": "ME 6760", "to": "AE 6761"}, {"arrows": "to", "from": "ME 6760", "to": "AE 6762"}, {"arrows": "to", "from": "AE 6765", "to": "AE 6766"}, {"arrows": "to", "from": "ME 6765", "to": "AE 6766"}, {"arrows": "to", "from": "AE 7772", "to": "AE 7774"}, {"arrows": "to", "from": "CEE 7772", "to": "AE 7774"}, {"arrows": "to", "from": "CHBE 7772", "to": "AE 7774"}, {"arrows": "to", "from": "ME 7772", "to": "AE 7774"}, {"arrows": "to", "from": "MSE 7772", "to": "AE 7774"}, {"arrows": "to", "from": "CS 7785", "to": "AE 8750"}, {"arrows": "to", "from": "ECE 7785", "to": "AE 8750"}, {"arrows": "to", "from": "ME 7785", "to": "AE 8750"}, {"arrows": "to", "from": "CS 8750", "to": "AE 8751"}, {"arrows": "to", "from": "ECE 8750", "to": "AE 8751"}, {"arrows": "to", "from": "ME 8750", "to": "AE 8751"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

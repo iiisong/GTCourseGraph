@@ -1,0 +1,484 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="PSYC 1101">PSYC 1101</option>
+                                
+                                    <option value="PSYC 2015">PSYC 2015</option>
+                                
+                                    <option value="PSYC 2020">PSYC 2020</option>
+                                
+                                    <option value="PSYC 2103">PSYC 2103</option>
+                                
+                                    <option value="PSYC 2130">PSYC 2130</option>
+                                
+                                    <option value="PSYC 2210">PSYC 2210</option>
+                                
+                                    <option value="PSYC 2220">PSYC 2220</option>
+                                
+                                    <option value="PSYC 2230">PSYC 2230</option>
+                                
+                                    <option value="PSYC 2240">PSYC 2240</option>
+                                
+                                    <option value="PSYC 2270">PSYC 2270</option>
+                                
+                                    <option value="PSYC 2698">PSYC 2698</option>
+                                
+                                    <option value="PSYC 2699">PSYC 2699</option>
+                                
+                                    <option value="PSYC 2760">PSYC 2760</option>
+                                
+                                    <option value="PSYC 2803">PSYC 2803</option>
+                                
+                                    <option value="PSYC 3012">PSYC 3012</option>
+                                
+                                    <option value="PSYC 3040">PSYC 3040</option>
+                                
+                                    <option value="PSYC 3790">PSYC 3790</option>
+                                
+                                    <option value="PSYC 3803">PSYC 3803</option>
+                                
+                                    <option value="PSYC 3873">PSYC 3873</option>
+                                
+                                    <option value="PSYC 4011">PSYC 4011</option>
+                                
+                                    <option value="PSYC 4025">PSYC 4025</option>
+                                
+                                    <option value="PSYC 4031">PSYC 4031</option>
+                                
+                                    <option value="PSYC 4041">PSYC 4041</option>
+                                
+                                    <option value="PSYC 4050">PSYC 4050</option>
+                                
+                                    <option value="PSYC 4090">PSYC 4090</option>
+                                
+                                    <option value="PSYC 4260">PSYC 4260</option>
+                                
+                                    <option value="PSYC 4600">PSYC 4600</option>
+                                
+                                    <option value="PSYC 4601">PSYC 4601</option>
+                                
+                                    <option value="PSYC 4695">PSYC 4695</option>
+                                
+                                    <option value="PSYC 4697">PSYC 4697</option>
+                                
+                                    <option value="PSYC 4698">PSYC 4698</option>
+                                
+                                    <option value="PSYC 4699">PSYC 4699</option>
+                                
+                                    <option value="PSYC 4740">PSYC 4740</option>
+                                
+                                    <option value="PSYC 4803">PSYC 4803</option>
+                                
+                                    <option value="PSYC 4900">PSYC 4900</option>
+                                
+                                    <option value="PSYC 6014">PSYC 6014</option>
+                                
+                                    <option value="PSYC 6020">PSYC 6020</option>
+                                
+                                    <option value="PSYC 6022">PSYC 6022</option>
+                                
+                                    <option value="PSYC 6040">PSYC 6040</option>
+                                
+                                    <option value="PSYC 6041">PSYC 6041</option>
+                                
+                                    <option value="PSYC 6043">PSYC 6043</option>
+                                
+                                    <option value="PSYC 6060">PSYC 6060</option>
+                                
+                                    <option value="PSYC 6750">PSYC 6750</option>
+                                
+                                    <option value="PSYC 6998">PSYC 6998</option>
+                                
+                                    <option value="PSYC 7000">PSYC 7000</option>
+                                
+                                    <option value="PSYC 7105">PSYC 7105</option>
+                                
+                                    <option value="PSYC 7203">PSYC 7203</option>
+                                
+                                    <option value="PSYC 7302">PSYC 7302</option>
+                                
+                                    <option value="PSYC 8000">PSYC 8000</option>
+                                
+                                    <option value="PSYC 8050">PSYC 8050</option>
+                                
+                                    <option value="PSYC 8901">PSYC 8901</option>
+                                
+                                    <option value="PSYC 8902">PSYC 8902</option>
+                                
+                                    <option value="PSYC 8903">PSYC 8903</option>
+                                
+                                    <option value="PSYC 8904">PSYC 8904</option>
+                                
+                                    <option value="PSYC 8905">PSYC 8905</option>
+                                
+                                    <option value="PSYC 8907">PSYC 8907</option>
+                                
+                                    <option value="PSYC 8908">PSYC 8908</option>
+                                
+                                    <option value="PSYC 8998">PSYC 8998</option>
+                                
+                                    <option value="PSYC 9000">PSYC 9000</option>
+                                
+                                    <option value="PSYC 3011">PSYC 3011</option>
+                                
+                                    <option value="CETL 2000">CETL 2000</option>
+                                
+                                    <option value="PHIL 2010">PHIL 2010</option>
+                                
+                                    <option value="PSYC 6019">PSYC 6019</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#d656df", "font": {"color": "#ffffff"}, "id": "PSYC 1101", "label": "PSYC 1101", "shape": "dot", "size": 22.80350850198276, "title": "General Psychology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2015", "label": "PSYC 2015", "shape": "dot", "size": 6.324555320336759, "title": "Research Methods"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "PSYC 2020", "label": "PSYC 2020", "shape": "dot", "size": 8.94427190999916, "title": "Psychological Statistics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2103", "label": "PSYC 2103", "shape": "dot", "size": 6.324555320336759, "title": "Human Development"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2130", "label": "PSYC 2130", "shape": "dot", "size": 6.324555320336759, "title": "Intro Ed Psych"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2210", "label": "PSYC 2210", "shape": "dot", "size": 6.324555320336759, "title": "Social Psychology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2220", "label": "PSYC 2220", "shape": "dot", "size": 6.324555320336759, "title": "Industrial/Organiz Psy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2230", "label": "PSYC 2230", "shape": "dot", "size": 6.324555320336759, "title": "Abnormal Psychology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2240", "label": "PSYC 2240", "shape": "dot", "size": 6.324555320336759, "title": "Personality Theory"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2270", "label": "PSYC 2270", "shape": "dot", "size": 6.324555320336759, "title": "Engineering Psychology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2698", "label": "PSYC 2698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2699", "label": "PSYC 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2760", "label": "PSYC 2760", "shape": "dot", "size": 6.324555320336759, "title": "Human Language Process"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 2803", "label": "PSYC 2803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "PSYC 3012", "label": "PSYC 3012", "shape": "dot", "size": 8.94427190999916, "title": "Intro Cognitive Psyc"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 3040", "label": "PSYC 3040", "shape": "dot", "size": 6.324555320336759, "title": "Sensation \u0026 Perception"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 3790", "label": "PSYC 3790", "shape": "dot", "size": 6.324555320336759, "title": "Intro-Cognitive Science"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 3803", "label": "PSYC 3803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 3873", "label": "PSYC 3873", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "PSYC 4011", "label": "PSYC 4011", "shape": "dot", "size": 8.94427190999916, "title": "Cognitive Psychology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4025", "label": "PSYC 4025", "shape": "dot", "size": 6.324555320336759, "title": "Learning and Memory"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4031", "label": "PSYC 4031", "shape": "dot", "size": 6.324555320336759, "title": "Applied Experimental Psy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4041", "label": "PSYC 4041", "shape": "dot", "size": 6.324555320336759, "title": "Human Sensation \u0026 Percep"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4050", "label": "PSYC 4050", "shape": "dot", "size": 6.324555320336759, "title": "History and Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4090", "label": "PSYC 4090", "shape": "dot", "size": 6.324555320336759, "title": "Cognitive Neuroscience"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4260", "label": "PSYC 4260", "shape": "dot", "size": 6.324555320336759, "title": "Psychology of Aging"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "PSYC 4600", "label": "PSYC 4600", "shape": "dot", "size": 8.94427190999916, "title": "Senior Thesis I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4601", "label": "PSYC 4601", "shape": "dot", "size": 6.324555320336759, "title": "Senior Thesis II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4695", "label": "PSYC 4695", "shape": "dot", "size": 6.324555320336759, "title": "Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4697", "label": "PSYC 4697", "shape": "dot", "size": 6.324555320336759, "title": "Psyc Undergrad Teaching"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4698", "label": "PSYC 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4699", "label": "PSYC 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4740", "label": "PSYC 4740", "shape": "dot", "size": 6.324555320336759, "title": "Neuroethics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4803", "label": "PSYC 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 4900", "label": "PSYC 4900", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6014", "label": "PSYC 6014", "shape": "dot", "size": 6.324555320336759, "title": "Sensation \u0026 Perception"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6020", "label": "PSYC 6020", "shape": "dot", "size": 6.324555320336759, "title": "Statistical Analysis II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6022", "label": "PSYC 6022", "shape": "dot", "size": 6.324555320336759, "title": "Psyc Stat for HCI"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6040", "label": "PSYC 6040", "shape": "dot", "size": 6.324555320336759, "title": "Topics in Cog \u0026 Brain Sc"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6041", "label": "PSYC 6041", "shape": "dot", "size": 6.324555320336759, "title": "Topics in Cog Aging"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6043", "label": "PSYC 6043", "shape": "dot", "size": 6.324555320336759, "title": "Engr Psyc Res Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6060", "label": "PSYC 6060", "shape": "dot", "size": 6.324555320336759, "title": "Psyc of Aging"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "PSYC 6750", "label": "PSYC 6750", "shape": "dot", "size": 10.954451150103322, "title": "Human-Computer Interact"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6998", "label": "PSYC 6998", "shape": "dot", "size": 6.324555320336759, "title": "HCI Master\u0027s Project"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 7000", "label": "PSYC 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 7105", "label": "PSYC 7105", "shape": "dot", "size": 6.324555320336759, "title": "First Yr Research I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 7203", "label": "PSYC 7203", "shape": "dot", "size": 6.324555320336759, "title": "Motivation\u0026Job Attitudes"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 7302", "label": "PSYC 7302", "shape": "dot", "size": 6.324555320336759, "title": "Equation Modeling"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8000", "label": "PSYC 8000", "shape": "dot", "size": 6.324555320336759, "title": "Sem-Experimental Psy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8050", "label": "PSYC 8050", "shape": "dot", "size": 6.324555320336759, "title": "Sem-Indust/Organiz Psy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8901", "label": "PSYC 8901", "shape": "dot", "size": 6.324555320336759, "title": "Spec Prob-Engr Psy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8902", "label": "PSYC 8902", "shape": "dot", "size": 6.324555320336759, "title": "Spe Prob-Ind/Organiz Psy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8903", "label": "PSYC 8903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems in HCI"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8904", "label": "PSYC 8904", "shape": "dot", "size": 6.324555320336759, "title": "Spec Problems: Cog Aging"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8905", "label": "PSYC 8905", "shape": "dot", "size": 6.324555320336759, "title": "Special Prblems: CogNeuro"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8907", "label": "PSYC 8907", "shape": "dot", "size": 6.324555320336759, "title": "Spec Problems: Cog\u0026Brain"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8908", "label": "PSYC 8908", "shape": "dot", "size": 6.324555320336759, "title": "Spec Problems: Quant Psyc"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 8998", "label": "PSYC 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 9000", "label": "PSYC 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 3011", "label": "PSYC 3011", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CETL 2000", "label": "CETL 2000", "shape": "dot", "size": 12.649110640673518, "title": "Undergraduate  TA  Prep"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHIL 2010", "label": "PHIL 2010", "shape": "dot", "size": 8.94427190999916, "title": "Intro Philosophy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PSYC 6019", "label": "PSYC 6019", "shape": "dot", "size": 8.94427190999916, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "PSYC 1101", "to": "PSYC 2103"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 2210"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 2220"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 2230"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 2240"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 2270"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 3012"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 3040"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 3790"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 4050"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 4260"}, {"arrows": "to", "from": "PSYC 1101", "to": "PSYC 4740"}, {"arrows": "to", "from": "PSYC 2020", "to": "PSYC 4900"}, {"arrows": "to", "from": "PSYC 3012", "to": "PSYC 4090"}, {"arrows": "to", "from": "PSYC 4011", "to": "PSYC 4090"}, {"arrows": "to", "from": "PSYC 4600", "to": "PSYC 4601"}, {"arrows": "to", "from": "PSYC 3011", "to": "PSYC 4090"}, {"arrows": "to", "from": "CETL 2000", "to": "PSYC 4697"}, {"arrows": "to", "from": "PHIL 2010", "to": "PSYC 4740"}, {"arrows": "to", "from": "PSYC 6019", "to": "PSYC 6020"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,482 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="EAS 1600">EAS 1600</option>
+                                
+                                    <option value="EAS 1601">EAS 1601</option>
+                                
+                                    <option value="EAS 2551">EAS 2551</option>
+                                
+                                    <option value="EAS 2600">EAS 2600</option>
+                                
+                                    <option value="EAS 2655">EAS 2655</option>
+                                
+                                    <option value="EAS 2695">EAS 2695</option>
+                                
+                                    <option value="EAS 2698">EAS 2698</option>
+                                
+                                    <option value="EAS 2699">EAS 2699</option>
+                                
+                                    <option value="EAS 3110">EAS 3110</option>
+                                
+                                    <option value="EAS 4200">EAS 4200</option>
+                                
+                                    <option value="EAS 4300">EAS 4300</option>
+                                
+                                    <option value="EAS 4370">EAS 4370</option>
+                                
+                                    <option value="EAS 4375">EAS 4375</option>
+                                
+                                    <option value="EAS 4420">EAS 4420</option>
+                                
+                                    <option value="EAS 4450">EAS 4450</option>
+                                
+                                    <option value="EAS 4460">EAS 4460</option>
+                                
+                                    <option value="EAS 4480">EAS 4480</option>
+                                
+                                    <option value="EAS 4602">EAS 4602</option>
+                                
+                                    <option value="EAS 4651">EAS 4651</option>
+                                
+                                    <option value="EAS 4670">EAS 4670</option>
+                                
+                                    <option value="EAS 4695">EAS 4695</option>
+                                
+                                    <option value="EAS 4698">EAS 4698</option>
+                                
+                                    <option value="EAS 4699">EAS 4699</option>
+                                
+                                    <option value="EAS 4740">EAS 4740</option>
+                                
+                                    <option value="EAS 4801">EAS 4801</option>
+                                
+                                    <option value="EAS 4802">EAS 4802</option>
+                                
+                                    <option value="EAS 4803">EAS 4803</option>
+                                
+                                    <option value="EAS 4900">EAS 4900</option>
+                                
+                                    <option value="EAS 6122">EAS 6122</option>
+                                
+                                    <option value="EAS 6133">EAS 6133</option>
+                                
+                                    <option value="EAS 6320">EAS 6320</option>
+                                
+                                    <option value="EAS 6370">EAS 6370</option>
+                                
+                                    <option value="EAS 6375">EAS 6375</option>
+                                
+                                    <option value="EAS 6410">EAS 6410</option>
+                                
+                                    <option value="EAS 6490">EAS 6490</option>
+                                
+                                    <option value="EAS 6670">EAS 6670</option>
+                                
+                                    <option value="EAS 6672">EAS 6672</option>
+                                
+                                    <option value="EAS 6790">EAS 6790</option>
+                                
+                                    <option value="EAS 6795">EAS 6795</option>
+                                
+                                    <option value="EAS 7000">EAS 7000</option>
+                                
+                                    <option value="EAS 7999">EAS 7999</option>
+                                
+                                    <option value="EAS 8001">EAS 8001</option>
+                                
+                                    <option value="EAS 8011">EAS 8011</option>
+                                
+                                    <option value="EAS 8801">EAS 8801</option>
+                                
+                                    <option value="EAS 8802">EAS 8802</option>
+                                
+                                    <option value="EAS 8803">EAS 8803</option>
+                                
+                                    <option value="EAS 8901">EAS 8901</option>
+                                
+                                    <option value="EAS 8903">EAS 8903</option>
+                                
+                                    <option value="EAS 8997">EAS 8997</option>
+                                
+                                    <option value="EAS 8998">EAS 8998</option>
+                                
+                                    <option value="EAS 8999">EAS 8999</option>
+                                
+                                    <option value="EAS 9000">EAS 9000</option>
+                                
+                                    <option value="COS 3801">COS 3801</option>
+                                
+                                    <option value="EAS 2750">EAS 2750</option>
+                                
+                                    <option value="PHYS 2750">PHYS 2750</option>
+                                
+                                    <option value="EAS 4220">EAS 4220</option>
+                                
+                                    <option value="EAS 4221">EAS 4221</option>
+                                
+                                    <option value="EAS 4656">EAS 4656</option>
+                                
+                                    <option value="EAS 3620">EAS 3620</option>
+                                
+                                    <option value="EAS 4655">EAS 4655</option>
+                                
+                                    <option value="EAS 6502">EAS 6502</option>
+                                
+                                    <option value="CEE 6790">CEE 6790</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 1600", "label": "EAS 1600", "shape": "dot", "size": 6.324555320336759, "title": "Intro-Environmental Sci"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 1601", "label": "EAS 1601", "shape": "dot", "size": 6.324555320336759, "title": "Habitable Planet"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 2551", "label": "EAS 2551", "shape": "dot", "size": 6.324555320336759, "title": "Intro Met Analysis"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "EAS 2600", "label": "EAS 2600", "shape": "dot", "size": 10.954451150103322, "title": "Earth Processes"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 2655", "label": "EAS 2655", "shape": "dot", "size": 6.324555320336759, "title": "Quantitative Techniques"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 2695", "label": "EAS 2695", "shape": "dot", "size": 6.324555320336759, "title": "Undergrad Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 2698", "label": "EAS 2698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 2699", "label": "EAS 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 3110", "label": "EAS 3110", "shape": "dot", "size": 6.324555320336759, "title": "Energy, Environ, Society"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4200", "label": "EAS 4200", "shape": "dot", "size": 6.324555320336759, "title": "Structural Geology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4300", "label": "EAS 4300", "shape": "dot", "size": 6.324555320336759, "title": "Oceanography"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4370", "label": "EAS 4370", "shape": "dot", "size": 6.324555320336759, "title": "Physics of Planets"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4375", "label": "EAS 4375", "shape": "dot", "size": 6.324555320336759, "title": "Earth \u0026 Planet Materials"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4420", "label": "EAS 4420", "shape": "dot", "size": 6.324555320336759, "title": "Environmental Field Meth"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4450", "label": "EAS 4450", "shape": "dot", "size": 6.324555320336759, "title": "Synoptic Meteorology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4460", "label": "EAS 4460", "shape": "dot", "size": 6.324555320336759, "title": "Satellite \u0026 Radar Met"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4480", "label": "EAS 4480", "shape": "dot", "size": 6.324555320336759, "title": "Environ Data Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4602", "label": "EAS 4602", "shape": "dot", "size": 6.324555320336759, "title": "Biogeochemical Cycles"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4651", "label": "EAS 4651", "shape": "dot", "size": 6.324555320336759, "title": "Practical Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4670", "label": "EAS 4670", "shape": "dot", "size": 6.324555320336759, "title": "Atmospheric Dynamics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4695", "label": "EAS 4695", "shape": "dot", "size": 6.324555320336759, "title": "Undergrad Internship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4698", "label": "EAS 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4699", "label": "EAS 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "EAS 4740", "label": "EAS 4740", "shape": "dot", "size": 8.94427190999916, "title": "Atmospheric Chemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4801", "label": "EAS 4801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4802", "label": "EAS 4802", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4803", "label": "EAS 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4900", "label": "EAS 4900", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6122", "label": "EAS 6122", "shape": "dot", "size": 6.324555320336759, "title": "Biogeochemical Cycles"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6133", "label": "EAS 6133", "shape": "dot", "size": 6.324555320336759, "title": "Marine Ecosys Modeling"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6320", "label": "EAS 6320", "shape": "dot", "size": 6.324555320336759, "title": "Structural Geology"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6370", "label": "EAS 6370", "shape": "dot", "size": 6.324555320336759, "title": "Physics of Planets"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6375", "label": "EAS 6375", "shape": "dot", "size": 6.324555320336759, "title": "Earth \u0026 Planet Materials"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "EAS 6410", "label": "EAS 6410", "shape": "dot", "size": 8.94427190999916, "title": "Atmospheric Chemistry"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6490", "label": "EAS 6490", "shape": "dot", "size": 6.324555320336759, "title": "Adv Environ Data Analy"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6670", "label": "EAS 6670", "shape": "dot", "size": 6.324555320336759, "title": "Atmospheric Dynamics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6672", "label": "EAS 6672", "shape": "dot", "size": 6.324555320336759, "title": "Ocean Dynamics"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "EAS 6790", "label": "EAS 6790", "shape": "dot", "size": 8.94427190999916, "title": "Air Pollution:Phys\u0026Chem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6795", "label": "EAS 6795", "shape": "dot", "size": 6.324555320336759, "title": "Atmospheric Aerosols"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 7000", "label": "EAS 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 7999", "label": "EAS 7999", "shape": "dot", "size": 6.324555320336759, "title": "Prep-Doctorl Comp Exams"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8001", "label": "EAS 8001", "shape": "dot", "size": 6.324555320336759, "title": "Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8011", "label": "EAS 8011", "shape": "dot", "size": 6.324555320336759, "title": "Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8801", "label": "EAS 8801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8802", "label": "EAS 8802", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8803", "label": "EAS 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8901", "label": "EAS 8901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8903", "label": "EAS 8903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8997", "label": "EAS 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8998", "label": "EAS 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 8999", "label": "EAS 8999", "shape": "dot", "size": 6.324555320336759, "title": "Prep-Doctoral Disserta\u0027n"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 9000", "label": "EAS 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "COS 3801", "label": "COS 3801", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 2750", "label": "EAS 2750", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2750", "label": "PHYS 2750", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4220", "label": "EAS 4220", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4221", "label": "EAS 4221", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4656", "label": "EAS 4656", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 3620", "label": "EAS 3620", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 4655", "label": "EAS 4655", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "EAS 6502", "label": "EAS 6502", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 6790", "label": "CEE 6790", "shape": "dot", "size": 8.94427190999916, "title": "Air Pollution:Phys\u0026Chem"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "EAS 2600", "to": "EAS 4200"}, {"arrows": "to", "from": "EAS 2600", "to": "EAS 6320"}, {"arrows": "to", "from": "EAS 4740", "to": "EAS 4602"}, {"arrows": "to", "from": "EAS 6410", "to": "EAS 6795"}, {"arrows": "to", "from": "EAS 6790", "to": "EAS 6795"}, {"arrows": "to", "from": "EAS 2750", "to": "EAS 2551"}, {"arrows": "to", "from": "PHYS 2750", "to": "EAS 2551"}, {"arrows": "to", "from": "EAS 4220", "to": "EAS 4375"}, {"arrows": "to", "from": "EAS 4221", "to": "EAS 4420"}, {"arrows": "to", "from": "EAS 4656", "to": "EAS 4420"}, {"arrows": "to", "from": "EAS 3620", "to": "EAS 4602"}, {"arrows": "to", "from": "EAS 4655", "to": "EAS 4670"}, {"arrows": "to", "from": "EAS 6502", "to": "EAS 6670"}, {"arrows": "to", "from": "CEE 6790", "to": "EAS 6795"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

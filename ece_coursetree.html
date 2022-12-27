@@ -1,0 +1,779 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #000000;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="ECE 1100">ECE 1100</option>
+                                
+                                    <option value="ECE 2002">ECE 2002</option>
+                                
+                                    <option value="ECE 2020">ECE 2020</option>
+                                
+                                    <option value="ECE 2026">ECE 2026</option>
+                                
+                                    <option value="ECE 2031">ECE 2031</option>
+                                
+                                    <option value="ECE 2035">ECE 2035</option>
+                                
+                                    <option value="ECE 2036">ECE 2036</option>
+                                
+                                    <option value="ECE 2040">ECE 2040</option>
+                                
+                                    <option value="ECE 2698">ECE 2698</option>
+                                
+                                    <option value="ECE 2699">ECE 2699</option>
+                                
+                                    <option value="ECE 2901">ECE 2901</option>
+                                
+                                    <option value="ECE 2902">ECE 2902</option>
+                                
+                                    <option value="ECE 2903">ECE 2903</option>
+                                
+                                    <option value="ECE 3005">ECE 3005</option>
+                                
+                                    <option value="ECE 3011">ECE 3011</option>
+                                
+                                    <option value="ECE 3025">ECE 3025</option>
+                                
+                                    <option value="ECE 3030">ECE 3030</option>
+                                
+                                    <option value="ECE 3040">ECE 3040</option>
+                                
+                                    <option value="ECE 3043">ECE 3043</option>
+                                
+                                    <option value="ECE 3058">ECE 3058</option>
+                                
+                                    <option value="ECE 3072">ECE 3072</option>
+                                
+                                    <option value="ECE 3077">ECE 3077</option>
+                                
+                                    <option value="ECE 3084">ECE 3084</option>
+                                
+                                    <option value="ECE 3150">ECE 3150</option>
+                                
+                                    <option value="ECE 3300">ECE 3300</option>
+                                
+                                    <option value="ECE 3400">ECE 3400</option>
+                                
+                                    <option value="ECE 3550">ECE 3550</option>
+                                
+                                    <option value="ECE 3600">ECE 3600</option>
+                                
+                                    <option value="ECE 3710">ECE 3710</option>
+                                
+                                    <option value="ECE 3741">ECE 3741</option>
+                                
+                                    <option value="ECE 3901">ECE 3901</option>
+                                
+                                    <option value="ECE 3902">ECE 3902</option>
+                                
+                                    <option value="ECE 3903">ECE 3903</option>
+                                
+                                    <option value="ECE 3951">ECE 3951</option>
+                                
+                                    <option value="ECE 3952">ECE 3952</option>
+                                
+                                    <option value="ECE 4043">ECE 4043</option>
+                                
+                                    <option value="ECE 4053">ECE 4053</option>
+                                
+                                    <option value="ECE 4100">ECE 4100</option>
+                                
+                                    <option value="ECE 4115">ECE 4115</option>
+                                
+                                    <option value="ECE 4117">ECE 4117</option>
+                                
+                                    <option value="ECE 4156">ECE 4156</option>
+                                
+                                    <option value="ECE 4180">ECE 4180</option>
+                                
+                                    <option value="ECE 4260">ECE 4260</option>
+                                
+                                    <option value="ECE 4270">ECE 4270</option>
+                                
+                                    <option value="ECE 4321">ECE 4321</option>
+                                
+                                    <option value="ECE 4350">ECE 4350</option>
+                                
+                                    <option value="ECE 4390">ECE 4390</option>
+                                
+                                    <option value="ECE 4418">ECE 4418</option>
+                                
+                                    <option value="ECE 4450">ECE 4450</option>
+                                
+                                    <option value="ECE 4452">ECE 4452</option>
+                                
+                                    <option value="ECE 4470">ECE 4470</option>
+                                
+                                    <option value="ECE 4502">ECE 4502</option>
+                                
+                                    <option value="ECE 4550">ECE 4550</option>
+                                
+                                    <option value="ECE 4606">ECE 4606</option>
+                                
+                                    <option value="ECE 4612">ECE 4612</option>
+                                
+                                    <option value="ECE 4698">ECE 4698</option>
+                                
+                                    <option value="ECE 4699">ECE 4699</option>
+                                
+                                    <option value="ECE 4723">ECE 4723</option>
+                                
+                                    <option value="ECE 4754">ECE 4754</option>
+                                
+                                    <option value="ECE 4782">ECE 4782</option>
+                                
+                                    <option value="ECE 4803">ECE 4803</option>
+                                
+                                    <option value="ECE 4871">ECE 4871</option>
+                                
+                                    <option value="ECE 4872">ECE 4872</option>
+                                
+                                    <option value="ECE 4873">ECE 4873</option>
+                                
+                                    <option value="ECE 4901">ECE 4901</option>
+                                
+                                    <option value="ECE 4902">ECE 4902</option>
+                                
+                                    <option value="ECE 4903">ECE 4903</option>
+                                
+                                    <option value="ECE 4951">ECE 4951</option>
+                                
+                                    <option value="ECE 4952">ECE 4952</option>
+                                
+                                    <option value="ECE 6001">ECE 6001</option>
+                                
+                                    <option value="ECE 6100">ECE 6100</option>
+                                
+                                    <option value="ECE 6110">ECE 6110</option>
+                                
+                                    <option value="ECE 6156">ECE 6156</option>
+                                
+                                    <option value="ECE 6200">ECE 6200</option>
+                                
+                                    <option value="ECE 6254">ECE 6254</option>
+                                
+                                    <option value="ECE 6255">ECE 6255</option>
+                                
+                                    <option value="ECE 6260">ECE 6260</option>
+                                
+                                    <option value="ECE 6271">ECE 6271</option>
+                                
+                                    <option value="ECE 6272">ECE 6272</option>
+                                
+                                    <option value="ECE 6320">ECE 6320</option>
+                                
+                                    <option value="ECE 6331">ECE 6331</option>
+                                
+                                    <option value="ECE 6336">ECE 6336</option>
+                                
+                                    <option value="ECE 6360">ECE 6360</option>
+                                
+                                    <option value="ECE 6370">ECE 6370</option>
+                                
+                                    <option value="ECE 6375">ECE 6375</option>
+                                
+                                    <option value="ECE 6412">ECE 6412</option>
+                                
+                                    <option value="ECE 6414">ECE 6414</option>
+                                
+                                    <option value="ECE 6455">ECE 6455</option>
+                                
+                                    <option value="ECE 6456">ECE 6456</option>
+                                
+                                    <option value="ECE 6460">ECE 6460</option>
+                                
+                                    <option value="ECE 6501">ECE 6501</option>
+                                
+                                    <option value="ECE 6510">ECE 6510</option>
+                                
+                                    <option value="ECE 6553">ECE 6553</option>
+                                
+                                    <option value="ECE 6554">ECE 6554</option>
+                                
+                                    <option value="ECE 6559">ECE 6559</option>
+                                
+                                    <option value="ECE 6560">ECE 6560</option>
+                                
+                                    <option value="ECE 6601">ECE 6601</option>
+                                
+                                    <option value="ECE 6602">ECE 6602</option>
+                                
+                                    <option value="ECE 6612">ECE 6612</option>
+                                
+                                    <option value="ECE 6727">ECE 6727</option>
+                                
+                                    <option value="ECE 6744">ECE 6744</option>
+                                
+                                    <option value="ECE 6747">ECE 6747</option>
+                                
+                                    <option value="ECE 6780">ECE 6780</option>
+                                
+                                    <option value="ECE 6790">ECE 6790</option>
+                                
+                                    <option value="ECE 6792">ECE 6792</option>
+                                
+                                    <option value="ECE 7000">ECE 7000</option>
+                                
+                                    <option value="ECE 7056">ECE 7056</option>
+                                
+                                    <option value="ECE 7722">ECE 7722</option>
+                                
+                                    <option value="ECE 7742">ECE 7742</option>
+                                
+                                    <option value="ECE 7751">ECE 7751</option>
+                                
+                                    <option value="ECE 7785">ECE 7785</option>
+                                
+                                    <option value="ECE 8002">ECE 8002</option>
+                                
+                                    <option value="ECE 8022">ECE 8022</option>
+                                
+                                    <option value="ECE 8741">ECE 8741</option>
+                                
+                                    <option value="ECE 8803">ECE 8803</option>
+                                
+                                    <option value="ECE 8813">ECE 8813</option>
+                                
+                                    <option value="ECE 8823">ECE 8823</option>
+                                
+                                    <option value="ECE 8833">ECE 8833</option>
+                                
+                                    <option value="ECE 8893">ECE 8893</option>
+                                
+                                    <option value="ECE 8900">ECE 8900</option>
+                                
+                                    <option value="ECE 8901">ECE 8901</option>
+                                
+                                    <option value="ECE 8902">ECE 8902</option>
+                                
+                                    <option value="ECE 8903">ECE 8903</option>
+                                
+                                    <option value="ECE 8997">ECE 8997</option>
+                                
+                                    <option value="ECE 8998">ECE 8998</option>
+                                
+                                    <option value="ECE 8999">ECE 8999</option>
+                                
+                                    <option value="ECE 9000">ECE 9000</option>
+                                
+                                    <option value="COE 2001">COE 2001</option>
+                                
+                                    <option value="COE 2701">COE 2701</option>
+                                
+                                    <option value="COE 3001">COE 3001</option>
+                                
+                                    <option value="CS 1371">CS 1371</option>
+                                
+                                    <option value="CS 1171">CS 1171</option>
+                                
+                                    <option value="CS 1301">CS 1301</option>
+                                
+                                    <option value="CS 2110">CS 2110</option>
+                                
+                                    <option value="PHYS 2212">PHYS 2212</option>
+                                
+                                    <option value="PHYS 2232">PHYS 2232</option>
+                                
+                                    <option value="ECE 3056">ECE 3056</option>
+                                
+                                    <option value="ECE 3057">ECE 3057</option>
+                                
+                                    <option value="ECE 4110">ECE 4110</option>
+                                
+                                    <option value="CS 3251">CS 3251</option>
+                                
+                                    <option value="ECE 3170">ECE 3170</option>
+                                
+                                    <option value="ECE 4601">ECE 4601</option>
+                                
+                                    <option value="ECE 3872">ECE 3872</option>
+                                
+                                    <option value="BMED 3510">BMED 3510</option>
+                                
+                                    <option value="CHBE 4400">CHBE 4400</option>
+                                
+                                    <option value="ME 3015">ME 3015</option>
+                                
+                                    <option value="ME 3017">ME 3017</option>
+                                
+                                    <option value="ECE 6607">ECE 6607</option>
+                                
+                                    <option value="ECE 6450">ECE 6450</option>
+                                
+                                    <option value="ECE 4320">ECE 4320</option>
+                                
+                                    <option value="ECE 4330">ECE 4330</option>
+                                
+                                    <option value="ECE 6350">ECE 6350</option>
+                                
+                                    <option value="ECE 4430">ECE 4430</option>
+                                
+                                    <option value="ECE 4435">ECE 4435</option>
+                                
+                                    <option value="ISYE 3770">ISYE 3770</option>
+                                
+                                    <option value="MATH 3770">MATH 3770</option>
+                                
+                                    <option value="CEE 3770">CEE 3770</option>
+                                
+                                    <option value="ECE 6500">ECE 6500</option>
+                                
+                                    <option value="ECE 6550">ECE 6550</option>
+                                
+                                    <option value="ECE 3076">ECE 3076</option>
+                                
+                                    <option value="ECE 4894">ECE 4894</option>
+                                
+                                    <option value="BMED 6786">BMED 6786</option>
+                                
+                                    <option value="ECE 6786">ECE 6786</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 1100", "label": "ECE 1100", "shape": "dot", "size": 6.324555320336759, "title": "ECE Discovery Studio"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2002", "label": "ECE 2002", "shape": "dot", "size": 6.324555320336759, "title": "ECE Seminar"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 2020", "label": "ECE 2020", "shape": "dot", "size": 8.94427190999916, "title": "Digital System Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2026", "label": "ECE 2026", "shape": "dot", "size": 6.324555320336759, "title": "Intro Signal Processing"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 2031", "label": "ECE 2031", "shape": "dot", "size": 8.94427190999916, "title": "Digital Design Lab"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "ECE 2035", "label": "ECE 2035", "shape": "dot", "size": 12.649110640673518, "title": "Programming HW/SW System"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "ECE 2036", "label": "ECE 2036", "shape": "dot", "size": 12.649110640673518, "title": "Engr Software Design"}, {"color": "#8d7fdf", "font": {"color": "#ffffff"}, "id": "ECE 2040", "label": "ECE 2040", "shape": "dot", "size": 16.73320053068151, "title": "Circuit Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2698", "label": "ECE 2698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2699", "label": "ECE 2699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2901", "label": "ECE 2901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2902", "label": "ECE 2902", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 2903", "label": "ECE 2903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3005", "label": "ECE 3005", "shape": "dot", "size": 6.324555320336759, "title": "ECE Prof/Tech Comm"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3011", "label": "ECE 3011", "shape": "dot", "size": 6.324555320336759, "title": "ECE Design Fundamentals"}, {"color": "#8786e0", "font": {"color": "#ffffff"}, "id": "ECE 3025", "label": "ECE 3025", "shape": "dot", "size": 15.491933384829668, "title": "Electromagnetics"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 3030", "label": "ECE 3030", "shape": "dot", "size": 8.94427190999916, "title": "Physical Foundations CmpE"}, {"color": "#8d7fdf", "font": {"color": "#ffffff"}, "id": "ECE 3040", "label": "ECE 3040", "shape": "dot", "size": 16.73320053068151, "title": "Microelectronic Circuits"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3043", "label": "ECE 3043", "shape": "dot", "size": 6.324555320336759, "title": "Circuits\u0026Electronics Lab"}, {"color": "#a96bdf", "font": {"color": "#ffffff"}, "id": "ECE 3058", "label": "ECE 3058", "shape": "dot", "size": 20.0, "title": "ARCH, SYS, CONC \u0026 ENGY COMP"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 3072", "label": "ECE 3072", "shape": "dot", "size": 8.94427190999916, "title": "Elec Energy Systems"}, {"color": "#9ab6e1", "font": {"color": "#ffffff"}, "id": "ECE 3077", "label": "ECE 3077", "shape": "dot", "size": 10.954451150103322, "title": "Prob/Stats for ECE"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 3084", "label": "ECE 3084", "shape": "dot", "size": 8.94427190999916, "title": "Signals and Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3150", "label": "ECE 3150", "shape": "dot", "size": 6.324555320336759, "title": "VLSI \u0026 Adv Digital Dsgn"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 3300", "label": "ECE 3300", "shape": "dot", "size": 8.94427190999916, "title": "Elec Energy Conversion"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3400", "label": "ECE 3400", "shape": "dot", "size": 6.324555320336759, "title": "Analog Electronics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3550", "label": "ECE 3550", "shape": "dot", "size": 6.324555320336759, "title": "Feedback Control Systems"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 3600", "label": "ECE 3600", "shape": "dot", "size": 8.94427190999916, "title": "Computer Communications"}, {"color": "#8786e0", "font": {"color": "#ffffff"}, "id": "ECE 3710", "label": "ECE 3710", "shape": "dot", "size": 15.491933384829668, "title": "Circuits \u0026 Electronics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3741", "label": "ECE 3741", "shape": "dot", "size": 6.324555320336759, "title": "Instrum \u0026 Electronic Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3901", "label": "ECE 3901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3902", "label": "ECE 3902", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3903", "label": "ECE 3903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 3951", "label": "ECE 3951", "shape": "dot", "size": 8.94427190999916, "title": "Undergrad Research I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3952", "label": "ECE 3952", "shape": "dot", "size": 6.324555320336759, "title": "Undergrad Research II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4043", "label": "ECE 4043", "shape": "dot", "size": 6.324555320336759, "title": "Analog Electronics Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4053", "label": "ECE 4053", "shape": "dot", "size": 6.324555320336759, "title": "Research Methods"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4100", "label": "ECE 4100", "shape": "dot", "size": 6.324555320336759, "title": "Adv Computer Architecure"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4115", "label": "ECE 4115", "shape": "dot", "size": 6.324555320336759, "title": "Intro to Comp Security"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4117", "label": "ECE 4117", "shape": "dot", "size": 6.324555320336759, "title": "Intro Malware Rev Eng"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4156", "label": "ECE 4156", "shape": "dot", "size": 6.324555320336759, "title": "HW Oriented Secur Trust"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4180", "label": "ECE 4180", "shape": "dot", "size": 6.324555320336759, "title": "Embedded Systems Design"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 4260", "label": "ECE 4260", "shape": "dot", "size": 8.94427190999916, "title": "Random Signals \u0026 Appl"}, {"color": "#8d97e0", "font": {"color": "#ffffff"}, "id": "ECE 4270", "label": "ECE 4270", "shape": "dot", "size": 14.142135623730951, "title": "Fund-Digital Signal Proc"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4321", "label": "ECE 4321", "shape": "dot", "size": 6.324555320336759, "title": "Power System Engineering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4350", "label": "ECE 4350", "shape": "dot", "size": 6.324555320336759, "title": "Electromag Applications"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4390", "label": "ECE 4390", "shape": "dot", "size": 6.324555320336759, "title": "Radar and EM Sensing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4418", "label": "ECE 4418", "shape": "dot", "size": 6.324555320336759, "title": "RF Engineering II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4450", "label": "ECE 4450", "shape": "dot", "size": 6.324555320336759, "title": "Analog for Music Synth"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4452", "label": "ECE 4452", "shape": "dot", "size": 6.324555320336759, "title": "IC Fabrication"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4470", "label": "ECE 4470", "shape": "dot", "size": 6.324555320336759, "title": "Renewable Energy Devices"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4502", "label": "ECE 4502", "shape": "dot", "size": 6.324555320336759, "title": "Optical Fiber Comm"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4550", "label": "ECE 4550", "shape": "dot", "size": 6.324555320336759, "title": "Control System Design"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 4606", "label": "ECE 4606", "shape": "dot", "size": 8.94427190999916, "title": "Wireless Communications"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4612", "label": "ECE 4612", "shape": "dot", "size": 6.324555320336759, "title": "Telecom Systems Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4698", "label": "ECE 4698", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4699", "label": "ECE 4699", "shape": "dot", "size": 6.324555320336759, "title": "Undergraduate Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4723", "label": "ECE 4723", "shape": "dot", "size": 6.324555320336759, "title": "Inter Capstone Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4754", "label": "ECE 4754", "shape": "dot", "size": 6.324555320336759, "title": "Elec Packaging Assembly"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4782", "label": "ECE 4782", "shape": "dot", "size": 6.324555320336759, "title": "Biosystems Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4803", "label": "ECE 4803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4871", "label": "ECE 4871", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4872", "label": "ECE 4872", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4873", "label": "ECE 4873", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4901", "label": "ECE 4901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4902", "label": "ECE 4902", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4903", "label": "ECE 4903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 4951", "label": "ECE 4951", "shape": "dot", "size": 8.94427190999916, "title": "Undergrad Research I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4952", "label": "ECE 4952", "shape": "dot", "size": 6.324555320336759, "title": "Undergrad Research II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6001", "label": "ECE 6001", "shape": "dot", "size": 6.324555320336759, "title": "Technology Entrepreneur"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6100", "label": "ECE 6100", "shape": "dot", "size": 6.324555320336759, "title": "Adv Comput Architecture"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6110", "label": "ECE 6110", "shape": "dot", "size": 6.324555320336759, "title": "CAD-Communication Netwks"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6156", "label": "ECE 6156", "shape": "dot", "size": 6.324555320336759, "title": "HW Oriented Secur Trust"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6200", "label": "ECE 6200", "shape": "dot", "size": 6.324555320336759, "title": "Biomedical Applic MEMS"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6254", "label": "ECE 6254", "shape": "dot", "size": 6.324555320336759, "title": "Stat Machine Learning"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6255", "label": "ECE 6255", "shape": "dot", "size": 6.324555320336759, "title": "Digit Proc-Speech Signal"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6260", "label": "ECE 6260", "shape": "dot", "size": 6.324555320336759, "title": "Data Compression \u0026 Model"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6271", "label": "ECE 6271", "shape": "dot", "size": 6.324555320336759, "title": "Adaptive Filtering"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6272", "label": "ECE 6272", "shape": "dot", "size": 6.324555320336759, "title": "Fund-Radar Signal Proces"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6320", "label": "ECE 6320", "shape": "dot", "size": 6.324555320336759, "title": "Power Sys Ctrl\u0026Operation"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6331", "label": "ECE 6331", "shape": "dot", "size": 6.324555320336759, "title": "Power Electronic Cicuits"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6336", "label": "ECE 6336", "shape": "dot", "size": 6.324555320336759, "title": "Electric Machine Drives"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6360", "label": "ECE 6360", "shape": "dot", "size": 6.324555320336759, "title": "Microwave Design"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6370", "label": "ECE 6370", "shape": "dot", "size": 6.324555320336759, "title": "EM Radiation \u0026 Antennas"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6375", "label": "ECE 6375", "shape": "dot", "size": 6.324555320336759, "title": "Radio in Earth and Space"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6412", "label": "ECE 6412", "shape": "dot", "size": 6.324555320336759, "title": "Analog Integ Circuit Dgn"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6414", "label": "ECE 6414", "shape": "dot", "size": 6.324555320336759, "title": "Analog Integrate Sys Dgn"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6455", "label": "ECE 6455", "shape": "dot", "size": 6.324555320336759, "title": "Semiconductor Proc Ctrl"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6456", "label": "ECE 6456", "shape": "dot", "size": 6.324555320336759, "title": "Solar Cells"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6460", "label": "ECE 6460", "shape": "dot", "size": 6.324555320336759, "title": "Microelectromech Devices"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6501", "label": "ECE 6501", "shape": "dot", "size": 6.324555320336759, "title": "Fourier Optic\u0026Holography"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6510", "label": "ECE 6510", "shape": "dot", "size": 6.324555320336759, "title": "Electro-Optics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6553", "label": "ECE 6553", "shape": "dot", "size": 6.324555320336759, "title": "Optimal Control"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6554", "label": "ECE 6554", "shape": "dot", "size": 6.324555320336759, "title": "Adaptive Control"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6559", "label": "ECE 6559", "shape": "dot", "size": 6.324555320336759, "title": "Adv Linear Systems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6560", "label": "ECE 6560", "shape": "dot", "size": 6.324555320336759, "title": "PDEs Image Proc \u0026 Vision"}, {"color": "#a0c3e2", "font": {"color": "#ffffff"}, "id": "ECE 6601", "label": "ECE 6601", "shape": "dot", "size": 8.94427190999916, "title": "Random Processes"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6602", "label": "ECE 6602", "shape": "dot", "size": 6.324555320336759, "title": "Digital Communications"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6612", "label": "ECE 6612", "shape": "dot", "size": 6.324555320336759, "title": "Comp Network Security"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6727", "label": "ECE 6727", "shape": "dot", "size": 6.324555320336759, "title": "Cyber Sec Practicum"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6744", "label": "ECE 6744", "shape": "dot", "size": 6.324555320336759, "title": "Topics in Engr Practice"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6747", "label": "ECE 6747", "shape": "dot", "size": 6.324555320336759, "title": "Adv Malware Analysis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6780", "label": "ECE 6780", "shape": "dot", "size": 6.324555320336759, "title": "Medical Image Processing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6790", "label": "ECE 6790", "shape": "dot", "size": 6.324555320336759, "title": "Info Proc Model Neur Sys"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6792", "label": "ECE 6792", "shape": "dot", "size": 6.324555320336759, "title": "Manufacturing Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 7000", "label": "ECE 7000", "shape": "dot", "size": 6.324555320336759, "title": "Master\u0027s Thesis"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 7056", "label": "ECE 7056", "shape": "dot", "size": 6.324555320336759, "title": "GT-TU"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 7722", "label": "ECE 7722", "shape": "dot", "size": 6.324555320336759, "title": "Future Faculty Practicum"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 7742", "label": "ECE 7742", "shape": "dot", "size": 6.324555320336759, "title": "Robo Pro Prep 2"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 7751", "label": "ECE 7751", "shape": "dot", "size": 6.324555320336759, "title": "Graphical Models in ML"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "ECE 7785", "label": "ECE 7785", "shape": "dot", "size": 12.649110640673518, "title": "Intro Robotics Research"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8002", "label": "ECE 8002", "shape": "dot", "size": 6.324555320336759, "title": "ECE Seminar"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8022", "label": "ECE 8022", "shape": "dot", "size": 6.324555320336759, "title": "Prof Communication Sem"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8741", "label": "ECE 8741", "shape": "dot", "size": 6.324555320336759, "title": "Robo Capstone Project"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8803", "label": "ECE 8803", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8813", "label": "ECE 8813", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8823", "label": "ECE 8823", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8833", "label": "ECE 8833", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8893", "label": "ECE 8893", "shape": "dot", "size": 6.324555320336759, "title": "Special Topics-Lab"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8900", "label": "ECE 8900", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8901", "label": "ECE 8901", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8902", "label": "ECE 8902", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8903", "label": "ECE 8903", "shape": "dot", "size": 6.324555320336759, "title": "Special Problems"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8997", "label": "ECE 8997", "shape": "dot", "size": 6.324555320336759, "title": "Teaching Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8998", "label": "ECE 8998", "shape": "dot", "size": 6.324555320336759, "title": "Research Assistantship"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 8999", "label": "ECE 8999", "shape": "dot", "size": 6.324555320336759, "title": "Prep-Doctoral Disserta\u0027n"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 9000", "label": "ECE 9000", "shape": "dot", "size": 6.324555320336759, "title": "Doctoral Thesis"}, {"color": "#93a7e1", "font": {"color": "#ffffff"}, "id": "COE 2001", "label": "COE 2001", "shape": "dot", "size": 12.649110640673518, "title": "Statics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "COE 2701", "label": "COE 2701", "shape": "dot", "size": 6.324555320336759, "title": "Startup Lab"}, {"color": "#9e72df", "font": {"color": "#ffffff"}, "id": "COE 3001", "label": "COE 3001", "shape": "dot", "size": 18.973665961010276, "title": "Deformable Bodies"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1371", "label": "CS 1371", "shape": "dot", "size": 17.88854381999832, "title": "Computing for Engineers"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1171", "label": "CS 1171", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 1301", "label": "CS 1301", "shape": "dot", "size": 15.491933384829668, "title": "Intro to Computing"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 2110", "label": "CS 2110", "shape": "dot", "size": 14.142135623730951, "title": "Computer Organiz\u0026Program"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2212", "label": "PHYS 2212", "shape": "dot", "size": 12.649110640673518, "title": "Intro Physics II"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "PHYS 2232", "label": "PHYS 2232", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3056", "label": "ECE 3056", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3057", "label": "ECE 3057", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4110", "label": "ECE 4110", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CS 3251", "label": "CS 3251", "shape": "dot", "size": 10.954451150103322, "title": "Computer Networking I"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3170", "label": "ECE 3170", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4601", "label": "ECE 4601", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3872", "label": "ECE 3872", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BMED 3510", "label": "BMED 3510", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CHBE 4400", "label": "CHBE 4400", "shape": "dot", "size": 14.142135623730951, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 3015", "label": "ME 3015", "shape": "dot", "size": 17.88854381999832, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ME 3017", "label": "ME 3017", "shape": "dot", "size": 16.73320053068151, "title": "System Dynamics"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6607", "label": "ECE 6607", "shape": "dot", "size": 10.954451150103322, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6450", "label": "ECE 6450", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4320", "label": "ECE 4320", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4330", "label": "ECE 4330", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6350", "label": "ECE 6350", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4430", "label": "ECE 4430", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4435", "label": "ECE 4435", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ISYE 3770", "label": "ISYE 3770", "shape": "dot", "size": 15.491933384829668, "title": "Statistics\u0026 Applications"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "MATH 3770", "label": "MATH 3770", "shape": "dot", "size": 12.649110640673518, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "CEE 3770", "label": "CEE 3770", "shape": "dot", "size": 10.954451150103322, "title": "Statistics\u0026 Applications"}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6500", "label": "ECE 6500", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6550", "label": "ECE 6550", "shape": "dot", "size": 15.491933384829668, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 3076", "label": "ECE 3076", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 4894", "label": "ECE 4894", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "BMED 6786", "label": "BMED 6786", "shape": "dot", "size": 8.94427190999916, "title": null}, {"color": "#a6cee3", "font": {"color": "#ffffff"}, "id": "ECE 6786", "label": "ECE 6786", "shape": "dot", "size": 8.94427190999916, "title": null}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "ECE 2020", "to": "ECE 2035"}, {"arrows": "to", "from": "ECE 2035", "to": "ECE 4117"}, {"arrows": "to", "from": "ECE 2036", "to": "ECE 4117"}, {"arrows": "to", "from": "ECE 2040", "to": "ECE 3072"}, {"arrows": "to", "from": "ECE 2040", "to": "ECE 3550"}, {"arrows": "to", "from": "ECE 2040", "to": "ECE 4782"}, {"arrows": "to", "from": "ECE 3025", "to": "ECE 3300"}, {"arrows": "to", "from": "ECE 3025", "to": "ECE 4350"}, {"arrows": "to", "from": "ECE 3025", "to": "ECE 4390"}, {"arrows": "to", "from": "ECE 3025", "to": "ECE 4502"}, {"arrows": "to", "from": "ECE 3025", "to": "ECE 6360"}, {"arrows": "to", "from": "ECE 3030", "to": "ECE 4754"}, {"arrows": "to", "from": "ECE 3040", "to": "ECE 3400"}, {"arrows": "to", "from": "ECE 3040", "to": "ECE 4470"}, {"arrows": "to", "from": "ECE 3040", "to": "ECE 4754"}, {"arrows": "to", "from": "ECE 3040", "to": "ECE 6456"}, {"arrows": "to", "from": "ECE 3058", "to": "ECE 4100"}, {"arrows": "to", "from": "ECE 3058", "to": "ECE 4156"}, {"arrows": "to", "from": "ECE 3058", "to": "ECE 6100"}, {"arrows": "to", "from": "ECE 3072", "to": "ECE 4321"}, {"arrows": "to", "from": "ECE 3077", "to": "ECE 4270"}, {"arrows": "to", "from": "ECE 3077", "to": "ECE 6601"}, {"arrows": "to", "from": "ECE 3084", "to": "ECE 4270"}, {"arrows": "to", "from": "ECE 3300", "to": "ECE 6336"}, {"arrows": "to", "from": "ECE 3600", "to": "ECE 4115"}, {"arrows": "to", "from": "ECE 3710", "to": "ECE 3072"}, {"arrows": "to", "from": "ECE 3710", "to": "ECE 3741"}, {"arrows": "to", "from": "ECE 3710", "to": "ECE 4754"}, {"arrows": "to", "from": "ECE 3951", "to": "ECE 3952"}, {"arrows": "to", "from": "ECE 4260", "to": "ECE 4270"}, {"arrows": "to", "from": "ECE 4270", "to": "ECE 6255"}, {"arrows": "to", "from": "ECE 4270", "to": "ECE 6260"}, {"arrows": "to", "from": "ECE 4270", "to": "ECE 6271"}, {"arrows": "to", "from": "ECE 4270", "to": "ECE 6272"}, {"arrows": "to", "from": "ECE 4606", "to": "ECE 4612"}, {"arrows": "to", "from": "ECE 4951", "to": "ECE 4952"}, {"arrows": "to", "from": "ECE 6601", "to": "ECE 6602"}, {"arrows": "to", "from": "CS 1371", "to": "ECE 2020"}, {"arrows": "to", "from": "CS 1171", "to": "ECE 2020"}, {"arrows": "to", "from": "CS 1301", "to": "ECE 2020"}, {"arrows": "to", "from": "CS 2110", "to": "ECE 2031"}, {"arrows": "to", "from": "CS 2110", "to": "ECE 4117"}, {"arrows": "to", "from": "PHYS 2212", "to": "ECE 3710"}, {"arrows": "to", "from": "PHYS 2232", "to": "ECE 3710"}, {"arrows": "to", "from": "ECE 3056", "to": "ECE 4100"}, {"arrows": "to", "from": "ECE 3057", "to": "ECE 4100"}, {"arrows": "to", "from": "ECE 4110", "to": "ECE 4115"}, {"arrows": "to", "from": "ECE 4110", "to": "ECE 6612"}, {"arrows": "to", "from": "CS 3251", "to": "ECE 4115"}, {"arrows": "to", "from": "CS 3251", "to": "ECE 6612"}, {"arrows": "to", "from": "ECE 3170", "to": "ECE 4156"}, {"arrows": "to", "from": "ECE 4601", "to": "ECE 4612"}, {"arrows": "to", "from": "ECE 3872", "to": "ECE 4723"}, {"arrows": "to", "from": "BMED 3510", "to": "ECE 4782"}, {"arrows": "to", "from": "CHBE 4400", "to": "ECE 4782"}, {"arrows": "to", "from": "ME 3015", "to": "ECE 4782"}, {"arrows": "to", "from": "ME 3017", "to": "ECE 4782"}, {"arrows": "to", "from": "ECE 6607", "to": "ECE 6110"}, {"arrows": "to", "from": "ECE 6607", "to": "ECE 6612"}, {"arrows": "to", "from": "ECE 6450", "to": "ECE 6200"}, {"arrows": "to", "from": "ECE 6450", "to": "ECE 6460"}, {"arrows": "to", "from": "ECE 4320", "to": "ECE 6320"}, {"arrows": "to", "from": "ECE 4330", "to": "ECE 6331"}, {"arrows": "to", "from": "ECE 6350", "to": "ECE 6370"}, {"arrows": "to", "from": "ECE 4430", "to": "ECE 6412"}, {"arrows": "to", "from": "ECE 4435", "to": "ECE 6414"}, {"arrows": "to", "from": "ISYE 3770", "to": "ECE 6455"}, {"arrows": "to", "from": "MATH 3770", "to": "ECE 6455"}, {"arrows": "to", "from": "CEE 3770", "to": "ECE 6455"}, {"arrows": "to", "from": "ECE 6500", "to": "ECE 6501"}, {"arrows": "to", "from": "ECE 6550", "to": "ECE 6553"}, {"arrows": "to", "from": "ECE 6550", "to": "ECE 6554"}, {"arrows": "to", "from": "ECE 6550", "to": "ECE 6559"}, {"arrows": "to", "from": "ECE 6550", "to": "ECE 6560"}, {"arrows": "to", "from": "ECE 3076", "to": "ECE 6612"}, {"arrows": "to", "from": "ECE 4894", "to": "ECE 6747"}, {"arrows": "to", "from": "BMED 6786", "to": "ECE 6780"}, {"arrows": "to", "from": "ECE 6786", "to": "ECE 6780"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
